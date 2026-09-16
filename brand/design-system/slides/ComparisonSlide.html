@@ -1,0 +1,20 @@
+<!-- @dsCard group="Slides" viewport="1280x720" name="Vergleichsfolie" subtitle="Zwei Spalten — Vorher/Nachher oder Trade-off" -->
+<!doctype html><html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="slide.css"></head><body><div class="slide"><header class="slide__hd"><div><p class="eyebrow">Kapitel 3 · Schwellwert-Politik</p><h2 class="h2">Der Trade-off ist eine Entscheidung, keine Modellfrage</h2></div></header>
+<div class="slide__bd"><div class="grid2" style="flex:1">
+<div class="panel" style="display:flex;flex-direction:column;gap:18px">
+<span class="badge b-warn">Falsch-positiv</span>
+<h3 class="h3">Ein normaler Monat wird geflaggt</h3>
+<p class="body">Netzmanagement prüft ohne Befund. Kosten: Arbeitszeit, sinkende Akzeptanz des Systems.</p>
+<div style="margin-top:auto;border-top:1px solid var(--border-subtle);padding-top:18px">
+<p class="body" style="font-size:19px">Bei 90. Perzentil: <span class="num" style="color:var(--text-primary);font-weight:600">~70 Meldungen/Monat</span></p></div></div>
+<div class="panel" style="display:flex;flex-direction:column;gap:18px">
+<span class="badge b-crit">Falsch-negativ</span>
+<h3 class="h3">Eine echte Anomalie bleibt unerkannt</h3>
+<p class="body">Defekt, Leitungsverlust oder Abrechnungsfehler wirkt Monate weiter — genau der heutige Zustand.</p>
+<div style="margin-top:auto;border-top:1px solid var(--border-subtle);padding-top:18px">
+<p class="body" style="font-size:19px">Bei 99. Perzentil: <span class="num" style="color:var(--text-primary);font-weight:600">~7 Meldungen/Monat</span></p></div></div>
+</div>
+<div class="panel panel--navy" style="display:flex;gap:18px;align-items:center">
+<span class="badge" style="background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff">Empfehlung</span>
+<p style="font-size:22px;margin:0;color:#fff">95. Perzentil der absoluten prozentualen Abweichung — rund 128 Meldungen im Monat, davon 14 kritisch. Das entspricht der Prüfkapazität des Netzmanagements.</p></div>
+</div><footer class="slide__ft"><img class="logo-sm" src="../assets/logo-sww-wordmark.png" alt="StadtWerke Westhafen GmbH"><span>Verbrauchsprognose &amp; Frühwarnung</span><span class="sp">18 / 24</span></footer></div></body></html>

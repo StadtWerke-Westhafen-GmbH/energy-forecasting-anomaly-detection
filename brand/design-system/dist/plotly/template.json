@@ -1,0 +1,185 @@
+{
+  "layout": {
+    "font": {
+      "family": "IBM Plex Sans, Segoe UI, sans-serif",
+      "size": 12.0,
+      "color": "#141A21"
+    },
+    "title": {
+      "font": {
+        "family": "IBM Plex Sans, Segoe UI, sans-serif",
+        "size": 15.0
+      },
+      "x": 0,
+      "xanchor": "left",
+      "y": 0.96,
+      "pad": {
+        "b": 12
+      }
+    },
+    "paper_bgcolor": "#FFFFFF",
+    "plot_bgcolor": "#FFFFFF",
+    "colorway": [
+      "#084878",
+      "#005E77",
+      "#2F7A33",
+      "#3E90C4",
+      "#4E5A68",
+      "#6CC0D2",
+      "#04263F",
+      "#8C99A7"
+    ],
+    "separators": ",.",
+    "colorscale": {
+      "sequential": [
+        [
+          0.0,
+          "#E4EFF7"
+        ],
+        [
+          0.16666666666666666,
+          "#BBD7EA"
+        ],
+        [
+          0.3333333333333333,
+          "#7FB4D8"
+        ],
+        [
+          0.5,
+          "#3E90C4"
+        ],
+        [
+          0.6666666666666666,
+          "#0F6FAE"
+        ],
+        [
+          0.8333333333333334,
+          "#084878"
+        ],
+        [
+          1.0,
+          "#04263F"
+        ]
+      ],
+      "diverging": [
+        [
+          0.0,
+          "#005E77"
+        ],
+        [
+          0.16666666666666666,
+          "#1C9BB8"
+        ],
+        [
+          0.3333333333333333,
+          "#B2DEE7"
+        ],
+        [
+          0.5,
+          "#F1F4F7"
+        ],
+        [
+          0.6666666666666666,
+          "#F3C6C1"
+        ],
+        [
+          0.8333333333333334,
+          "#D2564B"
+        ],
+        [
+          1.0,
+          "#951C15"
+        ]
+      ]
+    },
+    "xaxis": {
+      "showgrid": false,
+      "zeroline": false,
+      "showline": true,
+      "linecolor": "#E4E9EF",
+      "ticks": "outside",
+      "ticklen": 4,
+      "tickcolor": "#E4E9EF",
+      "automargin": true,
+      "tickangle": 0,
+      "nticks": 6,
+      "tickfont": {
+        "family": "IBM Plex Sans, Segoe UI, sans-serif",
+        "size": 12,
+        "color": "#4E5A68"
+      },
+      "title": {
+        "font": {
+          "family": "IBM Plex Sans, Segoe UI, sans-serif",
+          "size": 12,
+          "color": "#4E5A68"
+        },
+        "standoff": 12
+      }
+    },
+    "yaxis": {
+      "showgrid": true,
+      "zeroline": false,
+      "showline": false,
+      "linecolor": "#E4E9EF",
+      "ticks": "outside",
+      "ticklen": 4,
+      "tickcolor": "#E4E9EF",
+      "automargin": true,
+      "tickangle": 0,
+      "nticks": 6,
+      "tickfont": {
+        "family": "IBM Plex Sans, Segoe UI, sans-serif",
+        "size": 12,
+        "color": "#4E5A68"
+      },
+      "title": {
+        "font": {
+          "family": "IBM Plex Sans, Segoe UI, sans-serif",
+          "size": 12,
+          "color": "#4E5A68"
+        },
+        "standoff": 12
+      },
+      "gridcolor": "#E4E9EF",
+      "gridwidth": 1,
+      "separatethousands": true,
+      "tickformat": ",~g"
+    },
+    "legend": {
+      "orientation": "h",
+      "yanchor": "bottom",
+      "y": 1.02,
+      "xanchor": "left",
+      "x": 0,
+      "font": {
+        "family": "IBM Plex Sans, Segoe UI, sans-serif",
+        "size": 12,
+        "color": "#4E5A68"
+      },
+      "bgcolor": "rgba(0,0,0,0)",
+      "title": {
+        "text": ""
+      }
+    },
+    "margin": {
+      "l": 64,
+      "r": 24,
+      "t": 64,
+      "b": 48
+    },
+    "hoverlabel": {
+      "bgcolor": "#FFFFFF",
+      "bordercolor": "#D2DAE2",
+      "font": {
+        "family": "IBM Plex Sans, Segoe UI, sans-serif",
+        "size": 12,
+        "color": "#141A21"
+      },
+      "align": "left"
+    },
+    "hovermode": "x unified",
+    "bargap": 0.36,
+    "barcornerradius": 4.0
+  }
+}
