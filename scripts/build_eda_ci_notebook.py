@@ -15,6 +15,7 @@ DESTINATION = ROOT / "ipynb/eda_ci.ipynb"
 
 SETUP = """from pathlib import Path
 from datetime import datetime, timezone
+from importlib import reload
 from importlib.util import find_spec
 import sys
 
@@ -55,11 +56,25 @@ BASE_DIR = next(
 if BASE_DIR is None:
     raise FileNotFoundError("Bitte das Notebook innerhalb des Projektordners starten.")
 
-ci.aktiviere()
+# Laufende Kernel behalten importierte Module im Speicher. Nur unsere Designmodule
+# in Abhängigkeitsreihenfolge aktualisieren, bevor die neue API verwendet wird.
+theme = reload(theme)
+eda = reload(eda)
+ci = reload(ci)
+
+ci.aktiviere(
+    logo=BASE_DIR / "brand/design-system/assets/logo-sww-emblem.png",
+    quelle="verbrauch_bereinigt.csv",
+)
 # Ausschließlich die vorhandene Datei lesen; keine Bereinigung auf Datenträger schreiben.
 """
 
-INTRO = """# Explorative Datenanalyse · SWW Corporate Identity
+INTRO = """# Energieanalyse · Westhafen
+
+Verbrauch verstehen. Datenqualität einordnen. Modellierung vorbereiten.
+
+<details><summary>Über diese Analyse · Inhalt und Herkunft</summary>
+
 
 Eigenständige Designfassung von Patricks [eda.ipynb](eda.ipynb). Die sechs Analyseabschnitte,
 Berechnungen und Befundtexte bleiben als inhaltliche Grundlage erhalten. Die Diagramme
@@ -78,9 +93,11 @@ Es werden die vorhandenen Projektdaten analysiert, keine Demo- oder Zufallsdaten
 | 5. Bivariate Analyse | Zusammenhänge und mögliche Treiber |
 | 6. Fehlwerte | Zeitliche Muster und Modellierungsfolgen |
 | Fazit | Aus dem Original übernommene Modellierungsempfehlungen |
+
+</details>
 """
 
-USAGE = """## Ausführung und Gestaltungsregeln
+USAGE = """<details><summary>Notebook ausführen · Gestaltungsregeln und fachliche Hinweise</summary>
 
 1. Im Projektstamm einmal `python -m uv sync --frozen --all-extras` ausführen.
 2. Den Kernel **Python (SWW .venv)** oder die Projektumgebung `.venv` auswählen und **Alle ausführen** starten.
@@ -102,7 +119,39 @@ Sentinel-Rekonstruktion, Filterung und Befunde stammen aus Patricks Notebook. In
 Interpretation der Vertragsleistung als harte physikalische Obergrenze muss fachlich geprüft
 werden. Die Rekonstruktion aus einer Folgezeile ist rückblickende EDA und darf nicht ungeprüft
 in eine Prognose-Pipeline übernommen werden. Keine Quelldatei wird überschrieben.
+
+</details>
 """
+
+COVER = '''ci.titelkarte(
+    "Explorative Datenanalyse",
+    "Verbrauch, Lastprofile und Datenqualität im Versorgungsgebiet. "
+    "Eine Bestandsaufnahme für die Modellierung.",
+    "Datenbasis: verbrauch_bereinigt.csv · "
+    f"Ausgeführt: {datetime.now(timezone.utc):%d.%m.%Y %H:%M} UTC",
+    logo=BASE_DIR / "brand/design-system/assets/logo-sww-full.png",
+    metriken=[
+        ("Monatswerte im Datensatz", de(len(df), 0)),
+        ("Zähler im Portfolio", de(df['zaehler_id'].nunique(), 0)),
+        ("Monate im Bezugszeitraum", de(df['monat'].nunique(), 0)),
+    ],
+    zeitraum=ci.ZEITRAUM,
+)
+'''
+
+# Keys are Patrick's original cell indices, not mutable display/execution counters.
+CHAPTERS = {
+    3: ("01", "Datenprofil", "Struktur, Vollständigkeit und Plausibilität der Datenbasis."),
+    14: ("02", "Verteilungen", "Zielgröße, Stammdaten und mögliche Einflussgrößen."),
+    34: ("03", "Zählerportfolio", "Verbrauchsniveau und Schwankungen im Vergleich."),
+    42: ("04", "Kundensegmente", "Gewerbe, Industrie und Kommunal im selben Maßstab."),
+    50: ("05", "Verbrauchstreiber", "Zusammenhänge untersuchen und Einflüsse einordnen."),
+    73: ("06", "Datenlücken", "Fehlwerte im Zeitverlauf und Folgen für die Modellierung."),
+}
+
+
+def chapter_call(index):
+    return f"ci.abschnitt{CHAPTERS[index]!r}\n\n" if index in CHAPTERS else ""
 
 
 def transform(index, source):
@@ -114,16 +163,9 @@ def transform(index, source):
     source = source.replace("ci.DIVERGIEREND[::-1]", "ci.DIVERGIEREND")
     if index == 1:
         source = SETUP + source[source.index("DATA_DIR =") :]
-        source += """
-
-ci.titelkarte(
-    "Explorative Datenanalyse",
-    "SWW-Designfassung von Patricks Analyse · Datenbasis: data/raw/verbrauch_bereinigt.csv",
-    f"{len(df):,} Monatswerte · {df['zaehler_id'].nunique()} Zähler · {ci.ZEITRAUM} · "
-    f"Ausgeführt: {datetime.now(timezone.utc):%d.%m.%Y %H:%M} UTC".replace(",", "."),
-    logo=BASE_DIR / "brand/design-system/assets/logo-sww-wordmark.png",
-)
-"""
+        source += "\n\n" + COVER
+    elif index == 3:
+        source = re.sub(r"(?m)^steckbrief$", "display(ci.tabellenansicht(steckbrief))", source)
     elif index == 4:
         source = source.replace(
             'fehl["spalte"] = fehl["spalte"].map(ci.label_umbruch)',
@@ -203,7 +245,7 @@ ci.titelkarte(
         )
     elif index == 73:
         source = source.replace("markers=True)", "markers=True, color_discrete_sequence=ci.SERIE)")
-    return source
+    return chapter_call(index) + source
 
 
 def build(destination=DESTINATION):

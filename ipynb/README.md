@@ -27,10 +27,23 @@ ersetzt keine bereits gespeicherte Kernel-/Interpreterauswahl.
 
 Die erste Codezelle prüft fehlende Pakete vor den Imports und nennt im Fehlerfall den
 tatsächlich aktiven Interpreter sowie den richtigen Kernel.
-Die gespeicherte Fassung enthält interaktive Plotly-Ausgaben und gerenderte PNG-Vorschauen.
-Die PNGs zeigen auch ohne Plotly-Erweiterung den geprüften Stand mit den lokalen SWW-Schriften.
+Anschließend lädt sie `theme`, `eda` und `notebook` gezielt neu, damit ein bereits laufender
+Kernel auch Änderungen an der Design-API übernimmt. Das verhindert beispielsweise
+`aktiviere() got an unexpected keyword argument 'logo'` durch einen alten Import im Speicher.
+Nach einem Update die Datei neu öffnen und **Alle ausführen** starten; ein vollständiger
+Kernel-Neustart bleibt bei Änderungen an installierten Paketen sinnvoll.
+Die gespeicherte Fassung enthält interaktive Plotly-Ausgaben. Der Browser-Prüfschritt unten
+ergänzt PNG-Vorschauen, die beim erneuten Ausführen im Notebook wieder entfallen können.
+Die optionalen PNGs zeigen auch ohne Plotly-Erweiterung den geprüften Stand mit den lokalen SWW-Schriften.
 Je nach Notebook-Frontend kann die interaktive Schriftübernahme anders behandelt werden;
 die Offline-HTML-Vorschau enthält Fonts und Plotly vollständig eingebettet.
+
+Beim Speichern darf der Editor den Kernel-Namen und Anzeigenamen an die lokale Umgebung
+anpassen, etwa auf `python3` und `westhafen-energy-analytics (3.11.9)`. Der automatisierte
+Test prüft deshalb Python als Sprache, alle 32 interaktiven Diagramme und ihre SWW-Gestaltung,
+nicht den rechnerabhängigen Kernel-Namen. Vorhandene PNG-Vorschauen werden ebenfalls geprüft;
+für reine Notebook-Ausführung sind sie nicht erforderlich. Ob die benötigten Pakete im
+aktiven Interpreter verfügbar sind, prüft weiterhin die erste Codezelle.
 
 Die Daten kommen unverändert aus `data/raw/verbrauch_bereinigt.csv`. Sentinel-Rekonstruktion
 und Plausibilitätsfilter erfolgen wie im Original nur im Arbeitsspeicher. Die übernommenen
@@ -43,6 +56,21 @@ Das Notebook verwendet die Chart-Bausteine aus `energy_analytics.visualization.e
 die Notebook-Darstellung aus `energy_analytics.visualization.notebook`, nicht `viz.py`.
 Änderungen an Tokens zuerst mit `python scripts/build_tokens.py` erzeugen, anschließend
 den Kernel neu starten und alle Zellen ausführen.
+
+Der Bericht verwendet ein Navy-Cover mit dem originalen Vollsignet, drei aus den Daten
+berechnete Kennzahlen und sechs nummerierte Kapitelauftakte. Diagramme haben kräftigere
+Navy-Titel sowie eine eigene Fußzeile mit Quelle, Zeitraum und kleinem originalem SWW-Emblem
+ohne ausgeschriebenen Firmennamen. Die Bildmarke sitzt dezent unten rechts (36 px hoch),
+während das vollständige Signet auf dem Cover bleibt.
+Das Logo ist als lokale PNG-Daten-URI direkt in Plotly eingebettet: Es bleibt in einzelnen
+Diagrammexporten erhalten und überdeckt keine Daten. Es wird weder verändert noch nachgebaut.
+IBM Plex Sans bleibt die einzige Diagrammschrift; Geist Mono akzentuiert nur die Cover-Kennzahlen.
+Die Offline-HTML-Fassung beginnt mit dem Cover und bietet Sprunglinks zu den sechs Abschnitten.
+SWW-Tabellen behalten auch in dunklen Notebook-Themes ihre deckenden hellen Datenzellen
+und dunkle Schrift. Kopf- und Indexzellen bleiben Navy mit weißer Schrift; Streifen und
+Hover verwenden feste CI-Farben. Diese Regeln sind auf `.sww-table` begrenzt und verändern
+nicht das Editor-Theme. Der Browsercheck prüft die gespeicherte Tabellenausgabe isoliert
+auf hellem und dunklem Hintergrund, einschließlich Hover-Zustand.
 
 ## Ausgaben reproduzieren und prüfen
 
