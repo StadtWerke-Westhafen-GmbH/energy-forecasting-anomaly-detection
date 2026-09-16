@@ -1,0 +1,32 @@
+/* 4px base grid. Dashboard density: 12/16/24 dominate. */
+:root{
+  --space-0:0px;
+  --space-05:2px;
+  --space-1:4px;
+  --space-15:6px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-24:96px;
+
+  --gutter-card:var(--space-5);
+  --gutter-page:var(--space-6);
+  --gap-stack:var(--space-4);
+  --gap-inline:var(--space-2);
+  --row-height:40px;
+  --row-height-compact:32px;
+  --control-height:36px;
+  --control-height-sm:28px;
+  --control-height-lg:44px;
+  --sidebar-width:236px;
+  --sidebar-width-collapsed:60px;
+  --topbar-height:56px;
+  --content-max:1440px;
+}

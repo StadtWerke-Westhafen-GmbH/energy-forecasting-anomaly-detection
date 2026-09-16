@@ -1,0 +1,19 @@
+/* Minimal element defaults so a bare page already looks like SWW. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--surface-page);color:var(--text-primary);font:var(--text-body);-webkit-font-smoothing:antialiased}
+h1{font:var(--text-h1);letter-spacing:var(--ls-tight);margin:0 0 var(--space-4)}
+h2{font:var(--text-h2);letter-spacing:var(--ls-tight);margin:0 0 var(--space-3)}
+h3{font:var(--text-h3);margin:0 0 var(--space-2)}
+h4{font:var(--text-h4);margin:0 0 var(--space-2)}
+p{margin:0 0 var(--space-4);text-wrap:pretty}
+a{color:var(--text-link);text-decoration:none;border-bottom:1px solid rgba(0,128,160,.3);transition:var(--transition-control)}
+a:hover{color:var(--text-link-hover);border-bottom-color:var(--navy-700)}
+a:focus-visible{outline:none;box-shadow:var(--focus-ring);border-radius:var(--radius-xs)}
+code,kbd,samp{font-family:var(--font-mono);font-size:.92em}
+table{border-collapse:collapse}
+th{text-align:left;font:var(--text-label);color:var(--text-secondary)}
+hr{border:0;border-top:1px solid var(--border-default);margin:var(--space-6) 0}
+::selection{background:var(--teal-200)}
+:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+.tnum{font-variant-numeric:tabular-nums}

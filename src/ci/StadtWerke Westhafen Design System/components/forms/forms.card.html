@@ -1,0 +1,32 @@
+<!-- @dsCard group="Components" viewport="700x320" name="Forms" subtitle="Input, Select, Checkbox, Switch" -->
+<!doctype html><html lang="de"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:18px 20px;background:var(--surface-card);font:var(--text-body)}.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}.col{display:flex;flex-direction:column;gap:12px}.lbl{font:var(--text-overline);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-muted);margin:0 0 8px}</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const { Input, Select, Checkbox, Switch } = window.StadtWerkeWesthafenDesignSystem_acd94c;
+function Demo(){return (<div className="col" style={{gap:18}}>
+  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:16}}>
+    <Input label="Zähler-ID" icon="search" placeholder="ZW-04412" />
+    <Input label="Schwellwert" numeric suffix="%" defaultValue="18,0" hint="95. Perzentil der Residuen" />
+    <Input label="Vertragsleistung" numeric suffix="kW" defaultValue="-40" error="Wert muss > 0 sein" />
+  </div>
+  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:16}}>
+    <Select label="Monat" options={["01/2025","02/2025","03/2025"]} defaultValue="03/2025" />
+    <Select label="Kundentyp" options={[{value:"all",label:"Alle Kundentypen"},{value:"Gewerbe",label:"Gewerbe"},{value:"Industrie",label:"Industrie"},{value:"Kommunal",label:"Kommunal"}]} />
+    <Input label="Gesperrt" disabled placeholder="Nicht verfügbar" />
+  </div>
+  <div><p className="lbl">Checkbox · Switch</p><div className="row" style={{gap:28,alignItems:'flex-start'}}>
+    <Checkbox label="Nur Anomalien über Schwellwert" defaultChecked />
+    <Checkbox label="Wartungsmonate ausschließen" hint="wartung_aktiv = 1" />
+    <Checkbox label="Alle Zähler" indeterminate />
+    <Checkbox label="Gesperrt" disabled defaultChecked />
+    <Switch label="Konfidenzband anzeigen" defaultChecked />
+    <Switch label="Auto-Refresh" hint="alle 15 Minuten" />
+  </div></div>
+</div>);}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script></body></html>

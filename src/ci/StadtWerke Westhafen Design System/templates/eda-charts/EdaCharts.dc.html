@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="EDA-Chart-Galerie" description="Alle 15 Plotly-Diagrammtypen der explorativen Datenanalyse im SWW-Design — Vorlage für Notebook-Exporte und Dashboard-Panels." -->
+<helmet><script src="./ds-base.js"></script><script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script><script src="../../assets/plotly/sww_plotly.js"></script>
+<style>body{margin:0;background:#F1F4F7}</style></helmet>
+<div style="font-family:'IBM Plex Sans',Segoe UI,sans-serif;color:#141A21;padding:32px 24px 56px;max-width:1440px;margin:0 auto">
+
+<header style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid #D2DAE2;margin-bottom:24px">
+<div style="min-width:0">
+<p style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#00718E;margin:0 0 6px">Explorative Datenanalyse</p>
+<h1 style="font-size:31px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0">EDA-Chart-Galerie</h1>
+<p style="font-size:14px;line-height:1.5;color:#4E5A68;margin:6px 0 0;max-width:72ch">15 Diagrammtypen für die Verbrauchsanalyse, identisch in Notebook (sww_eda.py), Dashboard und Folie. Ist navy · Prognose cyan gestrichelt · Band cyan 16 % · Schwellwert amber · Anomalie rot · Gewerbe teal · Industrie navy · Kommunal grün.</p>
+<div style="display:flex;align-items:center;gap:12px;margin-top:12px;font-size:12px;color:#6B7887"><span>700 Zähler × 24 Monate</span><span>·</span><span>Synthetische Demodaten</span><span>·</span><span style="font-family:'Geist Mono',monospace">assets/plotly/sww_eda.py</span></div>
+</div>
+<div style="margin-left:auto;background:#fff;border-radius:6px;padding:8px 12px;border:1px solid #D2DAE2"><img src="../../assets/logo-sww-wordmark.png" alt="StadtWerke Westhafen GmbH" style="display:block;height:42px;width:auto"></div>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:16px">
+<sc-for list="{{ charts }}" as="c" hint-placeholder-count="15">
+<section style="background:#fff;border:1px solid #D2DAE2;border-radius:10px;box-shadow:0 1px 2px rgba(4,38,63,.05),0 2px 6px rgba(4,38,63,.05);display:flex;flex-direction:column;min-width:0;overflow:hidden">
+<header style="display:flex;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid #E4E9EF">
+<span style="font-family:'Geist Mono',monospace;font-size:12px;font-weight:600;color:#0080A0;padding-top:2px">{{ c.nr }}</span>
+<div style="min-width:0"><h3 style="font-size:16px;font-weight:600;line-height:1.3;margin:0">{{ c.title }}</h3><p style="font-size:12px;line-height:1.4;color:#6B7887;margin:2px 0 0">{{ c.when }}</p></div>
+</header>
+<div style="padding:8px 8px 4px;min-width:0;overflow:hidden"><div id="{{ c.domId }}" style="width:100%;height:300px;min-width:0"></div></div>
+<footer style="padding:10px 20px;border-top:1px solid #E4E9EF;font-size:12px;color:#6B7887;display:flex;gap:12px;align-items:center"><span style="font-family:'Geist Mono',monospace">{{ c.py }}</span><span style="margin-left:auto;font-family:'Geist Mono',monospace">{{ c.js }}</span></footer>
+</section>
+</sc-for>
+</div>
+
+<p style="font-size:12px;line-height:1.5;color:#6B7887;margin:24px 0 0;max-width:80ch">Das Modell ersetzt keine Abrechnungsentscheidung — es flaggt nur Untersuchungswürdiges. Achsenzahlen deutsch formatiert (Dezimalkomma, Punkt-Tausender); nur horizontale Gridlines; Legende oben links ohne Rahmen.</p>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  PY = {
+    zeitreihe: "timeseries_forecast()", saisonalitaet: "seasonality()", histogramm: "histogram()", boxplot: "boxplot()",
+    scatter: "scatter_trend()", heatmap: "heatmap()", korrelation: "correlation()", "residuen-verteilung": "residual_hist()",
+    "residuen-zeit": "residual_bars()", parity: "parity()", "feature-importance": "feature_importance()",
+    "anomalien-monat": "anomaly_stack()", datenqualitaet: "missing_values()", "top-n": "top_n()", anteile: "share_area()",
+  };
+  JS = {
+    zeitreihe: "timeseriesForecast", saisonalitaet: "seasonality", histogramm: "histogram", boxplot: "boxplot",
+    scatter: "scatterTrend", heatmap: "heatmap", korrelation: "correlation", "residuen-verteilung": "residualHist",
+    "residuen-zeit": "residualBars", parity: "parity", "feature-importance": "featureImportance",
+    "anomalien-monat": "anomalyStack", datenqualitaet: "missingValues", "top-n": "topN", anteile: "shareArea",
+  };
+
+  componentDidMount() { this.tryDraw(0); }
+  componentDidUpdate() { if (!this.drawn) this.tryDraw(0); }
+
+  tryDraw(attempt) {
+    if (this.drawn) return;
+    if (!window.Plotly || !window.SWW) { if (attempt < 60) setTimeout(() => this.tryDraw(attempt + 1), 150); return; }
+    if (!this.listed) { this.listed = true; this.forceUpdate(); setTimeout(() => this.tryDraw(attempt + 1), 50); return; }
+    const missing = window.SWW.GALLERY.some((g) => !document.getElementById("sww-eda-" + g.id));
+    if (missing) { if (attempt < 60) setTimeout(() => this.tryDraw(attempt + 1), 150); return; }
+    const d = window.SWW.demo();
+    window.SWW.GALLERY.forEach((g) => {
+      const el = document.getElementById("sww-eda-" + g.id);
+      if (el) window.SWW.render(el, g.build(d));
+    });
+    this.drawn = true;
+  }
+
+  renderVals() {
+    const G = (window.SWW && window.SWW.GALLERY) || [];
+    return {
+      charts: G.map((g, i) => ({
+        id: g.id, nr: String(i + 1).padStart(2, "0"), title: g.title, when: g.when,
+        domId: "sww-eda-" + g.id, py: "sww_eda." + (this.PY[g.id] || ""), js: "SWW." + (this.JS[g.id] || ""),
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

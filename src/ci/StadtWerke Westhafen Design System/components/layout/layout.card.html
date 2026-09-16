@@ -1,0 +1,43 @@
+<!-- @dsCard group="Components" viewport="700x380" name="Layout" subtitle="Card, PageHeader, Tabs, SidebarNav" -->
+<!doctype html><html lang="de"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:18px 20px;background:var(--surface-card);font:var(--text-body)}.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}.col{display:flex;flex-direction:column;gap:12px}.lbl{font:var(--text-overline);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-muted);margin:0 0 8px}.wrap{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:stretch}</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const { Card, PageHeader, Tabs, SidebarNav, Button, Badge, Select } = window.StadtWerkeWesthafenDesignSystem_acd94c;
+function Demo(){
+  const [tab,setTab]=React.useState("kritisch");
+  const [nav,setNav]=React.useState("anomalien");
+  return (<div className="wrap">
+    <div style={{height:340,borderRadius:'var(--radius-card)',overflow:'hidden',border:'1px solid var(--border-default)'}}>
+      <SidebarNav value={nav} onChange={setNav} logoSrc="../../assets/logo-sww-wordmark.png" markSrc="../../assets/logo-sww-emblem.png"
+        footer="Modell v2.3 · Stand 01.04.2025"
+        items={[{id:"uebersicht",label:"Übersicht",icon:"layout-dashboard",group:"Betrieb"},
+                {id:"anomalien",label:"Anomalien",icon:"triangle-alert",group:"Betrieb",count:128,alert:true},
+                {id:"zaehler",label:"Zähler",icon:"gauge",group:"Betrieb"},
+                {id:"beschaffung",label:"Beschaffung",icon:"shopping-cart",group:"Planung"},
+                {id:"qualitaet",label:"Datenqualität",icon:"database",group:"Planung"}]} />
+    </div>
+    <div className="col" style={{gap:16}}>
+      <PageHeader eyebrow="Frühwarnung" title="Anomalien 03/2025"
+        subtitle="Zähler mit absoluter Abweichung über dem 95-Perzentil-Schwellwert."
+        meta={<><span>128 von 700 Zählern</span><span>·</span><span>Stand 01.04.2025, 06:00</span></>}
+        actions={<Button variant="secondary" size="sm" icon="download">Export</Button>} />
+      <Tabs value={tab} onChange={setTab} items={[{id:"alle",label:"Alle",count:128},{id:"kritisch",label:"Kritisch",icon:"octagon-alert",count:14},{id:"auffaellig",label:"Auffällig",count:72},{id:"geprueft",label:"Geprüft",count:42}]} />
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+        <Card title="Prognosegüte" subtitle="Test 2025" icon="trending-up" status="brand"
+          actions={<Select size="sm" options={["RMSE","MAE","R²"]} />} footer="Random-Forest-Regressor">
+          <div style={{font:'var(--text-metric-sm)',fontVariantNumeric:'tabular-nums'}}>R² 0,912</div>
+        </Card>
+        <Card title="Datenqualität" status="warn" icon="database"
+          actions={<Badge status="warn" size="sm" icon="triangle-alert">3 Befunde</Badge>}>
+          412 Werte als MWh-Text, 38 Duplikate, 11 negative Verbräuche.
+        </Card>
+      </div>
+    </div>
+  </div>);}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script></body></html>

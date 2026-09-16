@@ -1,0 +1,46 @@
+/* Chart tokens. Mirrored 1:1 in assets/plotly/sww_plotly_template.json
+   and assets/plotly/sww_theme.py so notebooks, dashboard and slides match. */
+:root{
+  --chart-1:#084878;
+  --chart-2:#0080A0;
+  --chart-3:#58A858;
+  --chart-4:#0090C8;
+  --chart-5:#C77E11;
+  --chart-6:#6CC0D2;
+  --chart-7:#4E5A68;
+  --chart-8:#B3261E;
+
+  /* Kundentyp — fixed mapping, never reassigned */
+  --chart-gewerbe:#0080A0;
+  --chart-industrie:#084878;
+  --chart-kommunal:#58A858;
+
+  /* Sequential (Heatmaps: Verbrauch, Heiztage) */
+  --seq-1:#E4EFF7;
+  --seq-2:#BBD7EA;
+  --seq-3:#7FB4D8;
+  --seq-4:#3E90C4;
+  --seq-5:#0F6FAE;
+  --seq-6:#084878;
+  --seq-7:#04263F;
+
+  /* Diverging (Residuen: Unter- vs Überverbrauch) */
+  --div-neg-3:#005E77;
+  --div-neg-2:#1C9BB8;
+  --div-neg-1:#B2DEE7;
+  --div-mid:#F1F4F7;
+  --div-pos-1:#F3C6C1;
+  --div-pos-2:#D2564B;
+  --div-pos-3:#951C15;
+
+  --chart-plot-bg:#FFFFFF;
+  --chart-paper-bg:#FFFFFF;
+  --chart-font:"IBM Plex Sans","Segoe UI",system-ui,sans-serif; /* one family for all chart text — never mono */
+  --chart-font-size:12px; /* @kind other */
+  --chart-title-size:15px; /* @kind other */
+  --chart-line-width:2px; /* @kind other */
+  --chart-bar-radius:4px;
+  --chart-bar-gap:0.36; /* @kind other */
+  --chart-overlay-opacity:0.62; /* @kind other */
+  --chart-marker-size:6px; /* @kind other */
+}
