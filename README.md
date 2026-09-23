@@ -13,6 +13,10 @@ Die SWW-Farben, Typografie und Datenrollen verbinden Dashboard, Notebooks, Folie
 - [Bearbeitbares Beispieldeck (.pptx)](brand/templates/presentations/sww-project-template.pptx)
 - [SWW-Berichtsvorlage](brand/templates/documents/sww-report-template.docx)
 - [Analyse-Notebook](notebooks/00_design_system.ipynb)
+- [Modeling-Notebook](notebooks/10_modeling.ipynb)
+- [Prüfungsstory-Notebook](notebooks/11_modeling_pruefungsstory.ipynb)
+- [Optimierungs-Notebook](notebooks/20_modeling_optimierung.ipynb)
+- [Anomalie-Cockpit](brand/design-system/ui_kits/energie-cockpit/index.html?screen=anomalien)
 
 Die Webansichten funktionieren mit den mitgelieferten Assets ohne Internet. Für die lokale Vorschau
 genügt Node.js ab Version 22:
@@ -60,6 +64,28 @@ python -m uv sync --frozen --all-extras
 Alternativ nur die Notebook-Abhängigkeiten installieren: `python -m pip install -e ".[notebooks,export]"`.
 Im Editor die Projektumgebung `.venv` als Python-Interpreter/Notebook-Kernel auswählen.
 
+Das ausgeführte Modeling-Notebook bildet den vollständigen Weg von Vollaststunden und
+`log1p(kWh)` über zeitliche Cross-Validation und Hyperparametersuche bis zur finalen
+2025-Auswertung und residualbasierten Anomalieerkennung ab. Seine Quellen lassen sich
+deterministisch neu erzeugen und anschließend in einer frischen Kernel-Sitzung prüfen:
+
+```sh
+python scripts/build_modeling_notebook.py
+python scripts/check_modeling_notebook.py --update
+python scripts/build_modeling_story_notebook.py
+python scripts/check_modeling_story_notebook.py --update
+python scripts/build_optimized_modeling_notebook.py
+python scripts/check_optimized_modeling_notebook.py --update
+python scripts/build_anomaly_dashboard_data.py
+```
+
+Die Build-Befehle setzen Ausgaben zurück; die Checker schreiben sie nur nach einer fehlerfreien
+Gesamtausführung zurück. Ohne `--update` bleiben die gespeicherten Notebooks unverändert. Das
+Optimierungs-Notebook behandelt 2025 ausdrücklich als bereits bekannten retrospektiven Benchmark
+und dokumentiert den Plan-Snapshot als offene Voraussetzung. Das Prüfungsstory-Notebook verdichtet
+die technische Analyse zu einer präsentierbaren Argumentation mit Sprechtexten, Prüferfragen und
+einem menschlich kontrollierten Prozess für Anomaliehinweise.
+
 ```python
 from energy_analytics.visualization import eda, theme
 
@@ -83,6 +109,7 @@ Node-Abhängigkeiten sind in `package-lock.json`, Python-Abhängigkeiten in `uv.
 ```sh
 npm ci
 python -m uv run --frozen python scripts/build_tokens.py
+python -m uv run --frozen python scripts/build_anomaly_dashboard_data.py
 npm run build
 python -m uv run --frozen python scripts/build_templates.py
 python -m uv run --frozen pytest -q
@@ -99,9 +126,12 @@ Der CI-Workflow prüft mit `scripts/build_tokens.py --check`, ob die Exporte akt
 
 ## Stand und Grenzen
 
-Das Cockpit ist eine Designreferenz mit synthetischen Beispieldaten. Es gibt keine angebundene
-Datenpipeline, Benutzerverwaltung, produktive Prognose oder Ticket-/E-Mail-Integration.
-Die bestehenden Notebook-Analysen wurden nicht neu ausgeführt.
+Das Cockpit ist eine Designreferenz. Die Anomalieprüfung verwendet einen reproduzierbaren,
+statischen Export der retrospektiven 2025-Modellergebnisse; die übrigen Ansichten verwenden
+synthetische Beispieldaten. Es gibt keine Live-Datenpipeline, Benutzerverwaltung, produktive
+Prognose oder Ticket-/E-Mail-Integration. Bewertungen bleiben ausschließlich im lokalen Browser.
+Das Modeling-Notebook wurde gegen den vorhandenen Projektdatensatz ausgeführt; die älteren
+Analysen unter `ipynb/` wurden dabei nicht verändert oder neu ausgeführt.
 
 Das offizielle Vektorlogo sowie transparente und einfarbige Markenvarianten wurden nicht
 mitgeliefert. Originale Rasterlogos werden unverändert verwendet. Details und Zuständigkeiten

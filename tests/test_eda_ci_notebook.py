@@ -152,6 +152,23 @@ def test_notebook_cover_uses_original_logo_and_escapes_dynamic_text(monkeypatch)
     assert "@font-face" in html
 
 
+def test_notebook_chapter_supports_a_modeling_context(monkeypatch):
+    import IPython.display
+
+    rendered = []
+    monkeypatch.setattr(IPython.display, "display", rendered.append)
+    ci.abschnitt(
+        "03",
+        "Modellvergleich",
+        "Validierung ohne Testleckage.",
+        kontext="MODELLIERUNG & EVALUATION",
+    )
+    html = rendered[0].data
+    assert "WESTHAFEN / MODELLIERUNG &amp; EVALUATION" in html
+    assert "Modellvergleich" in html
+    assert "Validierung ohne Testleckage." in html
+
+
 def test_notebook_setup_reloads_a_cached_pre_logo_api():
     setup = runpy.run_path(str(ROOT / "scripts/build_eda_ci_notebook.py"))["SETUP"]
     notebook = nbformat.read(ROOT / "ipynb/eda_ci.ipynb", as_version=4)

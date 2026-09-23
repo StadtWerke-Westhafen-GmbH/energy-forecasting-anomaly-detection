@@ -165,7 +165,7 @@ def titelkarte(titel, beschreibung, kennzahlen, logo=None, *, metriken=(), zeitr
     )
 
 
-def abschnitt(nummer, titel, beschreibung=""):
+def abschnitt(nummer, titel, beschreibung="", *, kontext="EXPLORATIVE DATENANALYSE"):
     """A chapter opener; its identity is captured by subsequent figures."""
     from IPython.display import HTML, display
 
@@ -175,7 +175,7 @@ def abschnitt(nummer, titel, beschreibung=""):
         notebook_css()
         + f'<section class="sww-report sww-chapter" id="sww-chapter-{escape(str(nummer), quote=True)}">'
         f'<span class="sww-chapter-number">{escape(str(nummer))}</span>'
-        '<div><p class="eyebrow">WESTHAFEN / EXPLORATIVE DATENANALYSE</p>'
+        f'<div><p class="eyebrow">WESTHAFEN / {escape(str(kontext))}</p>'
         f'<h2>{escape(titel)}</h2><p>{escape(beschreibung)}</p></div></section>'
     ))
 

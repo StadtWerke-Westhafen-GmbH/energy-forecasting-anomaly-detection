@@ -20,10 +20,17 @@ jobs:
       - run: python -m uv sync --frozen --all-extras
       - run: npm ci
       - run: python -m uv run --frozen python scripts/build_tokens.py --check
+      - run: python -m uv run --frozen python scripts/build_anomaly_dashboard_data.py --check
       - run: npm run build
       - run: python -m uv run --frozen python scripts/build_templates.py
       - run: python -m uv run --frozen ruff check src/energy_analytics scripts tests
       - run: python -m uv run --frozen pytest -q
+      - name: Modeling notebook fresh-kernel check
+        run: python -m uv run --frozen python scripts/check_modeling_notebook.py
+      - name: Modeling story notebook fresh-kernel check
+        run: python -m uv run --frozen python scripts/check_modeling_story_notebook.py
+      - name: Optimized modeling notebook fresh-kernel check
+        run: python -m uv run --frozen python scripts/check_optimized_modeling_notebook.py
       - run: npx playwright install --with-deps chromium
       - name: Browser checks (external requests blocked)
         run: |

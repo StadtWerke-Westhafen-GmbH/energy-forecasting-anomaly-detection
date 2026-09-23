@@ -16,12 +16,13 @@ notebooks = [
     "jinja2>=3.1,<4",
     "nbformat>=5.10,<6",
     "pandas>=2.2,<3",
+    "scikit-learn>=1.7,<2",
     "scipy>=1.13,<2",
 ]
 export = ["kaleido>=1.2,<2"]
 
 [dependency-groups]
-dev = ["pytest>=8,<10", "python-pptx>=1.0,<2", "python-docx>=1.2,<2", "fonttools[woff]>=4.61,<5", "ruff>=0.14,<1", "nbformat>=5.10,<6", "build>=1.2,<2"]
+dev = ["pytest>=8,<10", "python-pptx>=1.0,<2", "python-docx>=1.2,<2", "fonttools[woff]>=4.61,<5", "ruff>=0.14,<1", "nbformat>=5.10,<6", "nbclient>=0.10,<1", "build>=1.2,<2"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
