@@ -7,13 +7,15 @@ Dann `http://127.0.0.1:4173/design-system/ui_kits/energie-cockpit/index.html` ö
 Die Ansichten Übersicht, Beschaffung und Datenqualität verwenden weiterhin **synthetische
 Beispieldaten**. Die Ansichten **Anomalieprüfung** und **Prüffall** verwenden dagegen einen
 reproduzierbaren statischen Export der RF-VLS-Auswertung aus dem retrospektiven Benchmarkjahr
-2025: 105 Prüfhinweise bei einer am 99. Perzentil kalibrierten Score-Schwelle von rund 6,33.
+2025. Das Standardszenario am 99. Perzentil erzeugt 114 Prüfhinweise bei einer Schwelle
+von rund 144,4 VLS-Stunden. Ein vierstufiger Regler koppelt Perzentil, Fallzahl,
+Ist-Prognose-Plot, Monatsansicht und Prüfwarteschlange; er trainiert das Modell nicht neu.
 Es gibt keine Live-Prognose, Backend-Speicherung, Ticketübermittlung oder E-Mail-Funktion.
 Fachliche Bewertungen werden für die Demonstration ausschließlich im lokalen Browser gespeichert.
 Die Monatsauswahl ist auf den Beispielmonat begrenzt, damit keine unveränderten Daten mit
 einem anderen Datum etikettiert werden. Noch nicht angebundene Aktionen sind deaktiviert.
 
-Navigation, Tabellenfilter, Sortierung, Detailansicht, Intervallanzeige und Dialogvorschau
+Navigation, Schwellen-Szenarien, Tabellenfilter, Sortierung, Detailansicht und Dialogvorschau
 funktionieren lokal. Die Dialoge unterstützen Escape, Fokusbegrenzung und Fokusrückgabe.
 
 - `*.jsx`: gepflegte React-Quellen.

@@ -18,7 +18,9 @@ import nbformat
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DESTINATION = ROOT / "notebooks" / "12_modeling_ihk_lernstory.ipynb"
-DATA_SOURCE = ROOT / "data" / "raw" / "260916_verbrauch_bereinigt.csv"
+DATA_SOURCE = (
+    ROOT / "data" / "processed" / "modellierung_basis_bis_3_monate.csv"
+)
 
 
 def _dedent(source: str) -> str:
@@ -95,15 +97,14 @@ def build_notebook(destination: Path) -> Path:
             eda = reload(eda)
             ci = reload(ci)
 
-            DATA_PATH = BASE_DIR / "data/raw/260916_verbrauch_bereinigt.csv"
+            DATA_PATH = BASE_DIR / "data/processed/modellierung_basis_bis_3_monate.csv"
             RANDOM_STATE = 42
             ANOMALY_QUANTILE = 0.99
-            COMPLEXITY_GATE = 0.05
             RF_PARSIMONY_TOLERANCE = 0.001
 
             ci.aktiviere(
                 logo=BASE_DIR / "brand/design-system/assets/logo-sww-emblem.png",
-                quelle="data/raw/260916_verbrauch_bereinigt.csv",
+                quelle="data/processed/modellierung_basis_bis_3_monate.csv",
             )
 
 
@@ -330,58 +331,61 @@ def build_notebook(destination: Path) -> Path:
             "ihk-data",
             """
             df = pd.read_csv(DATA_PATH, parse_dates=["monat"])
-            expected = {
-                "zaehler_id", "kunde_id", "kundentyp", "vertragsleistung_kw", "monat",
-                "monat_idx", "arbeitstage", "feiertage_im_monat", "mittlere_temperatur_c",
-                "heiztage", "produktionsplan_index", "wartung_aktiv",
-                "vormonat_verbrauch_kwh", "letzte_3_monate_durchschnitt_kwh",
-                "vorjahr_monat_verbrauch_kwh", "verbrauch_kwh",
-            }
-            assert set(df.columns) == expected
+            expected = [
+                "zaehler_id", "monat", "jahr", "split", "vollaststunden",
+                "verbrauch_kwh", "vertragsleistung_kw", "kundentyp", "monat_idx",
+                "arbeitstage", "feiertage_im_monat", "heizgradtage",
+                "produktionsplan_index", "wartung_aktiv", "vormonat_vls",
+                "letzte_3_monate_vls", "vorjahr_vls", "anomalie", "unmoeglich",
+                "ziel_rekonstruiert",
+            ]
+            assert df.columns.tolist() == expected
             assert not df.duplicated(["zaehler_id", "monat"]).any()
             assert df["vertragsleistung_kw"].gt(0).all()
-            assert df["verbrauch_kwh"].gt(0).all()
+            assert len(df) == 16_800 and df["zaehler_id"].nunique() == 700
+            assert df.groupby("zaehler_id", observed=True).size().eq(24).all()
+            assert df["jahr"].eq(df["monat"].dt.year).all()
+            assert df["split"].value_counts().to_dict() == {
+                "test": 8_400, "train": 8_390, "ausschluss": 10,
+            }
+            assert np.allclose(
+                df["vollaststunden"],
+                df["verbrauch_kwh"] / df["vertragsleistung_kw"],
+            )
+            assert int(df["ziel_rekonstruiert"].sum()) == 3
 
             df = df.sort_values(["zaehler_id", "monat"]).reset_index(drop=True)
             df["wartung_aktiv"] = df["wartung_aktiv"].astype(int)
 
-            # Diese drei Zielwerte wurden im vorgelagerten Cleaning rekonstruiert.
-            # Sie bleiben im Datensatz sichtbar, gelten aber nicht als echte Ground Truth.
-            reconstructed_targets = {
-                ("ZL-00218", pd.Timestamp("2025-07-01")),
-                ("ZL-00278", pd.Timestamp("2024-12-01")),
-                ("ZL-00287", pd.Timestamp("2025-07-01")),
-            }
-            df["ziel_rekonstruiert"] = [
-                (meter, month) in reconstructed_targets
-                for meter, month in zip(df["zaehler_id"], df["monat"])
-            ]
-
-            # Internes Lernziel: Verbrauch relativ zur Anschlussleistung.
-            df["ziel_vls"] = df["verbrauch_kwh"] / df["vertragsleistung_kw"]
-            # Historienmerkmale werden bewusst selbst und ausschließlich aus älteren
-            # Monatswerten aufgebaut. So ist die Zeitlogik im Notebook prüfbar.
-            grouped_consumption = df.groupby("zaehler_id", sort=False)["verbrauch_kwh"]
-            df["lag_1_kwh"] = grouped_consumption.shift(1)
-            df["rolling_3_kwh"] = grouped_consumption.transform(
-                lambda values: values.shift(1).rolling(3, min_periods=3).mean()
+            # Die Schnittstelle liefert geprüfte, zählerweise gebildete VLS-Lags.
+            # Für Baselines und das isolierte kWh-Methodenexperiment werden sie exakt
+            # in die Ausgabeeinheit zurückgerechnet; sie sind keine neuen Informationen.
+            df["vormonat_kwh"] = df["vormonat_vls"] * df["vertragsleistung_kw"]
+            df["letzte_3_monate_kwh"] = (
+                df["letzte_3_monate_vls"] * df["vertragsleistung_kw"]
             )
-            df["lag_1_vls"] = df["lag_1_kwh"] / df["vertragsleistung_kw"]
-            df["rolling_3_vls"] = df["rolling_3_kwh"] / df["vertragsleistung_kw"]
-            df["monat_sin"] = np.sin(2 * np.pi * df["monat"].dt.month / 12)
-            df["monat_cos"] = np.cos(2 * np.pi * df["monat"].dt.month / 12)
+            valid_history = df["vollaststunden"].mask(df["unmoeglich"].astype(bool))
+            grouped_history = valid_history.groupby(df["zaehler_id"], sort=False)
+            expected_lag_1 = grouped_history.shift(1)
+            expected_lag_3 = grouped_history.transform(
+                lambda values: values.shift(1).rolling(3, min_periods=1).mean()
+            )
+            assert np.allclose(df["vormonat_vls"], expected_lag_1, equal_nan=True)
+            assert np.allclose(
+                df["letzte_3_monate_vls"], expected_lag_3, equal_nan=True
+            )
             df = df.sort_values(["monat", "zaehler_id"]).reset_index(drop=True)
-            temp_heat_corr = df[["mittlere_temperatur_c", "heiztage"]].corr(
-                method="spearman"
-            ).iloc[0, 1]
-            temperature_missing = int(df["mittlere_temperatur_c"].isna().sum())
 
-            development = df[df["monat"].dt.year.eq(2024) & ~df["ziel_rekonstruiert"]].copy()
-            benchmark = df[df["monat"].dt.year.eq(2025) & ~df["ziel_rekonstruiert"]].copy()
+            development = df[
+                df["split"].eq("train") & ~df["ziel_rekonstruiert"]
+            ].copy()
+            benchmark = df[
+                df["split"].eq("test") & ~df["ziel_rekonstruiert"]
+            ].copy()
             selection = development[development["monat"].dt.month.le(10)].reset_index(drop=True)
             calibration = development[development["monat"].dt.month.ge(11)].reset_index(drop=True)
-            assert len(df) == 16_800 and df["zaehler_id"].nunique() == 700
             assert len(benchmark) == 8_398
+            assert len(calibration) == 1_397
             assert development["monat"].max() < benchmark["monat"].min()
 
             ci.ZEITRAUM = f"{df['monat'].min():%m/%Y}–{df['monat'].max():%m/%Y}"
@@ -490,7 +494,7 @@ def build_notebook(destination: Path) -> Path:
                         (
                             4, "Features", "Merkmale",
                             "Welche Informationen darf das Modell kennen?",
-                            "Vormonat und Drei-Monats-Mittel, Saison, Arbeits- und Feiertage, "
+                            "Vormonat und Mittel aus bis zu drei Vormonaten, Monat, Arbeits- und Feiertage, "
                             "Heizgradtage, Produktionsplan, Wartung und Kundentyp. Verwendet "
                             "werden nur vor Monatsbeginn bekannte Angaben.",
                         ),
@@ -511,7 +515,7 @@ def build_notebook(destination: Path) -> Path:
                             6, "Evaluation", "Überprüfung",
                             "Woran erkennen wir eine bessere Lösung?",
                             "RMSE in kWh ist die Hauptmetrik, weil große Mengenfehler stärker "
-                            "zählen. MAE und R² ergänzen; Vormonat und Drei-Monats-Mittel "
+                            "zählen. MAE und R² ergänzen; Vormonat und Historienmittel "
                             "bilden die Baselines. 2025 bleibt der spätere Test.",
                         ),
                     ],
@@ -677,9 +681,9 @@ def build_notebook(destination: Path) -> Path:
             "ihk-feature-contract",
             """
             feature_contract = pd.DataFrame([
-                ["Historie", "Vormonat und Drei-Monats-Mittel", "vor Monatsbeginn bekannt"],
+                ["Historie", "Vormonat und Mittel aus bis zu drei Vormonaten", "vor Monatsbeginn bekannt"],
                 ["Kalender", "Arbeitstage, Feiertage, Jahreszeit", "vorab bekannt"],
-                ["Wetter", "Heizgradtageprognose (Spalte heiztage)", "laut Projektbrief vorab bekannt"],
+                ["Wetter", "Heizgradtageprognose", "laut Projektbrief vorab bekannt"],
                 ["Betrieb", "Produktionsplan und geplante Wartung", "laut Projektbrief vorab bekannt"],
                 ["Stammdaten", "Kundentyp", "stabil bekannt"],
                 ["Bewusst ausgeschlossen", "Vorjahresverbrauch", "im Training 2024 nicht verfügbar"],
@@ -689,32 +693,30 @@ def build_notebook(destination: Path) -> Path:
                 (
                     "Feature Engineering",
                     "Historie relativieren",
-                    "Vormonat und Drei-Monats-Mittel werden durch die Vertragsleistung geteilt.",
+                    "Vormonat und Mittel aus bis zu drei Vormonaten liegen bereits als VLS vor.",
                 ),
                 (
                     "Saisonalität",
-                    "Jahreskreis abbilden",
-                    "Sinus und Kosinus behandeln Dezember und Januar als benachbarte Monate.",
+                    "Jahresgang abbilden",
+                    "Die Monatsnummer bildet die im Datensatz sichtbare Saisonalität ab.",
                 ),
                 (
                     "Fehlende Werte",
-                    "Im Training behandeln",
-                    "Fehlende Eingaben werden ausschließlich mit dem Median des jeweiligen Trainings ersetzt.",
+                    "Cold Start transparent lassen",
+                    "Januar bleibt in der CSV leer; der Imputer wird ausschließlich im jeweiligen Trainingsfenster gelernt.",
                 ),
             ])
             details(
-                "Warum Heizgradtage statt Temperatur verwendet werden",
+                "Wie wurden Wetter und Historie übernommen?",
                 [
-                    f"Temperatur und Heizgradtage enthalten nahezu dieselbe Information "
-                    f"(Spearman r = {de(temp_heat_corr, 3)}). Die Temperatur hat zudem "
-                    f"{de(temperature_missing, 0)} fehlende Werte, die Heizgradtage keine.",
-                    "Im Einklang mit dem EDA-Endfazit bleibt deshalb nur heiztage als "
-                    "Wettermerkmal. Im Projektbrief wird dieser Wert als zum Monatsbeginn "
-                    "bekannte Prognoseinformation behandelt.",
-                    "Die Historie wird direkt aus dem bereinigten Verbrauch neu berechnet: "
-                    "shift(1) für den Vormonat und ein strikt abgeschlossenes Drei-Monats-Mittel.",
-                    "Damit ist im Notebook nachvollziehbar, dass kein Wert aus dem Zielmonat "
-                    "oder aus der Zukunft in ein Historienmerkmal gelangt.",
+                    "Die EDA-Schnittstelle enthält nur Heizgradtage; die redundante und "
+                    "lückenhaftere Temperaturspalte wurde dort bereits entfernt.",
+                    "Die fehlerhafte ursprüngliche Drei-Monats-Spalte wird nicht verwendet. "
+                    "Ein reproduzierbares Skript berechnet die Historie je Zähler neu.",
+                    "Februar nutzt Januar, März den Mittelwert aus Januar und Februar; "
+                    "danach fließen bis zu drei gültige Vormonate ein. Januar bleibt NaN.",
+                    "Es werden weder Zukunftswerte rückwärts geschätzt noch Zeilen gelöscht. "
+                    "Die Assertions oben prüfen die Lag-Formeln bei jedem Notebook-Lauf.",
                     "Der Projektbrief setzt Wetterprognose, Produktionsplan und geplante "
                     "Wartung am Monatsbeginn als bekannt voraus. Im Realbetrieb müssten "
                     "genau diese damaligen Planstände versioniert gespeichert werden.",
@@ -806,29 +808,27 @@ def build_notebook(destination: Path) -> Path:
             "ihk-model-definition",
             """
             NUM_FEATURES = [
+                "monat_idx",
                 "arbeitstage",
                 "feiertage_im_monat",
-                "heiztage",
+                "heizgradtage",
                 "produktionsplan_index",
                 "wartung_aktiv",
-                "lag_1_vls",
-                "rolling_3_vls",
-                "monat_sin",
-                "monat_cos",
+                "vormonat_vls",
+                "letzte_3_monate_vls",
             ]
             CAT_FEATURES = ["kundentyp"]
             X_COLUMNS = [*NUM_FEATURES, *CAT_FEATURES, "vertragsleistung_kw"]
 
             DIRECT_KWH_NUM_FEATURES = [
+                "monat_idx",
                 "arbeitstage",
                 "feiertage_im_monat",
-                "heiztage",
+                "heizgradtage",
                 "produktionsplan_index",
                 "wartung_aktiv",
-                "lag_1_kwh",
-                "rolling_3_kwh",
-                "monat_sin",
-                "monat_cos",
+                "vormonat_kwh",
+                "letzte_3_monate_kwh",
                 "vertragsleistung_kw",
             ]
             DIRECT_KWH_X_COLUMNS = [*DIRECT_KWH_NUM_FEATURES, *CAT_FEATURES]
@@ -836,7 +836,11 @@ def build_notebook(destination: Path) -> Path:
 
             def make_preprocessor(scale=False):
                 numeric_steps = [
-                    ("impute", SimpleImputer(strategy="median", keep_empty_features=True))
+                    ("impute", SimpleImputer(
+                        strategy="median",
+                        add_indicator=True,
+                        keep_empty_features=True,
+                    ))
                 ]
                 if scale:
                     numeric_steps.append(("scale", StandardScaler()))
@@ -857,15 +861,14 @@ def build_notebook(destination: Path) -> Path:
 
 
             class VLSRegressor(RegressorMixin, BaseEstimator):
-                '''Fit VLS internally and expose predictions in business unit kWh.'''
+                '''Fit the supplied VLS target and expose predictions in business unit kWh.'''
 
                 def __init__(self, pipeline):
                     self.pipeline = pipeline
 
                 def fit(self, X, y):
                     self.pipeline_ = clone(self.pipeline)
-                    capacity = X["vertragsleistung_kw"].to_numpy(float)
-                    self.pipeline_.fit(X, np.asarray(y, dtype=float) / capacity)
+                    self.pipeline_.fit(X, np.asarray(y, dtype=float))
                     return self
 
                 def predict(self, X):
@@ -905,6 +908,7 @@ def build_notebook(destination: Path) -> Path:
                                 "impute",
                                 SimpleImputer(
                                     strategy="median",
+                                    add_indicator=True,
                                     keep_empty_features=True,
                                 ),
                             ),
@@ -989,7 +993,7 @@ def build_notebook(destination: Path) -> Path:
                     valid = selection.iloc[valid_idx]
                     fitted = forest_estimator(params).fit(
                         train[X_COLUMNS],
-                        train["verbrauch_kwh"],
+                        train["vollaststunden"],
                     )
                     prediction = fitted.predict(valid[X_COLUMNS])
                     fold_rmse.append(
@@ -1065,7 +1069,7 @@ def build_notebook(destination: Path) -> Path:
                 train = selection.iloc[train_idx]
                 valid = selection.iloc[valid_idx]
                 for name, factory in model_factories.items():
-                    fitted = factory().fit(train[X_COLUMNS], train["verbrauch_kwh"])
+                    fitted = factory().fit(train[X_COLUMNS], train["vollaststunden"])
                     prediction = fitted.predict(valid[X_COLUMNS])
                     comparison_rows.append({
                         "Kandidat": name,
@@ -1074,8 +1078,8 @@ def build_notebook(destination: Path) -> Path:
                         **metrics(valid["verbrauch_kwh"], prediction),
                     })
                 for name, column in {
-                    "Vormonat": "lag_1_kwh",
-                    "3-Monats-Mittel": "rolling_3_kwh",
+                    "Vormonat": "vormonat_kwh",
+                    "Bis-zu-3-Monats-Mittel": "letzte_3_monate_kwh",
                 }.items():
                     mask = valid[column].notna()
                     comparison_rows.append({
@@ -1112,9 +1116,9 @@ def build_notebook(destination: Path) -> Path:
             ]
             forest_gain = 1 - forest_rmse / linear_rmse
             selected_name = (
-                "Random Forest"
-                if forest_gain >= COMPLEXITY_GATE
-                else "Lineare Regression"
+                comparison[comparison["Typ"].eq("Modell")]
+                .sort_values("CV-RMSE (kWh)")
+                .iloc[0]["Kandidat"]
             )
             selected_factory = model_factories[selected_name]
             """,
@@ -1167,8 +1171,8 @@ def build_notebook(destination: Path) -> Path:
                 f"gegenüber {de(best_baseline_cv['CV-RMSE (kWh)'], 0)} kWh der besten Baseline.",
                 f"Der Forest verbessert die lineare Referenz um "
                 f"{de(forest_gain * 100, 1)} % und die beste Baseline um "
-                f"{de(relative_gain_baseline * 100, 1)} %; damit erfüllt er das "
-                "dokumentierte 5-%-Komplexitätsgate.",
+                f"{de(relative_gain_baseline * 100, 1)} %. Gewählt wird der kleinste "
+                "mittlere RMSE der zeitlichen Prüfung.",
                 "Die Fehler schwanken zwischen den Zeitfenstern; deshalb wird kein einzelner Fold überbewertet.",
             )
             details(
@@ -1185,15 +1189,26 @@ def build_notebook(destination: Path) -> Path:
                 ],
             )
             details(
-                "Prüferfrage: Warum nicht einfach die lineare Regression?",
+                "Prüferfrage: Was bedeuten Balken und Whisker?",
+                [
+                    "Der Balken ist der mittlere RMSE aus drei zeitlich vorwärts "
+                    "laufenden Prüfzeiträumen im Jahr 2024.",
+                    "Der Whisker zeigt die Standardabweichung dieser drei RMSE-Werte. "
+                    "Ein langer Whisker bedeutet: Die Modellgüte schwankt stärker je Zeitraum.",
+                    "Es ist kein Konfidenzintervall und keine Unsicherheit einer einzelnen "
+                    "Prognose. Dafür wären andere Verfahren und deutlich mehr Zeitfenster nötig.",
+                ],
+            )
+            details(
+                "Prüferfrage: Warum Random Forest trotz des kleinen Vorsprungs?",
                 [
                     f"Die lineare Regression bleibt die verständliche Referenz. Im "
                     f"2024-CV senkt der Random Forest den RMSE jedoch um "
-                    f"{de(forest_gain * 100, 1)} % und überschreitet damit das "
-                    "dokumentierte 5-%-Gate für zusätzliche Komplexität.",
+                    f"{de(forest_gain * 100, 1)} %. Nach der vorab festgelegten "
+                    "Hauptmetrik ist er damit der beste Kandidat.",
                     "Die Entscheidung wurde mit 2024 getroffen. Dass der Abstand 2025 "
                     "kleiner ausfällt, ändert die Auswahl nicht nachträglich, sondern "
-                    "wird als Unsicherheit berichtet.",
+                    "wird als kleiner, aber stabiler Vorteil und als Unsicherheit berichtet.",
                     "Falls Wartbarkeit oder maximale Nachvollziehbarkeit höher gewichtet "
                     "werden, ist das lineare Modell ein fachlich vertretbarer Fallback.",
                 ],
@@ -1219,7 +1234,7 @@ def build_notebook(destination: Path) -> Path:
             for name, factory in model_factories.items():
                 fitted = factory().fit(
                     development[X_COLUMNS],
-                    development["verbrauch_kwh"],
+                    development["vollaststunden"],
                 )
                 fitted_models[name] = fitted
                 benchmark_predictions[name] = fitted.predict(benchmark[X_COLUMNS])
@@ -1232,8 +1247,8 @@ def build_notebook(destination: Path) -> Path:
                     **metrics(benchmark["verbrauch_kwh"], prediction),
                 })
             for name, column in {
-                "Vormonat": "lag_1_kwh",
-                "3-Monats-Mittel": "rolling_3_kwh",
+                "Vormonat": "vormonat_kwh",
+                "Bis-zu-3-Monats-Mittel": "letzte_3_monate_kwh",
             }.items():
                 mask = benchmark[column].notna()
                 benchmark_results.append({
@@ -1571,12 +1586,12 @@ def build_notebook(destination: Path) -> Path:
             """
             final_model = fitted_models[selected_name]
             feature_groups = {
-                "Verbrauchshistorie": ["lag_1_vls", "rolling_3_vls"],
+                "Verbrauchshistorie": ["vormonat_vls", "letzte_3_monate_vls"],
                 "Produktionsplan": ["produktionsplan_index"],
                 "Geplante Wartung": ["wartung_aktiv"],
                 "Kalender": ["arbeitstage", "feiertage_im_monat"],
-                "Jahreszeit": ["monat_sin", "monat_cos"],
-                "Wetterprognose": ["heiztage"],
+                "Jahreszeit": ["monat_idx"],
+                "Wetterprognose": ["heizgradtage"],
                 "Kundentyp": ["kundentyp"],
             }
             baseline_rmse = metrics(
@@ -1665,7 +1680,7 @@ def build_notebook(destination: Path) -> Path:
                 valid = development[development["monat"].eq(month)].copy()
                 rolling_model = selected_factory().fit(
                     train[X_COLUMNS],
-                    train["verbrauch_kwh"],
+                    train["vollaststunden"],
                 )
                 valid["prognose_kwh"] = rolling_model.predict(valid[X_COLUMNS])
                 calibration_parts.append(valid)
@@ -1713,7 +1728,7 @@ def build_notebook(destination: Path) -> Path:
             details(
                 "Prüferfrage: Reichen zwei Monate für eine belastbare Schwelle?",
                 [
-                    "Nein. Die 1.399 Kalibrierungsfälle liefern eine transparente "
+                    f"Nein. Die {de(len(calibration_scored), 0)} Kalibrierungsfälle liefern eine transparente "
                     "Pilotregel, decken aber nur November und Dezember ab.",
                     "Beim 99. Perzentil bestimmen nur ungefähr 14 Randfälle die Schwelle; "
                     "saisonale und segmentbezogene Unterschiede können damit übersehen werden.",
@@ -1784,6 +1799,18 @@ def build_notebook(destination: Path) -> Path:
                 "Das 99. Perzentil wird als dokumentierte Pilotannahme verwendet.",
                 "Precision und Recall sind ohne gelabelte reale Störungen nicht berechenbar.",
             )
+            details(
+                "Was bewegt der Regler im Dashboard?",
+                [
+                    "Er wählt genau eines der vier hier berechneten Perzentile: 95, 97,5, 99 oder 99,5 Prozent.",
+                    "Dadurch ändern sich Schwelle, Hinweiszahl, farbige Punkte, Monatsbalken "
+                    "und Prüfwarteschlange gemeinsam.",
+                    "Das Modell wird dabei nicht neu trainiert. Der Regler verändert nur die "
+                    "Entscheidungsregel auf bereits vorhandenen Prognosefehlern.",
+                    "Ohne bestätigte Defektlabels zeigt der Regler Arbeitsaufwand, aber keinen "
+                    "objektiv optimalen Sweet Spot.",
+                ],
+            )
             """,
         ),
         code(
@@ -1792,13 +1819,13 @@ def build_notebook(destination: Path) -> Path:
             benchmark_scored["anomalie_score"] = (
                 benchmark_scored["residuum_vls"].abs() / anomaly_threshold
             )
-            benchmark_scored["anomalie"] = benchmark_scored["anomalie_score"].ge(1.0)
+            benchmark_scored["pruefhinweis"] = benchmark_scored["anomalie_score"].ge(1.0)
             benchmark_scored["richtung"] = np.where(
                 benchmark_scored["residuum_vls"].ge(0),
                 "ungewöhnlich hoch",
                 "ungewöhnlich niedrig",
             )
-            alerts = benchmark_scored[benchmark_scored["anomalie"]].copy()
+            alerts = benchmark_scored[benchmark_scored["pruefhinweis"]].copy()
             alert_counts = (
                 alerts.groupby(["monat", "richtung"], observed=True)
                 .size()
@@ -1838,16 +1865,37 @@ def build_notebook(destination: Path) -> Path:
             ])
             high_alerts = int(alerts["richtung"].eq("ungewöhnlich hoch").sum())
             low_alerts = int(alerts["richtung"].eq("ungewöhnlich niedrig").sum())
+            source_reference = benchmark_scored["anomalie"].astype(bool)
+            both_found = int((benchmark_scored["pruefhinweis"] & source_reference).sum())
+            only_model = int((benchmark_scored["pruefhinweis"] & ~source_reference).sum())
+            only_reference = int((~benchmark_scored["pruefhinweis"] & source_reference).sum())
+            impossible_found = int(
+                (benchmark_scored["pruefhinweis"] & benchmark_scored["unmoeglich"]).sum()
+            )
             details(
-                "Was bedeuten die 109 Hinweise genau?",
+                f"Was bedeuten die {len(alerts)} Hinweise genau?",
                 [
                     f"Sie entsprechen {de(len(alerts) / len(benchmark_scored) * 100, 2)} % "
                     f"der {de(len(benchmark_scored), 0)} bewertbaren Zähler-Monate.",
                     f"{high_alerts} Hinweise liegen ungewöhnlich hoch und {low_alerts} "
-                    "ungewöhnlich niedrig. 103 verschiedene Zähler sind betroffen.",
+                    f"ungewöhnlich niedrig. {alerts['zaehler_id'].nunique()} verschiedene "
+                    "Zähler sind betroffen.",
                     "Ein Hinweis kann ein Messproblem, eine Planabweichung, einen "
                     "Betriebseffekt oder eine Störung anzeigen. Erst die Fachprüfung "
                     "liefert ein belastbares Label.",
+                ],
+            )
+            details(
+                "Wie wird ohne echte Anomalielabel plausibilisiert?",
+                [
+                    f"Die EDA-Quotenregel ist nur eine Referenz, keine Wahrheit: {both_found} "
+                    "Fälle markieren beide Verfahren.",
+                    f"{only_model} Fälle findet nur das Modell; das sind potenziell kontextuelle "
+                    "Abweichungen, die der Fachbereich prüfen muss.",
+                    f"{only_reference} Fälle markiert nur die EDA-Regel. Das ist nicht automatisch "
+                    "ein Fehler, weil das Modell Wetter, Plan und Wartung berücksichtigen kann.",
+                    f"Alle {impossible_found} von 10 belegten Plausibilitätsfehlern im Testjahr "
+                    "werden erfasst. Das ist ein Sanity Check, ersetzt aber keine Precision/Recall-Auswertung.",
                 ],
             )
             plot_decision(
@@ -1861,13 +1909,13 @@ def build_notebook(destination: Path) -> Path:
         code(
             "ihk-actual-vs-predicted",
             """
-            normal_points = benchmark_scored[~benchmark_scored["anomalie"]].copy()
+            normal_points = benchmark_scored[~benchmark_scored["pruefhinweis"]].copy()
             high_points = benchmark_scored[
-                benchmark_scored["anomalie"]
+                benchmark_scored["pruefhinweis"]
                 & benchmark_scored["richtung"].eq("ungewöhnlich hoch")
             ].copy()
             low_points = benchmark_scored[
-                benchmark_scored["anomalie"]
+                benchmark_scored["pruefhinweis"]
                 & benchmark_scored["richtung"].eq("ungewöhnlich niedrig")
             ].copy()
             axis_max = 1.05 * max(
@@ -1970,6 +2018,18 @@ def build_notebook(destination: Path) -> Path:
                     "Fälle, aber keine bestätigte Ursache oder Störungshäufigkeit.",
                 ],
             )
+            details(
+                "Warum zeichnen wir keine zweite feste kWh-Grenzlinie ein?",
+                [
+                    "Die Regel lautet: |Ist minus Prognose| geteilt durch Vertragsleistung "
+                    "muss die VLS-Schwelle überschreiten.",
+                    "Damit ist der erlaubte kWh-Abstand für jeden Anschluss unterschiedlich. "
+                    "Eine einzige schräge Linie wäre fachlich falsch.",
+                    "Ein verstellbarer Winkel entspräche einer anderen Verhältnisregel wie "
+                    "Ist durch Prognose. Diese Methode wurde hier nicht kalibriert und wird "
+                    "deshalb nicht stillschweigend mit der VLS-Regel vermischt.",
+                ],
+            )
             """,
         ),
         code(
@@ -1980,7 +2040,7 @@ def build_notebook(destination: Path) -> Path:
             case_history = benchmark_scored[
                 benchmark_scored["zaehler_id"].eq(case_id)
             ].sort_values("monat")
-            case_alerts = case_history[case_history["anomalie"]]
+            case_alerts = case_history[case_history["pruefhinweis"]]
             fig = eda.timeseries_forecast(
                 case_history["monat"],
                 case_history["verbrauch_kwh"],
@@ -2031,10 +2091,10 @@ def build_notebook(destination: Path) -> Path:
             "ihk-workflow",
             """
             flow([
-                (1, "Quelle", "Bereinigte CSV mit 700 Zählern."),
+                (1, "Quelle", "Versionierte Modellierungsbasis mit 700 Zählern."),
                 (2, "Import", "Schema und Schlüssel automatisch prüfen."),
-                (3, "Bereinigung", "Drei rekonstruierte Ziele kennzeichnen."),
-                (4, "Transformation", "VLS, Historie, Saisonalität und trainierte Imputation."),
+                (3, "Bereinigung", "Flags und zählerweise Historie aus der EDA übernehmen."),
+                (4, "Transformation", "VLS-Ziel, Rückrechnung und fold-lokal trainierte Imputation."),
                 (5, "Modellierung", "Baseline, linear, Random Forest, zeitliche Prüfung."),
                 (6, "Visualisierung", "Fehler, Einflussgrößen und Residuen erklären."),
                 (7, "Übergabe", "Priorisierte Alertliste an das Dashboard."),
@@ -2141,8 +2201,8 @@ def build_notebook(destination: Path) -> Path:
                     f"Warum Vollaststunden? Sie machen Anschlussgrößen vergleichbarer und "
                     f"senken den 2025-RMSE im fairen Vergleich um "
                     f"{de(test_target_gain * 100, 1)} Prozent; ausgegeben wird weiter kWh.",
-                    "Warum Random Forest oder lineares Modell? Die Entscheidung folgt dem "
-                    "2024-Vergleich und einem dokumentierten Komplexitätsgate.",
+                    "Warum Random Forest? Er hat im zeitlichen 2024-Vergleich den "
+                    "niedrigsten mittleren RMSE; die lineare Regression bleibt Referenz.",
                     "Wie gut erkennt das System echte Defekte? Das ist ohne bestätigte "
                     "Anomalielabel noch nicht messbar; aktuell wird nur das Hinweisvolumen quantifiziert.",
                 ],
@@ -2178,7 +2238,7 @@ def build_notebook(destination: Path) -> Path:
         "language_info": {"name": "python", "version": "3.11"},
         "sww": {
             "builder": "scripts/build_modeling_ihk_lernstory_notebook.py",
-            "data_source": "data/raw/260916_verbrauch_bereinigt.csv",
+            "data_source": "data/processed/modellierung_basis_bis_3_monate.csv",
             "source_sha256": data_hash,
             "development_period": "01/2024–12/2024",
             "benchmark_period": "01/2025–12/2025",

@@ -1,0 +1,21 @@
+{
+  "destination": "data/processed/modellierung_basis_bis_3_monate.csv",
+  "meters": 700,
+  "newly_available_lag3_values": 1453,
+  "output_sha256": "8ccdbf98049d72d08ca2eeebae7ab05a0325254b887cecca3ff28d4baf335c46",
+  "policy": {
+    "cold_start": "Januar 2024 bleibt NaN",
+    "current_month_excluded": true,
+    "future_values_used": false,
+    "min_periods": 1,
+    "name": "bis_zu_drei_gueltige_vormonate",
+    "unmoegliche_ziele_excluded_from_history": true,
+    "window_months": 3
+  },
+  "remaining_lag3_missing": 700,
+  "rows": 16800,
+  "schema_version": 1,
+  "script_sha256": "f85d5d842293ebea9b22188c2e507df3654cd23dbba86fda387ada806bcd31e1",
+  "source": "data/processed/modellierung_basis.csv",
+  "source_sha256": "d7caf7c2f35d3cd39c34e3adc390d7c38ec0242c9ad0a984865591bb9092e9e3"
+}

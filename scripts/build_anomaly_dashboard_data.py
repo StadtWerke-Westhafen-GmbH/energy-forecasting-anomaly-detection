@@ -1,4 +1,4 @@
-"""Build the static 2025 anomaly-dashboard data from the reproducible RF-VLS path."""
+"""Build the interactive anomaly-dashboard data from the verified IHK model path."""
 
 from __future__ import annotations
 
@@ -13,12 +13,14 @@ from sklearn.base import clone
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "data" / "raw" / "260916_verbrauch_bereinigt.csv"
+SOURCE = ROOT / "data" / "processed" / "modellierung_basis_bis_3_monate.csv"
+CUSTOMER_SOURCE = ROOT / "data" / "raw" / "260916_verbrauch_bereinigt.csv"
 DESTINATION = (
     ROOT
     / "brand"
@@ -28,20 +30,20 @@ DESTINATION = (
     / "anomaly-data.js"
 )
 RANDOM_STATE = 42
-ANOMALY_QUANTILE = 0.99
+DEFAULT_QUANTILE = 0.99
+THRESHOLD_QUANTILES = (0.95, 0.975, 0.99, 0.995)
 NUM_FEATURES = [
-    "log_vertragsleistung_kw",
+    "monat_idx",
     "arbeitstage",
     "feiertage_im_monat",
-    "lag_1_vls",
-    "rolling_3_vls",
-    "log_lag_1_kwh",
-    "log_rolling_3_kwh",
-    "monat_sin",
-    "monat_cos",
+    "heizgradtage",
+    "produktionsplan_index",
+    "wartung_aktiv",
+    "vormonat_vls",
+    "letzte_3_monate_vls",
 ]
 CAT_FEATURES = ["kundentyp"]
-X_COLUMNS = ["vertragsleistung_kw", *NUM_FEATURES, *CAT_FEATURES]
+X_COLUMNS = [*NUM_FEATURES, *CAT_FEATURES, "vertragsleistung_kw"]
 
 
 def _round(value: float | int, digits: int = 4) -> float:
@@ -52,101 +54,78 @@ def _optional_round(value: float | int, digits: int = 2) -> float | None:
     return None if pd.isna(value) else _round(value, digits)
 
 
-def _wape(actual, predicted) -> float:
-    actual = np.asarray(actual, dtype=float)
-    predicted = np.clip(np.asarray(predicted, dtype=float), 0, None)
-    valid = np.isfinite(actual) & np.isfinite(predicted)
-    return float(np.abs(actual[valid] - predicted[valid]).sum() / np.abs(actual[valid]).sum() * 100)
+def _rmse(actual, predicted) -> float:
+    return float(mean_squared_error(actual, predicted) ** 0.5)
 
 
-def _robust_scale(values) -> float:
-    values = np.asarray(values, dtype=float)
-    center = np.median(values)
-    mad = np.median(np.abs(values - center))
-    return max(float(1.4826 * mad), 1e-6)
+def _customer_mapping() -> pd.Series:
+    source = pd.read_csv(CUSTOMER_SOURCE, usecols=["zaehler_id", "kunde_id"])
+    if source.groupby("zaehler_id", observed=True)["kunde_id"].nunique().max() != 1:
+        raise ValueError("Die Kunden-ID ist nicht eindeutig einem Zähler zugeordnet.")
+    return source.drop_duplicates("zaehler_id").set_index("zaehler_id")["kunde_id"]
 
 
-def _prepare() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def _prepare() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     frame = pd.read_csv(SOURCE, parse_dates=["monat"])
-    expected = {
-        "zaehler_id",
-        "kunde_id",
-        "kundentyp",
-        "vertragsleistung_kw",
-        "monat",
-        "monat_idx",
-        "arbeitstage",
-        "feiertage_im_monat",
-        "mittlere_temperatur_c",
-        "heiztage",
-        "produktionsplan_index",
-        "wartung_aktiv",
-        "vormonat_verbrauch_kwh",
-        "letzte_3_monate_durchschnitt_kwh",
-        "vorjahr_monat_verbrauch_kwh",
-        "verbrauch_kwh",
-    }
-    if set(frame.columns) != expected:
-        raise ValueError("Das Quelldatenschema hat sich geändert.")
+    expected = [
+        "zaehler_id", "monat", "jahr", "split", "vollaststunden",
+        "verbrauch_kwh", "vertragsleistung_kw", "kundentyp", "monat_idx",
+        "arbeitstage", "feiertage_im_monat", "heizgradtage",
+        "produktionsplan_index", "wartung_aktiv", "vormonat_vls",
+        "letzte_3_monate_vls", "vorjahr_vls", "anomalie", "unmoeglich",
+        "ziel_rekonstruiert",
+    ]
+    if frame.columns.tolist() != expected:
+        raise ValueError("Das Schema der Modellierungsbasis hat sich geändert.")
     if frame.duplicated(["zaehler_id", "monat"]).any():
         raise ValueError("Zähler und Monat müssen eindeutig sein.")
-    if not frame["vertragsleistung_kw"].gt(0).all() or not frame["verbrauch_kwh"].gt(0).all():
-        raise ValueError("Leistung und Verbrauch müssen positiv sein.")
-
-    frame = frame.sort_values(["zaehler_id", "monat"]).reset_index(drop=True)
-    frame["wartung_aktiv"] = frame["wartung_aktiv"].astype(int)
-    frame["stunden_im_monat"] = frame["monat"].dt.days_in_month * 24
-    frame["dq_vertragsleistung"] = (
-        frame["verbrauch_kwh"]
-        > frame["vertragsleistung_kw"] * frame["stunden_im_monat"]
-    )
-
-    history = frame.groupby("zaehler_id", sort=False)["verbrauch_kwh"]
-    frame["lag_1_kwh"] = history.shift(1)
-    frame["rolling_3_kwh"] = history.transform(
-        lambda values: values.shift(1).rolling(3, min_periods=3).mean()
-    )
-    frame["ziel_vls"] = frame["verbrauch_kwh"] / frame["vertragsleistung_kw"]
-    frame["lag_1_vls"] = frame["lag_1_kwh"] / frame["vertragsleistung_kw"]
-    frame["rolling_3_vls"] = frame["rolling_3_kwh"] / frame["vertragsleistung_kw"]
-    frame["log_lag_1_kwh"] = np.log1p(frame["lag_1_kwh"])
-    frame["log_rolling_3_kwh"] = np.log1p(frame["rolling_3_kwh"])
-    frame["monat_sin"] = np.sin(2 * np.pi * frame["monat"].dt.month / 12)
-    frame["monat_cos"] = np.cos(2 * np.pi * frame["monat"].dt.month / 12)
-    frame["log_vertragsleistung_kw"] = np.log1p(frame["vertragsleistung_kw"])
-
-    development = (
-        frame[frame["monat"].dt.year.eq(2024)]
-        .sort_values(["monat", "zaehler_id"])
-        .reset_index(drop=True)
-    )
-    benchmark = (
-        frame[frame["monat"].dt.year.eq(2025)]
-        .sort_values(["monat", "zaehler_id"])
-        .reset_index(drop=True)
-    )
-    calibration = development[development["monat"].dt.month.ge(11)].copy()
     if len(frame) != 16_800 or frame["zaehler_id"].nunique() != 700:
         raise ValueError("Erwartet werden 16.800 Beobachtungen und 700 Zähler.")
+    if not np.allclose(
+        frame["vollaststunden"],
+        frame["verbrauch_kwh"] / frame["vertragsleistung_kw"],
+    ):
+        raise ValueError("Vollaststunden und Rückrechnung widersprechen sich.")
+
+    frame = frame.sort_values(["monat", "zaehler_id"]).reset_index(drop=True)
+    frame["wartung_aktiv"] = frame["wartung_aktiv"].astype(int)
+    frame["kunde_id"] = frame["zaehler_id"].map(_customer_mapping())
+    if frame["kunde_id"].isna().any():
+        raise ValueError("Für mindestens einen Zähler fehlt die Kundenanzeige.")
+
+    development = frame[
+        frame["split"].eq("train") & ~frame["ziel_rekonstruiert"]
+    ].copy()
+    benchmark = frame[
+        frame["split"].eq("test") & ~frame["ziel_rekonstruiert"]
+    ].copy()
+    calibration = development[development["monat"].dt.month.ge(11)].copy()
+    if len(development) != 8_389 or len(calibration) != 1_397 or len(benchmark) != 8_398:
+        raise ValueError("Die freigegebenen Entwicklungs- und Testmengen haben sich geändert.")
     return frame, development, benchmark, calibration
 
 
 def _estimator() -> Pipeline:
-    category_pipe = Pipeline(
+    numeric = Pipeline(
+        [
+            (
+                "impute",
+                SimpleImputer(
+                    strategy="median",
+                    add_indicator=True,
+                    keep_empty_features=True,
+                ),
+            )
+        ]
+    )
+    categorical = Pipeline(
         [
             ("impute", SimpleImputer(strategy="most_frequent")),
             ("onehot", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
         ]
     )
     preprocessor = ColumnTransformer(
-        [
-            (
-                "num",
-                SimpleImputer(strategy="median", keep_empty_features=True),
-                NUM_FEATURES,
-            ),
-            ("cat", category_pipe, CAT_FEATURES),
-        ],
+        [("num", numeric, NUM_FEATURES), ("cat", categorical, CAT_FEATURES)],
         sparse_threshold=0.0,
     )
     return Pipeline(
@@ -155,11 +134,11 @@ def _estimator() -> Pipeline:
             (
                 "model",
                 RandomForestRegressor(
-                    n_estimators=180,
+                    n_estimators=300,
                     max_features=0.7,
                     max_depth=8,
-                    min_samples_leaf=20,
-                    n_jobs=1,
+                    min_samples_leaf=5,
+                    n_jobs=-1,
                     random_state=RANDOM_STATE,
                 ),
             ),
@@ -167,35 +146,26 @@ def _estimator() -> Pipeline:
     )
 
 
-def _predict_kwh(estimator: Pipeline, frame: pd.DataFrame) -> np.ndarray:
+def _predict(estimator: Pipeline, frame: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
     predicted_vls = np.clip(estimator.predict(frame[X_COLUMNS]), 0, None)
-    return predicted_vls * frame["vertragsleistung_kw"].to_numpy(float)
+    predicted_kwh = predicted_vls * frame["vertragsleistung_kw"].to_numpy(float)
+    return predicted_vls, predicted_kwh
 
 
-def _score(
-    frame: pd.DataFrame,
-    residual_reference: pd.DataFrame,
-    threshold: float,
-) -> pd.DataFrame:
+def _score(frame: pd.DataFrame) -> pd.DataFrame:
     scored = frame.copy()
-    scored["residuum_log"] = np.log1p(scored["verbrauch_kwh"]) - np.log1p(
-        scored["prognose_kwh"].clip(lower=0)
-    )
-    scored = scored.join(residual_reference, on="kundentyp")
-    scored["score_signiert"] = (
-        scored["residuum_log"] - scored["mitte"]
-    ) / scored["skala"]
-    scored["anomalie_score"] = scored["score_signiert"].abs()
-    scored["anomalie"] = scored["anomalie_score"].ge(threshold)
-    scored["richtung_code"] = np.where(scored["score_signiert"].ge(0), "hoch", "niedrig")
-    scored["richtung"] = np.where(
-        scored["score_signiert"].ge(0),
-        "ungewöhnlich hoch",
-        "ungewöhnlich niedrig",
-    )
+    scored["residuum_vls"] = scored["vollaststunden"] - scored["prognose_vls"]
+    scored["abs_residuum_vls"] = scored["residuum_vls"].abs()
     scored["abweichung_kwh"] = scored["verbrauch_kwh"] - scored["prognose_kwh"]
+    scored["impact_abs_kwh"] = scored["abweichung_kwh"].abs()
     scored["abweichung_prozent"] = (
         scored["abweichung_kwh"] / scored["prognose_kwh"].clip(lower=1) * 100
+    )
+    scored["richtung_code"] = np.where(scored["residuum_vls"].ge(0), "hoch", "niedrig")
+    scored["richtung"] = np.where(
+        scored["residuum_vls"].ge(0),
+        "ungewöhnlich hoch",
+        "ungewöhnlich niedrig",
     )
     return scored
 
@@ -208,88 +178,46 @@ def _model_results():
     for month in sorted(calibration["monat"].unique()):
         training = development[development["monat"].lt(month)]
         holdout = development[development["monat"].eq(month)].copy()
-        fitted = clone(estimator).fit(training[X_COLUMNS], training["ziel_vls"])
-        holdout["prognose_kwh"] = _predict_kwh(fitted, holdout)
+        fitted = clone(estimator).fit(training[X_COLUMNS], training["vollaststunden"])
+        holdout["prognose_vls"], holdout["prognose_kwh"] = _predict(fitted, holdout)
         calibration_parts.append(holdout)
-    calibration_scored = pd.concat(calibration_parts, ignore_index=True)
-    calibration_scored["residuum_log"] = np.log1p(
-        calibration_scored["verbrauch_kwh"]
-    ) - np.log1p(calibration_scored["prognose_kwh"].clip(lower=0))
-    residual_reference = (
-        calibration_scored.groupby("kundentyp", observed=True)["residuum_log"]
-        .agg(mitte="median", skala=_robust_scale)
-    )
-    calibration_scored = calibration_scored.join(residual_reference, on="kundentyp")
-    calibration_scored["score_signiert"] = (
-        calibration_scored["residuum_log"] - calibration_scored["mitte"]
-    ) / calibration_scored["skala"]
-    calibration_scored["anomalie_score"] = calibration_scored["score_signiert"].abs()
-    threshold = float(calibration_scored["anomalie_score"].quantile(ANOMALY_QUANTILE))
-    calibration_scored["anomalie"] = calibration_scored["anomalie_score"].ge(threshold)
+    calibration_scored = _score(pd.concat(calibration_parts, ignore_index=True))
 
-    final_model = clone(estimator).fit(development[X_COLUMNS], development["ziel_vls"])
+    final_model = clone(estimator).fit(development[X_COLUMNS], development["vollaststunden"])
     benchmark = benchmark.copy()
-    benchmark["prognose_kwh"] = _predict_kwh(final_model, benchmark)
-    benchmark_scored = _score(benchmark, residual_reference, threshold)
-    return frame, calibration_scored, benchmark_scored, threshold
+    benchmark["prognose_vls"], benchmark["prognose_kwh"] = _predict(final_model, benchmark)
+    benchmark_scored = _score(benchmark)
+    return frame, calibration_scored, benchmark_scored
 
 
-def _series_for_meter(
-    meter_id: str,
-    frame: pd.DataFrame,
-    calibration: pd.DataFrame,
-    benchmark: pd.DataFrame,
-    threshold: float,
-) -> list[dict]:
-    base = frame[frame["zaehler_id"].eq(meter_id)].copy()
-    base["prognose_kwh"] = np.nan
-    base["anomalie_score"] = np.nan
-    base["anomalie"] = False
-    base["phase"] = "Historie"
-
-    calibration_meter = calibration[calibration["zaehler_id"].eq(meter_id)]
-    for row in calibration_meter.itertuples():
-        mask = base["monat"].eq(row.monat)
-        base.loc[mask, "prognose_kwh"] = row.prognose_kwh
-        base.loc[mask, "anomalie_score"] = row.anomalie_score
-        base.loc[mask, "anomalie"] = row.anomalie_score >= threshold
-        base.loc[mask, "phase"] = "Kalibrierung"
-
-    benchmark_meter = benchmark[benchmark["zaehler_id"].eq(meter_id)]
-    for row in benchmark_meter.itertuples():
-        mask = base["monat"].eq(row.monat)
-        base.loc[mask, "prognose_kwh"] = row.prognose_kwh
-        base.loc[mask, "anomalie_score"] = row.anomalie_score
-        base.loc[mask, "anomalie"] = bool(row.anomalie)
-        base.loc[mask, "phase"] = "Benchmark"
-
-    return [
-        {
-            "month_key": row.monat.strftime("%Y-%m"),
-            "month_label": row.monat.strftime("%m/%Y"),
-            "actual_kwh": _round(row.verbrauch_kwh, 2),
-            "forecast_kwh": _optional_round(row.prognose_kwh, 2),
-            "score": _optional_round(row.anomalie_score, 4),
-            "is_alert": bool(row.anomalie),
-            "phase": row.phase,
-        }
-        for row in base.sort_values("monat").itertuples()
-    ]
+def _threshold_options(calibration: pd.DataFrame, benchmark: pd.DataFrame) -> list[dict]:
+    options = []
+    for quantile in THRESHOLD_QUANTILES:
+        threshold = float(calibration["abs_residuum_vls"].quantile(quantile))
+        alerts = benchmark[benchmark["abs_residuum_vls"].ge(threshold)]
+        options.append(
+            {
+                "quantile": quantile,
+                "percentile": quantile * 100,
+                "threshold_vls": _round(threshold, 4),
+                "alerts": int(len(alerts)),
+                "alerts_per_month": _round(len(alerts) / 12, 4),
+                "meters_affected": int(alerts["zaehler_id"].nunique()),
+                "high": int(alerts["richtung_code"].eq("hoch").sum()),
+                "low": int(alerts["richtung_code"].eq("niedrig").sum()),
+            }
+        )
+    return options
 
 
-def build_payload() -> dict:
-    frame, calibration, benchmark, threshold = _model_results()
-    alerts = benchmark[benchmark["anomalie"]].copy()
-    alerts["impact_abs_kwh"] = alerts["abweichung_kwh"].abs()
-    alert_counts_by_meter = alerts["zaehler_id"].value_counts()
-    alerts = alerts.sort_values(
-        ["anomalie_score", "impact_abs_kwh"], ascending=[False, False]
+def _observation_rows(benchmark: pd.DataFrame, default_threshold: float) -> list[dict]:
+    ranked = benchmark.sort_values(
+        ["abs_residuum_vls", "impact_abs_kwh"], ascending=[False, False]
     ).reset_index(drop=True)
-    alerts["rank"] = np.arange(1, len(alerts) + 1)
-
-    alert_rows = []
-    for row in alerts.itertuples():
-        alert_rows.append(
+    ranked["rank"] = np.arange(1, len(ranked) + 1)
+    rows = []
+    for row in ranked.itertuples():
+        rows.append(
             {
                 "alert_id": f"{row.zaehler_id}-{row.monat:%Y-%m}",
                 "rank": int(row.rank),
@@ -301,24 +229,105 @@ def build_payload() -> dict:
                 "vertragsleistung_kw": _round(row.vertragsleistung_kw, 2),
                 "actual_kwh": _round(row.verbrauch_kwh, 2),
                 "forecast_kwh": _round(row.prognose_kwh, 2),
-                "baseline_3m_kwh": _optional_round(row.rolling_3_kwh, 2),
+                "actual_vls": _round(row.vollaststunden, 4),
+                "forecast_vls": _round(row.prognose_vls, 4),
+                "residual_vls": _round(row.residuum_vls, 4),
+                "abs_residual_vls": _round(row.abs_residuum_vls, 4),
                 "residual_kwh": _round(row.abweichung_kwh, 2),
                 "impact_abs_kwh": _round(row.impact_abs_kwh, 2),
                 "deviation_pct": _round(row.abweichung_prozent, 2),
-                "score": _round(row.anomalie_score, 4),
+                "score": _round(row.abs_residuum_vls / default_threshold, 4),
                 "direction": row.richtung,
                 "direction_code": row.richtung_code,
                 "wartung_aktiv": bool(row.wartung_aktiv),
                 "produktionsplan_index": _optional_round(row.produktionsplan_index, 3),
                 "arbeitstage": int(row.arbeitstage),
                 "feiertage": int(row.feiertage_im_monat),
-                "dq_capacity": bool(row.dq_vertragsleistung),
-                "repeat_alert": int(alert_counts_by_meter[row.zaehler_id]) > 1,
-                "meter_alert_count": int(alert_counts_by_meter[row.zaehler_id]),
+                "dq_capacity": bool(row.unmoeglich),
+                "eda_reference": bool(row.anomalie),
             }
         )
+    return rows
 
-    affected_meters = sorted(alerts["zaehler_id"].unique())
+
+def _enrich_alerts(rows: list[dict], threshold: float) -> list[dict]:
+    selected = [row.copy() for row in rows if row["abs_residual_vls"] >= threshold]
+    counts: dict[str, int] = {}
+    for row in selected:
+        counts[row["zaehler_id"]] = counts.get(row["zaehler_id"], 0) + 1
+    for rank, row in enumerate(selected, start=1):
+        row["rank"] = rank
+        row["score"] = _round(row["abs_residual_vls"] / threshold, 4)
+        row["repeat_alert"] = counts[row["zaehler_id"]] > 1
+        row["meter_alert_count"] = counts[row["zaehler_id"]]
+    return selected
+
+
+def _series_for_meter(
+    meter_id: str,
+    frame: pd.DataFrame,
+    calibration: pd.DataFrame,
+    benchmark: pd.DataFrame,
+    default_threshold: float,
+) -> list[dict]:
+    base = frame[frame["zaehler_id"].eq(meter_id)].copy()
+    base["prognose_kwh"] = np.nan
+    base["prognose_vls"] = np.nan
+    base["residuum_vls"] = np.nan
+    base["phase"] = "Historie"
+
+    for scored, phase in ((calibration, "Kalibrierung"), (benchmark, "Benchmark")):
+        subset = scored[scored["zaehler_id"].eq(meter_id)]
+        for row in subset.itertuples():
+            mask = base["monat"].eq(row.monat)
+            base.loc[mask, "prognose_kwh"] = row.prognose_kwh
+            base.loc[mask, "prognose_vls"] = row.prognose_vls
+            base.loc[mask, "residuum_vls"] = row.residuum_vls
+            base.loc[mask, "phase"] = phase
+
+    return [
+        {
+            "month_key": row.monat.strftime("%Y-%m"),
+            "month_label": row.monat.strftime("%m/%Y"),
+            "actual_kwh": _round(row.verbrauch_kwh, 2),
+            "forecast_kwh": _optional_round(row.prognose_kwh, 2),
+            "actual_vls": _round(row.vollaststunden, 4),
+            "forecast_vls": _optional_round(row.prognose_vls, 4),
+            "residual_vls": _optional_round(row.residuum_vls, 4),
+            "score": (
+                None
+                if pd.isna(row.residuum_vls)
+                else _round(abs(row.residuum_vls) / default_threshold, 4)
+            ),
+            "is_alert": (
+                False
+                if pd.isna(row.residuum_vls)
+                else bool(abs(row.residuum_vls) >= default_threshold)
+            ),
+            "phase": row.phase,
+        }
+        for row in base.sort_values("monat").itertuples()
+    ]
+
+
+def build_payload() -> dict:
+    frame, calibration, benchmark = _model_results()
+    threshold_options = _threshold_options(calibration, benchmark)
+    default_option = next(
+        option for option in threshold_options if option["quantile"] == DEFAULT_QUANTILE
+    )
+    default_threshold = float(default_option["threshold_vls"])
+    observations = _observation_rows(benchmark, default_threshold)
+    alerts = _enrich_alerts(observations, default_threshold)
+
+    lowest_threshold = threshold_options[0]["threshold_vls"]
+    affected_meters = sorted(
+        {
+            row["zaehler_id"]
+            for row in observations
+            if row["abs_residual_vls"] >= lowest_threshold
+        }
+    )
     meters = {}
     for meter_id in affected_meters:
         first = frame[frame["zaehler_id"].eq(meter_id)].iloc[0]
@@ -328,63 +337,64 @@ def build_payload() -> dict:
             "kundentyp": first["kundentyp"],
             "vertragsleistung_kw": _round(first["vertragsleistung_kw"], 2),
             "series": _series_for_meter(
-                meter_id,
-                frame,
-                calibration,
-                benchmark,
-                threshold,
+                meter_id, frame, calibration, benchmark, default_threshold
             ),
         }
 
     monthly = []
     for month in sorted(benchmark["monat"].unique()):
-        month_rows = alerts[alerts["monat"].eq(month)]
+        month_key = pd.Timestamp(month).strftime("%Y-%m")
+        month_rows = [row for row in alerts if row["month_key"] == month_key]
         monthly.append(
             {
-                "month_key": pd.Timestamp(month).strftime("%Y-%m"),
+                "month_key": month_key,
                 "month_label": pd.Timestamp(month).strftime("%m/%Y"),
-                "alerts": int(len(month_rows)),
-                "high": int(month_rows["richtung_code"].eq("hoch").sum()),
-                "low": int(month_rows["richtung_code"].eq("niedrig").sum()),
-                "dq_overlap": int(month_rows["dq_vertragsleistung"].sum()),
+                "alerts": len(month_rows),
+                "high": sum(row["direction_code"] == "hoch" for row in month_rows),
+                "low": sum(row["direction_code"] == "niedrig" for row in month_rows),
+                "dq_overlap": sum(row["dq_capacity"] for row in month_rows),
             }
         )
 
     segments = []
     for segment, group in benchmark.groupby("kundentyp", observed=True):
-        segment_alerts = alerts[alerts["kundentyp"].eq(segment)]
+        segment_alerts = [row for row in alerts if row["kundentyp"] == segment]
         segments.append(
             {
                 "kundentyp": segment,
                 "observations": int(len(group)),
-                "alerts": int(len(segment_alerts)),
+                "alerts": len(segment_alerts),
                 "rate_pct": _round(len(segment_alerts) / len(group) * 100, 4),
             }
         )
 
-    total_alerts = int(len(alerts))
-    dq_total = int(benchmark["dq_vertragsleistung"].sum())
-    dq_overlap = int(alerts["dq_vertragsleistung"].sum())
-    high_count = int(alerts["richtung_code"].eq("hoch").sum())
-    low_count = int(alerts["richtung_code"].eq("niedrig").sum())
-    benchmark_wape = _wape(benchmark["verbrauch_kwh"], benchmark["prognose_kwh"])
-    baseline_wape = _wape(benchmark["verbrauch_kwh"], benchmark["rolling_3_kwh"])
+    benchmark_rmse = _rmse(benchmark["verbrauch_kwh"], benchmark["prognose_kwh"])
+    benchmark_mae = float(
+        mean_absolute_error(benchmark["verbrauch_kwh"], benchmark["prognose_kwh"])
+    )
+    benchmark_r2 = float(r2_score(benchmark["verbrauch_kwh"], benchmark["prognose_kwh"]))
+    dq_total = int(benchmark["unmoeglich"].sum())
+    dq_overlap = sum(row["dq_capacity"] for row in alerts)
 
     payload = {
         "meta": {
             "title": "Anomalieprüfung 2025",
-            "source": "data/raw/260916_verbrauch_bereinigt.csv",
+            "source": "data/processed/modellierung_basis_bis_3_monate.csv",
             "source_sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+            "display_mapping_source": "data/raw/260916_verbrauch_bereinigt.csv",
+            "display_mapping_sha256": hashlib.sha256(CUSTOMER_SOURCE.read_bytes()).hexdigest(),
             "data_period": "01/2024–12/2025",
             "benchmark_period": "01/2025–12/2025",
             "calibration_period": "11/2024–12/2024",
             "as_of": "31.12.2025",
             "model": "Random-Forest-Regressor auf Vollaststunden",
-            "model_version": "RF-VLS 1.0",
-            "benchmark_wape_pct": _round(benchmark_wape, 4),
-            "baseline_wape_pct": _round(baseline_wape, 4),
-            "threshold_quantile": ANOMALY_QUANTILE,
-            "threshold_score": _round(threshold, 4),
+            "model_version": "RF-VLS 2.0",
+            "benchmark_rmse_kwh": _round(benchmark_rmse, 4),
+            "benchmark_mae_kwh": _round(benchmark_mae, 4),
+            "benchmark_r2": _round(benchmark_r2, 6),
+            "threshold_quantile": DEFAULT_QUANTILE,
+            "threshold_vls": default_threshold,
+            "threshold_score": default_threshold,
             "calibration_observations": int(len(calibration)),
             "labels_available": False,
             "retrospective": True,
@@ -396,18 +406,20 @@ def build_payload() -> dict:
         "summary": {
             "observations": int(len(benchmark)),
             "meters_total": int(benchmark["zaehler_id"].nunique()),
-            "alerts_total": total_alerts,
-            "meters_affected": int(alerts["zaehler_id"].nunique()),
-            "alerts_per_month": _round(total_alerts / benchmark["monat"].nunique(), 4),
-            "alert_rate_pct": _round(total_alerts / len(benchmark) * 100, 4),
-            "high": high_count,
-            "low": low_count,
+            "alerts_total": len(alerts),
+            "meters_affected": len({row["zaehler_id"] for row in alerts}),
+            "alerts_per_month": _round(len(alerts) / 12, 4),
+            "alert_rate_pct": _round(len(alerts) / len(benchmark) * 100, 4),
+            "high": sum(row["direction_code"] == "hoch" for row in alerts),
+            "low": sum(row["direction_code"] == "niedrig" for row in alerts),
             "dq_flags_total": dq_total,
             "dq_overlap": dq_overlap,
         },
+        "threshold_options": threshold_options,
         "monthly": monthly,
         "segments": segments,
-        "alerts": alert_rows,
+        "observations": observations,
+        "alerts": alerts,
         "meters": meters,
         "review_options": {
             "workflow": [
@@ -442,15 +454,26 @@ def build_payload() -> dict:
             ],
         },
     }
-    if total_alerts != 105 or len(affected_meters) != 100:
-        raise AssertionError("Die freigegebene Story erwartet 105 Hinweise bei 100 Zählern.")
-    if high_count != 20 or low_count != 85:
-        raise AssertionError("Die Richtungsverteilung hat sich unerwartet geändert.")
+    if default_option["alerts"] != len(alerts):
+        raise AssertionError("Standardszenario und exportierte Alertliste widersprechen sich.")
+    if not all(
+        option["alerts"] == sum(
+            row["abs_residual_vls"] >= option["threshold_vls"]
+            for row in observations
+        )
+        for option in threshold_options
+    ):
+        raise AssertionError("Die Szenariozahlen sind nicht aus den Beobachtungen reproduzierbar.")
     return payload
 
 
 def render(payload: dict) -> str:
-    serialized = json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False)
+    serialized = json.dumps(
+        payload,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        allow_nan=False,
+    )
     return (
         "/* Generated by scripts/build_anomaly_dashboard_data.py. Do not edit. */\n"
         f"window.SWWAnomalyData = {serialized};\n"

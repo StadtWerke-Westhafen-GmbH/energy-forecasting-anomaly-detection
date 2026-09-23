@@ -70,7 +70,7 @@ function DatenqualitaetScreen() {
           </div>
           <div style={{ flex: 1.2, display: "flex", flexDirection: "column", gap: 8, justifyContent: "center" }}>
             <Tag icon="info">Vorjahresmerkmal erst ab 2025 verfügbar</Tag>
-            <Tag icon="info">Anomalie-Definition: |Abweichung| &gt; 95. Perzentil</Tag>
+              <Tag icon="info">Anomalie-Definition: gewähltes VLS-Perzentil im Anomalie-Cockpit</Tag>
             <Tag icon="info">Retraining quartalsweise, Drift-Monitoring auf Temperatur</Tag>
           </div>
         </div>

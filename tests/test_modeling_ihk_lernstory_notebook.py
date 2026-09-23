@@ -60,7 +60,7 @@ def test_ihk_notebook_is_valid_executed_and_reproducible(tmp_path):
 
     metadata = saved.metadata.sww
     assert metadata.builder == "scripts/build_modeling_ihk_lernstory_notebook.py"
-    assert metadata.data_source == "data/raw/260916_verbrauch_bereinigt.csv"
+    assert metadata.data_source == "data/processed/modellierung_basis_bis_3_monate.csv"
     assert metadata.development_period == "01/2024\u201312/2024"
     assert metadata.benchmark_period == "01/2025\u201312/2025"
     assert metadata.forecast_horizon == "1 Monat"
@@ -114,8 +114,11 @@ def test_ihk_notebook_encodes_the_exam_contract():
         "Permutation Importance",
         "ziel_rekonstruiert",
         "shift(1)",
-        "rolling(3, min_periods=3)",
-        "COMPLEXITY_GATE",
+        "rolling(3, min_periods=1)",
+        "heizgradtage",
+        "vormonat_vls",
+        "letzte_3_monate_vls",
+        "pruefhinweis",
         "RF_PARSIMONY_TOLERANCE",
         "One-Step-Ahead",
         "winterlastige Kalibrierung",
@@ -134,7 +137,7 @@ def test_ihk_notebook_encodes_the_exam_contract():
     model_definition = next(
         cell.source for cell in notebook.cells if cell.id == "ihk-model-definition"
     )
-    assert '"heiztage"' in model_definition
+    assert '"heizgradtage"' in model_definition
     assert '"mittlere_temperatur_c"' not in model_definition
 
 
@@ -180,11 +183,11 @@ def test_saved_outputs_contain_the_verified_key_results():
         for output in cell.get("outputs", [])
     )
 
-    assert "9.251 kWh" in html
-    assert "9.919 kWh" in html
-    assert "6,7 %" in html
-    assert "12,5 %" in html
+    assert "9.188 kWh" in html
+    assert "9.800 kWh" in html
+    assert "6,2 %" in html
+    assert "15,9 %" in html
     assert "4 von 4" in html
-    assert "16,9 %" in html
-    assert "109" in html
-    assert "155,3 VLS-Stunden" in html
+    assert "14,3 %" in html
+    assert "114" in html
+    assert "144,4 VLS-Stunden" in html

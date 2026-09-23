@@ -38,7 +38,7 @@ function ReviewDialog({ alert, current, onClose, onSave }) {
   return (
     <Dialog open={Boolean(alert)} onClose={onClose} size="lg"
       title="Bewertung dokumentieren"
-      subtitle={alert ? `${alert.zaehler_id} · ${alert.month_label} · Score ${alert.score.toLocaleString("de-DE", { maximumFractionDigits: 2 })}` : ""}
+      subtitle={alert ? `${alert.zaehler_id} · ${alert.month_label} · Faktor ${alert.score.toLocaleString("de-DE", { maximumFractionDigits: 2 })}` : ""}
       footer={<>
         <Button variant="secondary" onClick={onClose}>Abbrechen</Button>
         <Button variant="primary" icon="save" onClick={save}>Lokal speichern</Button>
@@ -76,6 +76,12 @@ function App() {
   const initialScreen = Object.hasOwn(TITLES, requestedScreen) ? requestedScreen : "uebersicht";
   const [screen, setScreen] = React.useState(initialScreen);
   const [monat, setMonat] = React.useState("03/2025");
+  const defaultThresholdIndex = Math.max(
+    0,
+    D.threshold_options.findIndex((item) => item.quantile === D.meta.threshold_quantile),
+  );
+  const [thresholdIndex, setThresholdIndex] = React.useState(defaultThresholdIndex);
+  const thresholdOption = D.threshold_options[thresholdIndex];
   const [alertId, setAlertId] = React.useState(D.alerts[0].alert_id);
   const [reviewAlert, setReviewAlert] = React.useState(null);
   const [decisions, setDecisions] = React.useState(loadDecisions);
@@ -86,7 +92,9 @@ function App() {
 
   const openCase = (value) => {
     const id = typeof value === "string" ? value : value?.alert_id;
-    const match = D.alerts.find((item) => item.alert_id === id || item.zaehler_id === id) || D.alerts[0];
+    const match = D.observations.find((item) => (
+      (item.alert_id === id || item.zaehler_id === id) && D.meters[item.zaehler_id]
+    )) || D.alerts[0];
     setAlertId(match.alert_id);
     setScreen("zaehler");
   };
@@ -104,10 +112,13 @@ function App() {
   };
 
   return (
-    <Shell screen={screen} onNavigate={navigate} title={TITLES[screen]} monat={monat} onMonthChange={setMonat}>
+    <Shell screen={screen} onNavigate={navigate} title={TITLES[screen]} monat={monat} onMonthChange={setMonat}
+      anomalyCount={thresholdOption.alerts}>
       {screen === "uebersicht" ? <UebersichtScreen monat={monat} onOpenZaehler={openCase} /> : null}
-      {screen === "anomalien" ? <AnomalienScreen decisions={decisions} onOpenCase={openCase} /> : null}
+      {screen === "anomalien" ? <AnomalienScreen decisions={decisions} onOpenCase={openCase}
+        thresholdIndex={thresholdIndex} onThresholdChange={setThresholdIndex} /> : null}
       {screen === "zaehler" ? <ZaehlerDetailScreen alertId={alertId} decisions={decisions}
+        thresholdOption={thresholdOption}
         onBack={() => setScreen("anomalien")} onReview={setReviewAlert} /> : null}
       {screen === "beschaffung" ? <BeschaffungScreen monat={monat} /> : null}
       {screen === "qualitaet" ? <DatenqualitaetScreen /> : null}
