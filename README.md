@@ -15,6 +15,7 @@ Die SWW-Farben, Typografie und Datenrollen verbinden Dashboard, Notebooks, Folie
 - [Analyse-Notebook](notebooks/00_design_system.ipynb)
 - [Modeling-Notebook](notebooks/10_modeling.ipynb)
 - [Prüfungsstory-Notebook](notebooks/11_modeling_pruefungsstory.ipynb)
+- [IHK-Lernstory-Notebook](notebooks/12_modeling_ihk_lernstory.ipynb)
 - [Optimierungs-Notebook](notebooks/20_modeling_optimierung.ipynb)
 - [Anomalie-Cockpit](brand/design-system/ui_kits/energie-cockpit/index.html?screen=anomalien)
 
@@ -74,6 +75,8 @@ python scripts/build_modeling_notebook.py
 python scripts/check_modeling_notebook.py --update
 python scripts/build_modeling_story_notebook.py
 python scripts/check_modeling_story_notebook.py --update
+python scripts/build_modeling_ihk_lernstory_notebook.py
+python scripts/check_modeling_ihk_lernstory_notebook.py --update
 python scripts/build_optimized_modeling_notebook.py
 python scripts/check_optimized_modeling_notebook.py --update
 python scripts/build_anomaly_dashboard_data.py
@@ -84,7 +87,9 @@ Gesamtausführung zurück. Ohne `--update` bleiben die gespeicherten Notebooks u
 Optimierungs-Notebook behandelt 2025 ausdrücklich als bereits bekannten retrospektiven Benchmark
 und dokumentiert den Plan-Snapshot als offene Voraussetzung. Das Prüfungsstory-Notebook verdichtet
 die technische Analyse zu einer präsentierbaren Argumentation mit Sprechtexten, Prüferfragen und
-einem menschlich kontrollierten Prozess für Anomaliehinweise.
+einem menschlich kontrollierten Prozess für Anomaliehinweise. Das IHK-Lernstory-Notebook ist die
+überarbeitete, Learning-Journey-nahe Hauptfassung: RMSE/MAE/R², zwei Baselines, eine bewusst kleine
+Hyperparametersuche, gruppierte Permutation Importance und eine getrennt kalibrierte Alertschwelle.
 
 ```python
 from energy_analytics.visualization import eda, theme
