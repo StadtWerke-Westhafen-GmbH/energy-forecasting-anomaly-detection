@@ -1110,7 +1110,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 ],
                 error_x=dict(type="data", array=ordered["Fold-Streuung (kWh)"], visible=True),
                 text=[f"{de(value, 0)} kWh" for value in ordered["CV-RMSE (kWh)"]],
-                textposition="inside", insidetextanchor="end",
+                textposition="inside", insidetextanchor="start",
                 textfont=dict(color=theme.TOKENS["text-inverse"]),
             ))
             detail_order = ordered["Kandidat"].tolist()
