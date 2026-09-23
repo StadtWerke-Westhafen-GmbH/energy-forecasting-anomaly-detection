@@ -66,7 +66,7 @@ Log-Transformation.
 | `produktionsplan_index` | Gleitkomma | stärkster Betriebs-Treiber (Spearman 0,33 normiert) |
 | `wartung_aktiv` | Wahrheitswert | 5,8 % der Monate |
 | `vormonat_vls` | Gleitkomma | Lag 1, **normiert** |
-| `letzte_3_monate_vls` | Gleitkomma | Mittel der Lags 1–3, **normiert** |
+| `letzte_3_monate_vls` | Gleitkomma | Mittel der Lags 1–3, **normiert** — nur bei drei vorhandenen Vormonaten, sonst leer (E7) |
 
 Die Lag-Spalten sind bewusst normiert (`/ vertragsleistung_kw`). Roh übergeben würden sie
 die Anschlussgröße durch die Hintertür wieder ins Modell tragen — genau das, was die
@@ -96,6 +96,7 @@ darunter.
 | `vorjahr_vls` | **Kein Merkmal.** Vergleichsmaßstab „Verbrauch wie im Vorjahresmonat". In 2024 vollständig leer, in 2025 vollständig gefüllt |
 | `anomalie` | 1.400 Zeilen über dem p95 des eigenen Zählers — **Referenzmenge, keine Ground Truth** |
 | `unmoeglich` | 20 Zeilen, negativ oder über 100 % Auslastung — belegte Messfehler |
+| `ziel_rekonstruiert` | 3 Zeilen, deren Zielwert aus der Folgezeile rekonstruiert ist (Sentinel 0 / −50 / −1000) — für eine Sensitivitätsprüfung ausschließbar |
 
 ---
 
@@ -103,13 +104,17 @@ darunter.
 
 1. **Drei Sentinel-Werte rekonstruiert.** Die Platzhalter 0 / −50 / −1000 standen im Export
    als Fehlwert; der echte Messwert stand in `vormonat_verbrauch_kwh` der Folgezeile.
-   Befund an das Cleaning, in der Quelldatei nicht verändert.
-2. **Lag-Bereinigung.** Jeder Monatswert steht im Panel zweimal — als Zielwert seiner
-   eigenen Zeile und als Lag der folgenden (in 16.091 von 16.100 prüfbaren Fällen exakt
-   weitergetragen). Die 20 unmöglichen Werte tauchten deshalb in **19** Folgezeilen als
-   `vormonat_vls` und in **57** als `letzte_3_monate_vls` wieder auf. Diese Einträge stehen
-   jetzt auf `NaN`: Ein Wert, den das Training als Messfehler ausschließt, darf nicht über
-   die Lag-Spalte zurückkommen.
+   Befund an das Cleaning, in der Quelldatei nicht verändert. Die drei Zeilen sind über
+   `ziel_rekonstruiert` einzeln kenntlich und lassen sich damit gezielt ausschließen.
+2. **Lag-Spalten neu gebildet, nicht durchgereicht.** Die Lag-Spalten der Eingangsdatei
+   waren nicht belastbar: `letzte_3_monate_durchschnitt_kwh` war im Januar 2024 bei 699 von
+   700 Zählern gefüllt, obwohl dort keine Historie existierte. `vormonat_vls`,
+   `letzte_3_monate_vls` und `vorjahr_vls` entstehen deshalb strikt je Zähler aus der
+   Zielgröße — `shift(1)`, Mittel der drei Vormonate und `shift(12)` —, wobei die 20
+   belegten Messfehler **nicht als Historie zählen**: Ein Wert, den das Training als
+   Messfehler ausschließt, darf nicht über die Lag-Spalte zurückkommen. Das
+   Drei-Monats-Mittel wird **nur bei drei tatsächlich vorhandenen Vormonaten** gefüllt,
+   sonst `NaN` (E7). Sieben `assert`-Zeilen sichern das bei jedem Lauf ab.
 3. **Leakage-Prüfung.** `faktor`, `median_vls`, `auslastung_prozent` und
    `stunden_im_monat` enthalten den Zielwert desselben Monats. Sie bleiben in der EDA und
    sind hier nicht enthalten; eine `assert`-Zeile im Notebook prüft das bei jedem Lauf.
@@ -203,8 +208,8 @@ Prüfung gern gefragt wird.
   | Spalte | Lücken Training | Lücken Test | Grund |
   |---|---:|---:|---|
   | `produktionsplan_index` | 356 | 316 | zufällig, über beide Jahre und alle Kundentypen |
-  | `vormonat_vls` | 709 | 10 | erster Monat je Zähler (strukturell) + Lag-Bereinigung |
-  | `letzte_3_monate_vls` | 25 | 33 | Lag-Bereinigung |
+  | `vormonat_vls` | 709 | 10 | erster Monat je Zähler (strukturell) + Messfehler zählt nicht als Historie |
+  | `letzte_3_monate_vls` | 2.115 | 33 | erste drei Monate je Zähler (strukturell, E7) + Messfehler im Fenster |
 
 - **Keine weiteren Ausreißer entfernen.** Nur die 20 unmöglichen fliegen aus dem Training.
   Nähme man alle 1.400 markierten heraus, verlöre das Training 39 % der 506 Monate mit
