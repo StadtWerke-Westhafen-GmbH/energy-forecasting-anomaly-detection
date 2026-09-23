@@ -143,13 +143,49 @@ def build_notebook(destination: Path) -> Path:
                 .sww-story-step strong {{display:block;color:{t["text-brand"]};font-size:14px;}}
                 .sww-story-step span {{display:block;color:{t["text-secondary"]};
                   font-size:12px;line-height:1.4;margin-top:5px;}}
-                .sww-canvas {{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-                  gap:10px;margin:16px 0;}}
+                .sww-canvas {{display:grid;gap:14px;margin:18px 0;}}
+                .sww-canvas-map {{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+                  gap:8px;background:{t["surface-card"]};border:1px solid {t["border-default"]};
+                  border-radius:{t["radius-lg"]};box-shadow:{t["shadow-card"]};padding:10px;}}
+                .sww-canvas-map-item {{display:flex;align-items:center;gap:8px;min-height:54px;
+                  background:{t["surface-sunken"]};border-radius:{t["radius-control"]};padding:9px 10px;}}
+                .sww-canvas-map-item span {{display:grid;place-items:center;flex:0 0 26px;height:26px;
+                  border-radius:999px;background:{t["surface-brand-strong"]};color:{t["text-inverse"]};
+                  font-family:{t["font-mono"]};font-size:11px;font-weight:600;}}
+                .sww-canvas-map-item strong {{display:block;color:{t["text-brand"]};font-size:11px;
+                  line-height:1.25;}}
+                .sww-canvas-map-item small {{display:block;color:{t["text-muted"]};font-size:9px;
+                  line-height:1.25;margin-top:2px;}}
+                .sww-canvas-stage {{background:{t["surface-sunken"]};border:1px solid {t["border-subtle"]};
+                  border-radius:{t["radius-lg"]};padding:16px;}}
+                .sww-canvas-stage-head {{display:grid;grid-template-columns:46px minmax(0,1fr);
+                  align-items:center;gap:12px;margin:0 0 12px;}}
+                .sww-canvas-stage-number {{display:grid;place-items:center;width:46px;height:46px;
+                  border-radius:{t["radius-control"]};background:{t["surface-brand-strong"]};
+                  color:{t["text-inverse"]};font-family:{t["font-mono"]};font-size:15px;font-weight:600;}}
+                .sww-canvas-stage-head h3 {{margin:0;color:{t["text-brand"]};font-size:17px;}}
+                .sww-canvas-stage-head p {{margin:3px 0 0;color:{t["text-secondary"]};
+                  font-size:11px;line-height:1.35;}}
+                .sww-canvas-pair {{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}}
                 .sww-canvas-card {{background:{t["surface-card"]};border:1px solid {t["border-default"]};
-                  border-radius:{t["radius-card"]};padding:14px 16px;}}
-                .sww-canvas-card b {{color:{t["text-brand"]};font-size:13px;}}
-                .sww-canvas-card p {{margin:5px 0 0;color:{t["text-secondary"]};
-                  font-size:12px;line-height:1.45;}}
+                  border-radius:{t["radius-card"]};box-shadow:{t["shadow-xs"]};padding:16px;}}
+                .sww-canvas-card-head {{display:flex;align-items:flex-start;gap:11px;}}
+                .sww-canvas-card-number {{display:grid;place-items:center;flex:0 0 34px;height:34px;
+                  border-radius:999px;background:{t["surface-brand-subtle"]};color:{t["text-brand"]};
+                  font-family:{t["font-mono"]};font-size:12px;font-weight:600;}}
+                .sww-canvas-kicker {{display:block;color:{t["text-accent"]};font-size:9px;font-weight:600;
+                  letter-spacing:.08em;line-height:1.2;text-transform:uppercase;}}
+                .sww-canvas-card h4 {{margin:3px 0 0;color:{t["text-brand"]};font-size:16px;line-height:1.25;}}
+                .sww-canvas-question {{margin:13px 0 5px;color:{t["text-primary"]};font-size:12px;
+                  font-weight:600;line-height:1.4;}}
+                .sww-canvas-answer {{margin:0;color:{t["text-secondary"]};font-size:12px;line-height:1.5;}}
+                .sww-canvas-chain {{background:{t["surface-brand-subtle"]};border:1px solid {t["border-brand"]};
+                  border-radius:{t["radius-card"]};padding:15px 17px;margin:14px 0;}}
+                .sww-canvas-chain .label {{display:block;color:{t["text-accent"]};font-size:9px;
+                  font-weight:600;letter-spacing:.08em;text-transform:uppercase;}}
+                .sww-canvas-chain strong {{display:block;color:{t["text-brand"]};font-family:{t["font-mono"]};
+                  font-size:15px;line-height:1.45;margin-top:4px;}}
+                .sww-canvas-chain p {{margin:5px 0 0;color:{t["text-secondary"]};font-size:12px;line-height:1.45;}}
                 .sww-kpis {{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
                   gap:12px;margin:16px 0;}}
                 .sww-kpi {{background:{t["surface-card"]};border:1px solid {t["border-default"]};
@@ -181,8 +217,10 @@ def build_notebook(destination: Path) -> Path:
                   background:{t["status-info-bg"]};color:{t["status-info"]};font-size:11px;
                   font-weight:600;margin:3px 4px 3px 0;}}
                 @media(max-width:760px){{
-                  .sww-story-grid,.sww-kpis,.sww-canvas {{grid-template-columns:1fr;}}
+                  .sww-story-grid,.sww-kpis {{grid-template-columns:1fr;}}
                   .sww-story-flow {{grid-template-columns:1fr 1fr;}}
+                  .sww-canvas-map {{grid-template-columns:repeat(2,minmax(0,1fr));}}
+                  .sww-canvas-pair {{grid-template-columns:1fr;}}
                 }}
                 </style>
                 '''
@@ -211,13 +249,40 @@ def build_notebook(destination: Path) -> Path:
                 display(HTML(f'<div class="sww-story sww-kpis">{body}</div>'))
 
 
-            def canvas_cards(items):
-                body = "".join(
-                    f'<article class="sww-canvas-card"><b>{i}. {escape(title)}</b>'
-                    f'<p>{escape(text)}</p></article>'
-                    for i, title, text in items
+            def canvas_cards(sections):
+                map_body = "".join(
+                    '<div class="sww-canvas-map-item">'
+                    f'<span>{phase}</span><div><strong>{escape(title)}</strong>'
+                    f'<small>{escape(short)}</small></div></div>'
+                    for phase, title, short, _, _ in sections
                 )
-                display(HTML(f'<div class="sww-story sww-canvas">{body}</div>'))
+                stage_body = []
+                for phase, title, _, guiding_question, items in sections:
+                    card_body = "".join(
+                        '<article class="sww-canvas-card">'
+                        '<div class="sww-canvas-card-head">'
+                        f'<span class="sww-canvas-card-number">{number:02d}</span>'
+                        f'<div><span class="sww-canvas-kicker">{escape(english)}</span>'
+                        f'<h4>{escape(german)}</h4></div></div>'
+                        f'<p class="sww-canvas-question">{escape(question)}</p>'
+                        f'<p class="sww-canvas-answer">{escape(answer)}</p>'
+                        '</article>'
+                        for number, english, german, question, answer in items
+                    )
+                    stage_body.append(
+                        '<section class="sww-canvas-stage">'
+                        '<header class="sww-canvas-stage-head">'
+                        f'<span class="sww-canvas-stage-number">{phase}</span>'
+                        f'<div><h3>{escape(title)}</h3>'
+                        f'<p>{escape(guiding_question)}</p></div></header>'
+                        f'<div class="sww-canvas-pair">{card_body}</div></section>'
+                    )
+                display(HTML(
+                    '<div class="sww-story sww-canvas">'
+                    f'<div class="sww-canvas-map">{map_body}</div>'
+                    + "".join(stage_body)
+                    + '</div>'
+                ))
 
 
             def flow(items):
@@ -390,64 +455,132 @@ def build_notebook(destination: Path) -> Path:
         code(
             "ihk-canvas",
             """
-            canvas_items = [
+            canvas_sections = [
                 (
-                    1, "Value Proposition / Mehrwert",
-                    "Genauere Folgemonatsplanung und monatliche statt quartalsweise Prüfung "
-                    "ungewöhnlicher Zählerwerte.",
+                    "01", "Nutzen & Daten", "Warum und womit?",
+                    "Welches Problem lösen wir – und auf welcher Datengrundlage?",
+                    [
+                        (
+                            1, "Value Proposition", "Mehrwert",
+                            "Welches Problem lösen wir?",
+                            "Die Beschaffung erhält vor Monatsbeginn eine belastbarere "
+                            "Verbrauchsprognose. Das Netzmanagement prüft Auffälligkeiten "
+                            "monatlich statt erst zum Quartalsende.",
+                        ),
+                        (
+                            2, "Data Sources", "Datenquellen",
+                            "Welche Rohquellen werden verbunden?",
+                            "Monatliche Stromverbrauchsdaten je Zähler sowie "
+                            "Vertragsleistung und Kundentyp; ergänzt durch Kalender, Wetterprognose, "
+                            "Produktionsplan und geplante Wartung.",
+                        ),
+                    ],
                 ),
                 (
-                    2, "Data Sources / Datenquellen",
-                    "Smart-Meter-Verbrauch, Verträge, Kundentyp, Kalender, Wetterprognose, "
-                    "Produktionsplan und geplante Wartung.",
+                    "02", "Ziel & Signale", "Was soll herauskommen?",
+                    "Was prognostiziert das System – und was darf es dafür wissen?",
+                    [
+                        (
+                            3, "Prediction", "Vorhersage",
+                            "Was gibt das Modell konkret aus?",
+                            "Für jeden Zähler schätzt das Modell die Vollaststunden des "
+                            "Folgemonats und rechnet sie für die Nutzung in kWh zurück. "
+                            "Nach Monatsende wird die Abweichung zur Basis des Prüfhinweises.",
+                        ),
+                        (
+                            4, "Features", "Merkmale",
+                            "Welche Informationen darf das Modell kennen?",
+                            "Vormonat und Drei-Monats-Mittel, Saison, Arbeits- und Feiertage, "
+                            "Heizgradtage, Produktionsplan, Wartung und Kundentyp. Verwendet "
+                            "werden nur vor Monatsbeginn bekannte Angaben.",
+                        ),
+                    ],
                 ),
                 (
-                    3, "Prediction / Vorhersage",
-                    "Regression der Vollaststunden pro Zähler und Monat; Rückrechnung in kWh. "
-                    "Große Residuen werden Prüfhinweise.",
+                    "03", "Modell & Nachweis", "Wie und wie gut?",
+                    "Wie lernt das Modell – und wann gilt es als besser?",
+                    [
+                        (
+                            5, "Learning Approach", "Lernansatz",
+                            "Welche Modelle vergleichen wir?",
+                            "Die lineare Regression ist die erklärbare Referenz. Ein Random "
+                            "Forest prüft, ob nichtlineare Zusammenhänge messbar helfen. "
+                            "Die Auswahl erfolgt ausschließlich mit Daten aus 2024.",
+                        ),
+                        (
+                            6, "Evaluation", "Überprüfung",
+                            "Woran erkennen wir eine bessere Lösung?",
+                            "RMSE in kWh ist die Hauptmetrik, weil große Mengenfehler stärker "
+                            "zählen. MAE und R² ergänzen; Vormonat und Drei-Monats-Mittel "
+                            "bilden die Baselines. 2025 bleibt der spätere Test.",
+                        ),
+                    ],
                 ),
                 (
-                    4, "Features / Merkmale",
-                    "Historie, Saisonalität, Kalender, Wetter, Produktionsplan, Wartung und "
-                    "Kundentyp – nur zum Prognosezeitpunkt verfügbare Informationen.",
+                    "04", "Handlung & Wirkung", "Was folgt daraus?",
+                    "Wer nutzt das Ergebnis – und wie messen wir den Pilotnutzen?",
+                    [
+                        (
+                            7, "Decision", "Entscheidung",
+                            "Was geschieht mit dem Ergebnis?",
+                            "Vor Monatsbeginn nutzt die Beschaffung die kWh-Prognose. Nach "
+                            "Monatsende erzeugt eine große Abweichung einen priorisierten "
+                            "Prüfhinweis; die Fachkraft prüft Ursache und Maßnahme.",
+                        ),
+                        (
+                            8, "Impact", "Wirkung",
+                            "Woran messen wir den Pilotnutzen?",
+                            "Gemessen werden Prognosefehler, monatliches Hinweisvolumen, "
+                            "Prüfzeit und Bestätigungsquote. Ein Euro-Effekt wird erst mit "
+                            "Preis-, Maßnahmen- und Störungsdaten belastbar.",
+                        ),
+                    ],
                 ),
                 (
-                    5, "Learning Approach / Lernansatz",
-                    "Überwachte Regression: lineares Modell als verständliche Referenz, "
-                    "Random Forest als nichtlinearer Vergleich.",
-                ),
-                (
-                    6, "Evaluation / Überprüfung",
-                    "RMSE in kWh als Hauptmetrik; MAE und R² ergänzend; Vergleich mit "
-                    "Vormonat und Drei-Monats-Mittel.",
-                ),
-                (
-                    7, "Decision / Entscheidung",
-                    "Prognose unterstützt die Beschaffung. Ein Alert führt zu Daten-, "
-                    "Kontext- und Fachprüfung – nicht automatisch zu einer Maßnahme.",
-                ),
-                (
-                    8, "Impact / Auswirkung",
-                    "Pilot-KPIs: Prognosefehler, monatliches Alertvolumen, Prüfzeit und "
-                    "spätere Bestätigungsquote. Keine erfundenen Euro-Einsparungen.",
-                ),
-                (
-                    9, "Prediction Timing / Zeitpunkt",
-                    "Folgemonatsprognose vor Monatsbeginn; Anomalieprüfung erst nach "
-                    "Eintreffen des realisierten Monatswerts.",
-                ),
-                (
-                    10, "Monitoring & Maintenance / Wartung",
-                    "Monatliche Fehler- und Alertkontrolle, Driftprüfung und Retraining "
-                    "erst nach dokumentierter Verschlechterung.",
+                    "05", "Zeitpunkt & Betrieb", "Wann und wie weiter?",
+                    "Wann entsteht welches Ergebnis – und wie bleibt es zuverlässig?",
+                    [
+                        (
+                            9, "Prediction Timing", "Vorhersagezeitpunkt",
+                            "Wann stehen Prognose und Hinweis bereit?",
+                            "Die Prognose entsteht vor Beginn des Zielmonats. Die "
+                            "Anomalieprüfung folgt erst nach Eingang des Istwerts. Mit "
+                            "Monatsdaten ist das bewusst kein Echtzeitsystem.",
+                        ),
+                        (
+                            10, "Monitoring & Maintenance", "Betrieb & Wartung",
+                            "Wie bleibt die Lösung zuverlässig?",
+                            "Monatlich werden Prognosefehler, Datenqualität, Hinweisvolumen "
+                            "und bestätigte Fälle geprüft. Bei anhaltender Verschlechterung "
+                            "werden Modell und Schwelle neu kalibriert – nicht nach Kalender.",
+                        ),
+                    ],
                 ),
             ]
-            canvas_cards(canvas_items)
-            plot_decision(
-                "Der Canvas verhindert, dass Modell, Metrik und Geschäftsentscheidung auseinanderlaufen.",
-                "Regression, RMSE und der monatliche Arbeitsprozess bilden eine konsistente Kette.",
-                "Alle folgenden Modellschritte müssen diesen zehn Feldern entsprechen.",
-                "Ein finanzieller Effekt ist ohne Preis- und Incidentdaten noch nicht belegbar.",
+            canvas_cards(canvas_sections)
+            display(HTML(
+                '<div class="sww-story sww-canvas-chain">'
+                '<span class="label">Kohärenzcheck</span>'
+                '<strong>Daten → Vollaststunden → Regression → kWh-Rückrechnung → '
+                'Residuum → menschliche Prüfung</strong>'
+                '<p>Der Canvas ist kein Modellergebnis, sondern der fachliche Vertrag: '
+                'Jeder spätere Modellschritt muss in diese Entscheidungskette passen.</p>'
+                '</div>'
+            ))
+            details(
+                "Was bedeuten die fünf Gruppen?",
+                [
+                    "Nutzen & Daten klärt zuerst, für wen die Lösung welchen Mehrwert "
+                    "schaffen soll und welche Rohquellen dafür vorliegen.",
+                    "Ziel & Signale trennt die eigentliche Prognose von den Merkmalen, "
+                    "die zum Prognosezeitpunkt verwendet werden dürfen.",
+                    "Modell & Nachweis legt Kandidaten, Baselines und messbare "
+                    "Bewertungskriterien fest.",
+                    "Handlung & Wirkung beschreibt den menschlichen Entscheidungsprozess "
+                    "und die KPIs eines späteren Piloten.",
+                    "Zeitpunkt & Betrieb verhindert die Echtzeit-Verwechslung und legt "
+                    "Monitoring sowie eine begründete Neukalibrierung fest.",
+                ],
             )
             details(
                 "So kannst du den Canvas in drei Sätzen erklären",

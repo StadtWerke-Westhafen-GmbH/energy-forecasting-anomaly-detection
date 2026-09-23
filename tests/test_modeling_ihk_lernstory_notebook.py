@@ -147,6 +147,25 @@ def test_all_ihk_charts_use_the_shared_ci_renderer():
     )
 
 
+def test_canvas_uses_the_five_group_learning_journey_layout():
+    notebook = nbformat.read(NOTEBOOK, as_version=4)
+    setup = next(cell.source for cell in notebook.cells if cell.id == "ihk-setup")
+    canvas = next(cell.source for cell in notebook.cells if cell.id == "ihk-canvas")
+
+    groups = {
+        "Nutzen & Daten",
+        "Ziel & Signale",
+        "Modell & Nachweis",
+        "Handlung & Wirkung",
+        "Zeitpunkt & Betrieb",
+    }
+    assert all(group in canvas for group in groups)
+    assert "sww-canvas-map" in setup
+    assert "sww-canvas-stage" in setup
+    assert "Kohärenzcheck" in canvas
+    assert "Value Proposition / Mehrwert" not in canvas
+
+
 def test_saved_outputs_contain_the_verified_key_results():
     notebook = nbformat.read(NOTEBOOK, as_version=4)
     html = "\n".join(
