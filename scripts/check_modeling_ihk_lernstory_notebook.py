@@ -36,10 +36,12 @@ EXPECTED_FIGURE_CELLS = {
     "ihk-time-split",
     "ihk-model-comparison",
     "ihk-benchmark",
+    "ihk-target-comparison",
     "ihk-feature-importance",
     "ihk-calibration",
     "ihk-threshold",
     "ihk-alerts",
+    "ihk-actual-vs-predicted",
     "ihk-case",
 }
 
