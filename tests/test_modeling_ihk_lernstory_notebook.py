@@ -129,6 +129,9 @@ def test_ihk_notebook_encodes_the_exam_contract():
         "LEARNING JOURNEY",
     }
     assert all(fragment in sources for fragment in required_fragments)
+    assert "ihk-dashboard-export" in {cell.id for cell in notebook.cells}
+    assert "energy_analytics.dashboard_export" in code_sources
+    assert "data/raw/260916_verbrauch_bereinigt.csv" in code_sources
     assert "train_test_split" not in code_sources
     assert "WAPE" not in sources
     assert "border-left" not in sources

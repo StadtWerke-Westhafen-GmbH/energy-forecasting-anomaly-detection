@@ -7,7 +7,6 @@ ersetzt die Platzhalter in den Modellierungs- und Ergebnisabschnitten.
 
 from __future__ import annotations
 
-from copy import deepcopy
 from pathlib import Path
 
 from docx import Document
@@ -491,7 +490,7 @@ def build_project_organization(doc: Document):
             "Schwellenkalibrierung und Datenschnittstelle zum Dashboard",
         ],
     ]
-    table = add_table_after(
+    add_table_after(
         doc,
         intro._p,
         ["Rolle", "Hauptverantwortung"],

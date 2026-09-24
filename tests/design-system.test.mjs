@@ -24,7 +24,7 @@ test('all shipped previews load offline; dashboard keyboard navigation works', {
   const pages=(await walk(path.join(base,'design-system'))).filter(f=>f.endsWith('.html'));
   for(const file of pages){
    const url=origin+'/'+path.relative(base,file).replaceAll('\\','/');
-   await page.goto(url);await page.waitForLoadState('networkidle');
+   await page.goto(url,{waitUntil:'load'});
    assert.equal(await page.locator('body').count(),1,url);
   }
   assert.deepEqual(external,[],'Unexpected external resource requests');
@@ -75,6 +75,23 @@ test('all shipped previews load offline; dashboard keyboard navigation works', {
   await page.screenshot({path:'.build/screenshots/anomaly-mobile.png',fullPage:true});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1));
   await page.setViewportSize({width:1440,height:1000});
+  const vc=origin+'/design-system/ui_kits/verbrauchs-cockpit/index.html';
+  await page.goto(vc);
+  await page.getByTestId('screen-prognose').waitFor();
+  await page.getByText('Beschaffungsmenge 12/2025',{exact:true}).waitFor();
+  await page.waitForFunction(()=>document.querySelectorAll('.js-plotly-plot').length===2);
+  await page.getByRole('tab',{name:/Jahresübersicht/}).click();
+  await page.waitForFunction(()=>document.querySelectorAll('.js-plotly-plot').length===2);
+  await page.goto(vc+'?screen=anomalien');
+  await page.locator('.sww-card__ttl',{hasText:'Prüfliste 12/2025'}).waitFor();
+  const decemberCases=page.getByRole('button',{name:/Prüffall .* öffnen/});
+  assert.ok(await decemberCases.count()>=2,'Expected at least two December review cases');
+  await decemberCases.first().click();
+  await page.getByTestId('screen-prueffall').waitFor();
+  await page.waitForFunction(()=>document.querySelectorAll('.js-plotly-plot').length===3);
+  await page.getByRole('button',{name:'Nächster Fall',exact:true}).click();
+  await page.getByText(/Fall 2 von \d+ · 12\/2025/).waitFor();
+  await page.screenshot({path:'.build/screenshots/verbrauchs-cockpit-prueffall.png',fullPage:true});
   await page.goto(origin+'/design-system/index.html');
   await page.screenshot({path:'.build/screenshots/portal.png',fullPage:true});
   assert.deepEqual(errors,[],'Browser JavaScript errors after dashboard interaction');

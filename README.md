@@ -17,6 +17,7 @@ Die SWW-Farben, Typografie und Datenrollen verbinden Dashboard, Notebooks, Folie
 - [Prüfungsstory-Notebook](notebooks/11_modeling_pruefungsstory.ipynb)
 - [IHK-Lernstory-Notebook](notebooks/12_modeling_ihk_lernstory.ipynb)
 - [Optimierungs-Notebook](notebooks/20_modeling_optimierung.ipynb)
+- [Verbrauchs-Cockpit](brand/design-system/ui_kits/verbrauchs-cockpit/index.html) — Dashboard als Actionplan (Monatsprognose, Prüfliste, Prüffall); Daten aus der Export-Zelle des offiziellen `notebooks/12_modeling_ihk_lernstory.ipynb` ([Datenvertrag](brand/design-system/ui_kits/verbrauchs-cockpit/README.md))
 - [Anomalie-Cockpit](brand/design-system/ui_kits/energie-cockpit/index.html?screen=anomalien)
 
 Die Webansichten funktionieren mit den mitgelieferten Assets ohne Internet. Für die lokale Vorschau
@@ -28,6 +29,10 @@ node scripts/preview.mjs
 
 Dann **http://127.0.0.1:4173** öffnen. Der Server ist nur lokal erreichbar und gibt ausschließlich
 Designsystem und Vorlagen frei. Rohdaten, Referenz-Uploads und Git-Dateien werden nicht ausgeliefert.
+
+Auf macOS startet ein Doppelklick auf **`Cockpit starten.command`** den Server und öffnet direkt das
+Verbrauchs-Cockpit im Browser. Läuft der Server schon, wird nur das Cockpit geöffnet. Schließen des
+Terminalfensters beendet den Server.
 
 ## Projektstruktur
 

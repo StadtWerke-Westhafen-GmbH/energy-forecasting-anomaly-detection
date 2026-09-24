@@ -1,0 +1,61 @@
+/* Layout helpers for the Verbrauchs-Cockpit; colours come from tokens only. */
+.vc-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4);margin-bottom:var(--space-4)}
+.vc-chart-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:var(--space-4);margin-bottom:var(--space-4)}
+.vc-toolbar__nav{display:flex;align-items:center;gap:var(--space-2);font:var(--text-label);color:var(--text-secondary);padding-bottom:2px}
+.vc-header-filters{margin-left:auto;display:flex;align-items:flex-end;flex-wrap:wrap;justify-content:flex-end;gap:var(--space-3)}
+.vc-header-filters .sww-field{min-width:170px}
+.vc-definition{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border-default);border:1px solid var(--border-default);border-radius:var(--radius-card);overflow:hidden;margin-bottom:var(--space-4);box-shadow:var(--shadow-card)}
+.vc-definition>div{background:var(--surface-card);padding:var(--space-4) var(--gutter-card);display:flex;flex-direction:column;gap:4px}
+.vc-definition__lbl{font:var(--text-overline);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-accent)}
+.vc-definition strong{font:var(--text-metric-sm);color:var(--text-brand);font-size:var(--fs-md)}
+.vc-definition span:last-child{font:var(--text-caption);color:var(--text-secondary)}
+.vc-chart-grid--even{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vc-card-controls{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+.vc-hints{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.vc-meter{display:flex;flex-direction:column;line-height:1.25}.vc-meter strong{font-family:var(--font-mono);font-weight:500}.vc-meter small{font:var(--text-caption);color:var(--text-muted);font-family:var(--font-mono)}
+.vc-steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:var(--space-2);font:var(--text-body);color:var(--text-primary)}
+.vc-facts{margin:0;display:grid;gap:var(--space-3)}.vc-facts>div{display:grid;grid-template-columns:minmax(150px,40%) 1fr;gap:var(--space-3);align-items:center;padding-bottom:var(--space-2);border-bottom:1px solid var(--border-subtle)}
+.vc-facts dt{font:var(--text-label);color:var(--text-muted)}.vc-facts dd{margin:0;font:var(--text-body);color:var(--text-primary)}
+@media(max-width:1250px){.vc-chart-grid,.vc-chart-grid--even{grid-template-columns:minmax(0,1fr)}.vc-definition{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1100px){.vc-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){.vc-kpi-grid,.vc-definition{grid-template-columns:minmax(0,1fr)}.vc-header-filters{margin-left:0;width:100%;justify-content:flex-start;padding-bottom:var(--space-3)}.vc-header-filters .sww-field{min-width:0;flex:1 1 100%}.vc-facts>div{grid-template-columns:1fr}}
+/* Larger logo; sidebar brand row and top bar share one height so their bottom rules align. */
+.sww-app{--topbar-height:96px}
+.sww-app .sww-sb__brand{height:var(--topbar-height);padding-top:0;padding-bottom:0}
+.sww-app .sww-sb__logo{padding:6px 9px}
+.sww-app .sww-sb__logo img{height:60px}
+.sww-app>div>header{box-sizing:border-box}
+.vc-branch-split{display:inline-flex;gap:var(--space-3);font:var(--text-label);font-family:var(--font-mono);color:var(--text-primary)}
+.vc-branch-split>span{display:inline-flex;align-items:center;gap:5px;cursor:default}
+.vc-branch-split i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.vc-branch-split>span.is-empty{color:var(--text-disabled)}.vc-branch-split>span.is-empty i{opacity:.35}
+.vc-help{position:relative;display:inline-flex}
+.vc-help__btn{display:inline-grid;place-items:center;width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:var(--text-muted);cursor:help}
+.vc-help__btn:hover,.vc-help__btn:focus-visible{background:var(--surface-hover);color:var(--text-brand)}
+.vc-help__pop{position:absolute;top:calc(100% + 8px);left:0;z-index:30;width:340px;padding:var(--space-3) var(--space-4);background:var(--surface-inverse);color:var(--text-inverse);border-radius:var(--radius-md);box-shadow:var(--shadow-overlay);font:var(--text-caption);line-height:1.5;opacity:0;visibility:hidden;transition:opacity var(--duration-fast,120ms)}
+.vc-help__pop strong{display:block;margin-bottom:4px;font-weight:600}
+.vc-help:hover .vc-help__pop,.vc-help:focus-within .vc-help__pop{opacity:1;visibility:visible}
+.vc-drag-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.vc-drag-item{min-width:0;border-radius:var(--radius-card);transition:opacity .12s}
+.vc-drag-item.is-wide{grid-column:1/-1}
+.vc-drag-item>.sww-card{height:100%;box-sizing:border-box}
+.vc-drag-item.is-dragging{opacity:.45}
+.vc-drag-item.is-over{outline:2px dashed var(--border-accent);outline-offset:3px}
+.vc-drag-handle{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-sm);color:var(--text-muted);cursor:grab}
+.vc-drag-handle:hover{background:var(--surface-hover);color:var(--text-brand)}
+.vc-drag-handle:active{cursor:grabbing}
+.vc-drag-reset{display:flex;justify-content:flex-end;margin-top:var(--space-3)}
+.vc-ticket{display:flex;flex-direction:column;gap:var(--space-3)}
+.vc-ticket__row{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--space-3)}
+.vc-ticket__actions{display:flex;gap:var(--space-2);flex-wrap:wrap}
+.vc-textarea{display:flex;flex-direction:column;gap:6px}
+.vc-textarea textarea{font:var(--text-body);color:var(--text-primary);background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-control);padding:var(--space-2) var(--space-3);resize:vertical}
+.vc-textarea textarea:focus{outline:none;box-shadow:var(--focus-ring);border-color:var(--border-accent)}
+@media(max-width:1250px){.vc-drag-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:750px){.vc-ticket__row{grid-template-columns:1fr}.vc-help__pop{left:auto;right:-80px;width:280px}}
+.vc-ttl{display:inline-flex;align-items:center;gap:4px}
+.vc-help--sm .vc-help__btn{width:24px;height:24px}
+.vc-help--sm .vc-help__pop{font-weight:400;width:300px}
+.vc-customer .sww-field{min-width:170px;width:170px}
+.vc-customer input{outline:none}
+.vc-customer input::-webkit-calendar-picker-indicator{display:none!important}

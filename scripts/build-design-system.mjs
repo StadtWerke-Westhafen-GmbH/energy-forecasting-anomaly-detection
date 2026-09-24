@@ -47,9 +47,12 @@ await copy(path.join(modules,'plotly.js-dist-min/plotly.min.js'),path.join(ds,'d
 const components=(await walk(path.join(ds,'components'))).filter(f=>f.endsWith('.jsx')&&!f.endsWith('.preview.jsx')).sort();
 await build({...opts,stdin:{contents:components.map(f=>`export * from ${JSON.stringify('./'+path.relative(ds,f).replaceAll('\\','/'))};`).join('\n'),resolveDir:ds},outfile:path.join(ds,'dist/js/components.js'),format:'iife',globalName:'StadtWerkeWesthafenDesignSystem_acd94c',plugins:[{name:'shared-react',setup(b){b.onResolve({filter:/^react$/},()=>({path:'react',namespace:'shared'}));b.onLoad({filter:/.*/,namespace:'shared'},()=>({contents:'export default window.React;'}));}}]});
 
-for(const file of files.filter(f=>f.endsWith('.preview.jsx')||(/ui_kits[\\/]energie-cockpit[\\/].*\.jsx$/.test(f)))){
+// Cockpit kits: energie-cockpit keeps its flat dist/js paths; newer kits get their own subfolder.
+const kitOf=f=>(f.match(/ui_kits[\\/](energie-cockpit|verbrauchs-cockpit)[\\/][^\\/]*\.jsx$/)||[])[1];
+for(const file of files.filter(f=>f.endsWith('.preview.jsx')||kitOf(f))){
  const isPreview=file.endsWith('.preview.jsx');
- const output=isPreview?path.join(ds,'dist/previews',path.relative(ds,file).replace(/\.preview\.jsx$/,'.js')):path.join(ds,'dist/js',path.basename(file).replace('.jsx','.js'));
+ const kit=kitOf(file);
+ const output=isPreview?path.join(ds,'dist/previews',path.relative(ds,file).replace(/\.preview\.jsx$/,'.js')):path.join(ds,'dist/js',kit==='energie-cockpit'?'':kit,path.basename(file).replace('.jsx','.js'));
  const result=await transform(await fs.readFile(file,'utf8'),{loader:'jsx',format:'iife',target:'es2022',minify:true});
  await write(output,banner+result.code);
 }
