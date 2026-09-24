@@ -24,7 +24,7 @@ test('all shipped previews load offline; dashboard keyboard navigation works', {
   const pages=(await walk(path.join(base,'design-system'))).filter(f=>f.endsWith('.html'));
   for(const file of pages){
    const url=origin+'/'+path.relative(base,file).replaceAll('\\','/');
-   await page.goto(url);await page.waitForLoadState('networkidle');
+   await page.goto(url,{waitUntil:'load'});
    assert.equal(await page.locator('body').count(),1,url);
   }
   assert.deepEqual(external,[],'Unexpected external resource requests');
