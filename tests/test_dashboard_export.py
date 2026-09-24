@@ -78,11 +78,24 @@ def test_nan_values_become_null():
     json.dumps(payload, allow_nan=False)
 
 
-def test_shipped_export_matches_notebook_12_1():
+def test_shipped_export_matches_official_notebook_12():
     payload = json.loads(SHIPPED.read_text(encoding="utf-8"))
     assert set(REQUIRED_BENCHMARK_COLUMNS) <= set(payload["rows"])
     assert len(payload["rows"]["zaehler_id"]) == 8_398
-    assert sum(payload["rows"]["anomalie"]) == 109
-    assert round(payload["threshold"]["wert"], 1) == 155.4
+    assert payload["meta"]["source"] == "notebooks/12_modeling_ihk_lernstory.ipynb"
+    assert payload["threshold"]["n_kalibrierung"] == 1_397
+    assert payload["threshold"]["wert"] == pytest.approx(144.35, abs=0.01)
+    assert sum(payload["rows"]["anomalie"]) == 114
+    directions = pd.Series(payload["rows"]["richtung"])[
+        np.asarray(payload["rows"]["anomalie"], dtype=bool)
+    ].value_counts()
+    assert directions.to_dict() == {
+        "ungewöhnlich hoch": 68,
+        "ungewöhnlich niedrig": 46,
+    }
     final = next(row for row in payload["metrics"] if row["final"])
-    assert (round(final["rmse"]), round(final["mae"]), round(final["r2"], 3)) == (9_251, 3_750, 0.9)
+    assert (round(final["rmse"]), round(final["mae"]), round(final["r2"], 3)) == (
+        9_188,
+        3_725,
+        0.901,
+    )

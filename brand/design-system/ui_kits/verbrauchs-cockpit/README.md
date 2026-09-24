@@ -14,7 +14,7 @@ Auf macOS geht es auch per Doppelklick auf `Cockpit starten.command` im Reposito
 
 ## Neue Modellversion einspielen
 
-1. Notebook `notebooks/12.1_modeling_ihk_lernstory.ipynb` vollständig ausführen. Die letzte Zelle
+1. Notebook `notebooks/12_modeling_ihk_lernstory.ipynb` vollständig ausführen. Die Exportzelle
    (`ihk-dashboard-export`) schreibt `forecast-data.js` und `forecast-data.json` in diesen Ordner.
 2. Browser neu laden. Am Frontend ist keine Änderung nötig.
 

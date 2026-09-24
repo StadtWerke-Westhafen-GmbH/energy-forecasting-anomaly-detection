@@ -2226,6 +2226,72 @@ def build_notebook(destination: Path) -> Path:
             </details>
             """,
         ),
+        code(
+            "ihk-dashboard-export",
+            """
+            # Das Verbrauchs-Cockpit erhält exakt denselben Modellstand wie dieses
+            # offizielle Prüfungsnotebook. Es findet keine zweite Modellrechnung statt.
+            from energy_analytics.dashboard_export import build_payload, write_payload
+
+            customer_source = pd.read_csv(
+                BASE_DIR / "data/raw/260916_verbrauch_bereinigt.csv",
+                usecols=["zaehler_id", "kunde_id"],
+            )
+            assert customer_source.groupby("zaehler_id")["kunde_id"].nunique().eq(1).all()
+            customer_mapping = customer_source.drop_duplicates("zaehler_id")
+            assert len(customer_mapping) == df["zaehler_id"].nunique() == 700
+
+            dashboard_benchmark = benchmark_scored.copy().merge(
+                customer_mapping,
+                on="zaehler_id",
+                how="left",
+                validate="many_to_one",
+            )
+            assert dashboard_benchmark["kunde_id"].notna().all()
+
+            # Im Processed-Datensatz bezeichnet `anomalie` eine EDA-Referenzregel.
+            # Im Dashboard-Vertrag steht `anomalie` dagegen für den Modell-Prüfhinweis.
+            dashboard_benchmark["anomalie"] = dashboard_benchmark[
+                "pruefhinweis"
+            ].astype(bool)
+            dashboard_benchmark["rolling_3_kwh"] = dashboard_benchmark[
+                "letzte_3_monate_kwh"
+            ]
+            dashboard_history = df.loc[
+                ~df["unmoeglich"].astype(bool)
+                & ~df["ziel_rekonstruiert"].astype(bool),
+                ["zaehler_id", "monat", "verbrauch_kwh"],
+            ].copy()
+            dashboard_metrics = benchmark_metrics.merge(
+                comparison[["Kandidat", "CV-RMSE (kWh)"]],
+                on="Kandidat",
+                how="left",
+            )
+            dashboard_payload = build_payload(
+                dashboard_benchmark,
+                calibration_scored["residuum_vls"],
+                dashboard_metrics,
+                anomaly_threshold,
+                history=dashboard_history,
+                importance=importance_frame,
+                sensitivity=threshold_table,
+                final_name=selected_name,
+                threshold_quantile=ANOMALY_QUANTILE,
+                meta={
+                    "model": f"{selected_name} (VLS)",
+                    "model_params": {
+                        key: str(value) for key, value in best_rf_params.items()
+                    },
+                },
+            )
+            dashboard_path = write_payload(dashboard_payload)
+            print(
+                f"Dashboard-Daten geschrieben: {dashboard_path.relative_to(BASE_DIR)} · "
+                f"{len(dashboard_payload['rows']['zaehler_id'])} Zähler-Monate · "
+                f"{sum(dashboard_payload['rows']['anomalie'])} Prüfhinweise"
+            )
+            """,
+        ),
     ]
 
     notebook = nbformat.v4.new_notebook(cells=cells)

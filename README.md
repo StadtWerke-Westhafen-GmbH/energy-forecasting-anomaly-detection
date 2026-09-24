@@ -17,7 +17,7 @@ Die SWW-Farben, Typografie und Datenrollen verbinden Dashboard, Notebooks, Folie
 - [Prüfungsstory-Notebook](notebooks/11_modeling_pruefungsstory.ipynb)
 - [IHK-Lernstory-Notebook](notebooks/12_modeling_ihk_lernstory.ipynb)
 - [Optimierungs-Notebook](notebooks/20_modeling_optimierung.ipynb)
-- [Verbrauchs-Cockpit](brand/design-system/ui_kits/verbrauchs-cockpit/index.html) — Dashboard als Actionplan (Monatsprognose, Prüfliste, Prüffall); Daten aus der Export-Zelle von `notebooks/12.1_modeling_ihk_lernstory.ipynb` ([Datenvertrag](brand/design-system/ui_kits/verbrauchs-cockpit/README.md))
+- [Verbrauchs-Cockpit](brand/design-system/ui_kits/verbrauchs-cockpit/index.html) — Dashboard als Actionplan (Monatsprognose, Prüfliste, Prüffall); Daten aus der Export-Zelle des offiziellen `notebooks/12_modeling_ihk_lernstory.ipynb` ([Datenvertrag](brand/design-system/ui_kits/verbrauchs-cockpit/README.md))
 - [Anomalie-Cockpit](brand/design-system/ui_kits/energie-cockpit/index.html?screen=anomalien)
 
 Die Webansichten funktionieren mit den mitgelieferten Assets ohne Internet. Für die lokale Vorschau

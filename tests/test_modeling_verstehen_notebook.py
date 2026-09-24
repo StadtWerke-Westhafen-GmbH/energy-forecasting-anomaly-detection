@@ -60,7 +60,7 @@ def test_learning_notebook_is_executed_and_reproducible(tmp_path):
     data_path = ROOT / metadata.data_source
     assert metadata.builder == "scripts/build_modeling_verstehen_notebook.py"
     assert metadata.official_exam_notebook == "notebooks/12_modeling_ihk_lernstory.ipynb"
-    assert metadata.learning_quantile == 0.975
+    assert metadata.anomaly_quantile == 0.99
     assert metadata.official_pilot_quantile == 0.99
     assert metadata.source_sha256 == hashlib.sha256(data_path.read_bytes()).hexdigest()
 
@@ -86,10 +86,9 @@ def test_learning_notebook_covers_the_full_explanation_chain():
         "Hyperparameter",
         "RMSE",
         "MAE",
-        "R²",
+        "Der RMSE macht den großen Einzelfehler sichtbar",
+        "MAE jeweils 10 kWh",
         "Whisker",
-        "1.362",
-        "82,4304",
         "Schwellenfaktor",
         "Faktor ist keine Wahrscheinlichkeit",
         "ZL-00147",
@@ -111,7 +110,24 @@ def test_learning_notebook_outputs_show_the_verified_case_and_metrics():
     assert "13.272 kWh" in html
     assert "9.188 kWh" in html
     assert "15,9 Prozent" in html
-    assert "82,4304 VLS-h" in html
-    assert "4,026" in html
-    assert "1,195" in html
-    assert "zwei getrennte monatliche Prüfhinweise" in html
+    assert "Der einzelne Fehler von 40 kWh" in html
+    assert "40²) ÷ 4) = 20" in html
+    assert "1.383 Fehler bis 144,4 VLS-h" in html
+    assert "144,3547 VLS-h" in html
+    assert "+2,299" in html
+    assert "-0,682" in html
+    assert "Nur August 2025 trägt einen roten Marker" in html
+
+
+def test_learning_html_outputs_are_self_contained_for_vscode_and_jupyter():
+    notebook = nbformat.read(NOTEBOOK, as_version=4)
+    learning_outputs = [
+        html
+        for cell in notebook.cells
+        for output in cell.get("outputs", [])
+        if (html := output.get("data", {}).get("text/html", ""))
+        and '<div class="learn">' in html
+    ]
+    assert learning_outputs
+    assert all("<style>" in html for html in learning_outputs)
+    assert all("color-scheme:light" in html for html in learning_outputs)

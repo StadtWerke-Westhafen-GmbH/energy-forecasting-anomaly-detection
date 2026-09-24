@@ -84,11 +84,13 @@ test('all shipped previews load offline; dashboard keyboard navigation works', {
   await page.waitForFunction(()=>document.querySelectorAll('.js-plotly-plot').length===2);
   await page.goto(vc+'?screen=anomalien');
   await page.locator('.sww-card__ttl',{hasText:'Prüfliste 12/2025'}).waitFor();
-  await page.getByRole('button',{name:'Prüffall ZL-00337 öffnen',exact:true}).click();
+  const decemberCases=page.getByRole('button',{name:/Prüffall .* öffnen/});
+  assert.ok(await decemberCases.count()>=2,'Expected at least two December review cases');
+  await decemberCases.first().click();
   await page.getByTestId('screen-prueffall').waitFor();
   await page.waitForFunction(()=>document.querySelectorAll('.js-plotly-plot').length===3);
   await page.getByRole('button',{name:'Nächster Fall',exact:true}).click();
-  await page.getByText('Fall 2 von 10 · 12/2025',{exact:true}).waitFor();
+  await page.getByText(/Fall 2 von \d+ · 12\/2025/).waitFor();
   await page.screenshot({path:'.build/screenshots/verbrauchs-cockpit-prueffall.png',fullPage:true});
   await page.goto(origin+'/design-system/index.html');
   await page.screenshot({path:'.build/screenshots/portal.png',fullPage:true});

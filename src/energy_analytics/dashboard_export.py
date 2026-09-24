@@ -50,7 +50,7 @@ DEFAULT_META = {
     "title": "Verbrauchs-Cockpit",
     "model": "Random Forest (VLS)",
     "model_version": "RF-VLS",
-    "source": "notebooks/12.1_modeling_ihk_lernstory.ipynb",
+    "source": "notebooks/12_modeling_ihk_lernstory.ipynb",
     "train_period": "01/2024–12/2024",
     "benchmark_period": "01/2025–12/2025",
     "calibration_period": "11/2024–12/2024",

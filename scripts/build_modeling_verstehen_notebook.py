@@ -90,7 +90,6 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             DATA_PATH = BASE_DIR / "data/processed/modellierung_basis_bis_3_monate.csv"
             RANDOM_STATE = 42
             OFFICIAL_QUANTILE = 0.99
-            LEARNING_QUANTILE = 0.975
 
             ci.aktiviere(
                 logo=BASE_DIR / "brand/design-system/assets/logo-sww-emblem.png",
@@ -113,57 +112,79 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 t = theme.TOKENS
                 return f'''
                 <style>
-                .learn {{font-family:{theme.FONT};color:{t["text-primary"]};}}
-                .learn * {{box-sizing:border-box;}}
-                .learn-grid {{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));
-                  gap:12px;margin:14px 0 18px;}}
-                .learn-card {{background:{t["surface-card"]};border:1px solid {t["border-default"]};
-                  border-radius:{t["radius-card"]};box-shadow:{t["shadow-card"]};padding:17px;}}
-                .learn-card .kicker {{display:block;color:{t["text-accent"]};font-size:10px;
-                  font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;}}
-                .learn-card h3 {{color:{t["text-brand"]};font-size:16px;margin:0 0 7px;}}
-                .learn-card p {{color:{t["text-secondary"]};font-size:13px;line-height:1.52;margin:0;}}
-                .learn-formula {{background:{t["surface-brand-subtle"]};border:1px solid {t["border-brand"]};
-                  border-radius:{t["radius-card"]};padding:18px;margin:14px 0;text-align:center;}}
-                .learn-formula strong {{display:block;color:{t["text-brand"]};font-family:{t["font-mono"]};
-                  font-size:19px;line-height:1.45;}}
-                .learn-formula span {{display:block;color:{t["text-secondary"]};font-size:12px;
-                  margin-top:7px;line-height:1.45;}}
-                .learn-note {{background:{t["surface-sunken"]};border:1px solid {t["border-subtle"]};
-                  border-radius:{t["radius-card"]};padding:15px 17px;margin:12px 0;}}
-                .learn-note strong {{display:block;color:{t["text-brand"]};margin-bottom:4px;}}
-                .learn-note p {{color:{t["text-secondary"]};font-size:13px;line-height:1.55;margin:0;}}
-                .learn-check {{background:{t["surface-card"]};border:1px solid {t["border-default"]};
-                  border-radius:{t["radius-card"]};margin:12px 0;overflow:hidden;}}
-                .learn-check summary {{padding:14px 16px;color:{t["text-brand"]};font-weight:600;cursor:pointer;}}
-                .learn-check .answer {{padding:0 16px 16px;color:{t["text-secondary"]};
-                  font-size:13px;line-height:1.55;}}
+                .learn {{font-family:{theme.FONT};color:{t["text-primary"]};color-scheme:light;
+                  width:100%;max-width:100%;padding:2px 1px;overflow-wrap:anywhere;}}
+                .learn,.learn * {{box-sizing:border-box;}}
+                .learn-grid {{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+                  align-items:stretch;gap:14px;margin:10px 0 18px;}}
+                .learn-card {{position:relative;min-width:0;background:{t["surface-card"]} !important;
+                  border:1px solid {t["border-default"]};border-radius:{t["radius-card"]};
+                  box-shadow:{t["shadow-card"]};padding:20px 20px 20px 23px;overflow:hidden;}}
+                .learn-card::before {{content:"";position:absolute;inset:0 auto 0 0;width:4px;
+                  background:{t["surface-accent"]};}}
+                .learn-card .kicker {{display:block;color:{t["text-accent"]} !important;font-size:11px;
+                  font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 0 7px;}}
+                .learn-card h3 {{display:block;color:{t["text-brand"]} !important;font-size:18px;
+                  line-height:1.25;font-weight:600;margin:0 0 9px;padding:0;}}
+                .learn-card p {{display:block;color:{t["text-secondary"]} !important;font-size:14px;
+                  line-height:1.55;margin:0;padding:0;}}
+                .learn-formula {{background:linear-gradient(135deg,{t["surface-brand-subtle"]},
+                  {t["surface-card"]}) !important;border:1px solid {t["border-brand"]};
+                  border-left:5px solid {t["surface-brand"]};border-radius:{t["radius-card"]};
+                  box-shadow:{t["shadow-card"]};padding:20px 24px;margin:12px 0 18px;text-align:left;}}
+                .learn-formula::before {{content:"RECHENREGEL";display:block;color:{t["text-accent"]} !important;
+                  font-size:11px;font-weight:600;letter-spacing:.08em;margin-bottom:7px;}}
+                .learn-formula strong {{display:block;color:{t["text-brand"]} !important;
+                  font-family:{t["font-mono"]};font-size:20px;line-height:1.45;font-weight:600;}}
+                .learn-formula span {{display:block;color:{t["text-secondary"]} !important;font-size:13px;
+                  margin-top:8px;line-height:1.5;}}
+                .learn-note {{background:{t["surface-sunken"]} !important;border:1px solid {t["border-subtle"]};
+                  border-left:4px solid {t["surface-accent"]};border-radius:{t["radius-card"]};
+                  padding:17px 19px;margin:12px 0;}}
+                .learn-note strong {{display:block;color:{t["text-brand"]} !important;font-size:15px;
+                  margin:0 0 5px;}}
+                .learn-note p {{display:block;color:{t["text-secondary"]} !important;font-size:14px;
+                  line-height:1.55;margin:0;padding:0;}}
+                .learn-check {{background:{t["surface-card"]} !important;border:1px solid {t["border-default"]};
+                  border-radius:{t["radius-card"]};box-shadow:{t["shadow-xs"]};margin:12px 0;overflow:hidden;}}
+                .learn-check summary {{display:list-item;padding:15px 18px;color:{t["text-brand"]} !important;
+                  font-size:14px;font-weight:600;cursor:pointer;background:{t["surface-brand-subtle"]} !important;}}
+                .learn-check .answer {{padding:15px 18px;color:{t["text-secondary"]} !important;
+                  background:{t["surface-card"]} !important;font-size:14px;line-height:1.55;
+                  border-top:1px solid {t["border-subtle"]};}}
                 .learn-steps {{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
                   gap:10px;margin:14px 0 18px;}}
-                .learn-step {{background:{t["surface-card"]};border:1px solid {t["border-default"]};
-                  border-radius:{t["radius-card"]};padding:15px;min-height:120px;}}
+                .learn-step {{background:{t["surface-card"]} !important;border:1px solid {t["border-default"]};
+                  border-radius:{t["radius-card"]};box-shadow:{t["shadow-xs"]};padding:16px;min-height:132px;}}
                 .learn-step .nr {{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;
-                  background:{t["surface-brand-strong"]};color:{t["text-inverse"]};font-weight:600;
+                  background:{t["surface-brand-strong"]} !important;color:{t["text-inverse"]} !important;font-weight:600;
                   margin-bottom:9px;}}
-                .learn-step strong {{display:block;color:{t["text-brand"]};font-size:13px;}}
-                .learn-step span {{display:block;color:{t["text-secondary"]};font-size:12px;
+                .learn-step strong {{display:block;color:{t["text-brand"]} !important;font-size:14px;}}
+                .learn-step span {{display:block;color:{t["text-secondary"]} !important;font-size:13px;
                   line-height:1.45;margin-top:5px;}}
-                .learn-table {{width:100%;border-collapse:collapse;background:{t["surface-card"]};
-                  font-size:12px;margin:12px 0;}}
-                .learn-table th {{background:{t["surface-brand-strong"]};color:{t["text-inverse"]};
+                .learn-table {{width:100%;border-collapse:collapse;background:{t["surface-card"]} !important;
+                  font-size:13px;margin:12px 0;color-scheme:light;}}
+                .learn-table th {{background:{t["surface-brand-strong"]} !important;color:{t["text-inverse"]} !important;
                   padding:9px 11px;text-align:left;font-weight:500;}}
                 .learn-table td {{padding:9px 11px;border-bottom:1px solid {t["border-subtle"]};
-                  color:{t["text-primary"]};vertical-align:top;}}
-                .learn-table tr:nth-child(even) td {{background:{t["surface-sunken"]};}}
-                .learn-sentence {{background:{t["surface-card"]};border:1px solid {t["border-brand"]};
-                  border-radius:{t["radius-card"]};padding:16px;margin:14px 0;color:{t["text-brand"]};
-                  font-size:15px;line-height:1.55;}}
+                  background:{t["surface-card"]} !important;color:{t["text-primary"]} !important;vertical-align:top;}}
+                .learn-table tr:nth-child(even) td {{background:{t["surface-sunken"]} !important;}}
+                .learn-sentence {{background:{t["surface-card"]} !important;border:1px solid {t["border-brand"]};
+                  border-left:5px solid {t["surface-brand"]};border-radius:{t["radius-card"]};
+                  box-shadow:{t["shadow-card"]};padding:17px 19px;margin:14px 0;
+                  color:{t["text-brand"]} !important;font-size:15px;line-height:1.55;}}
+                .learn-sentence strong {{display:block;color:{t["text-accent"]} !important;font-size:11px;
+                  letter-spacing:.08em;text-transform:uppercase;margin:0 0 5px;}}
                 @media(max-width:720px){{.learn-grid,.learn-steps{{grid-template-columns:1fr;}}}}
                 </style>
                 '''
 
 
-            display(HTML(learning_css()))
+            def show_learning(fragment):
+                # VS Code and Jupyter can isolate every rich output. Therefore each
+                # output receives its own scoped stylesheet instead of depending on
+                # CSS emitted by an earlier cell.
+                display(HTML(learning_css() + f'<div class="learn">{fragment}</div>'))
 
 
             def cards(items):
@@ -173,30 +194,30 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                     f'<h3>{escape(str(title))}</h3><p>{escape(str(text))}</p></article>'
                     for kicker, title, text in items
                 )
-                display(HTML(f'<div class="learn learn-grid">{body}</div>'))
+                show_learning(f'<div class="learn-grid">{body}</div>')
 
 
             def formula(expression, explanation):
-                display(HTML(
-                    '<div class="learn learn-formula">'
+                show_learning(
+                    '<div class="learn-formula">'
                     f'<strong>{escape(str(expression))}</strong>'
                     f'<span>{escape(str(explanation))}</span></div>'
-                ))
+                )
 
 
             def note(title, text):
-                display(HTML(
-                    '<aside class="learn learn-note">'
+                show_learning(
+                    '<aside class="learn-note">'
                     f'<strong>{escape(str(title))}</strong><p>{escape(str(text))}</p></aside>'
-                ))
+                )
 
 
             def check(question, answer):
-                display(HTML(
-                    '<details class="learn learn-check">'
+                show_learning(
+                    '<details class="learn-check">'
                     f'<summary>Selbstcheck: {escape(str(question))}</summary>'
                     f'<div class="answer">{escape(str(answer))}</div></details>'
-                ))
+                )
 
 
             def steps(items):
@@ -206,22 +227,22 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                     f'<span>{escape(str(text))}</span></article>'
                     for number, title, text in items
                 )
-                display(HTML(f'<div class="learn learn-steps">{body}</div>'))
+                show_learning(f'<div class="learn-steps">{body}</div>')
 
 
             def simple_table(frame):
-                display(HTML(
-                    '<div class="learn" style="overflow-x:auto">'
+                show_learning(
+                    '<div style="overflow-x:auto">'
                     + frame.to_html(index=False, border=0, classes="learn-table", escape=True)
                     + '</div>'
-                ))
+                )
 
 
             def exam_sentence(text):
-                display(HTML(
-                    f'<div class="learn learn-sentence"><strong>So kannst du es sagen:</strong> '
+                show_learning(
+                    f'<div class="learn-sentence"><strong>So kannst du es sagen</strong> '
                     f'{escape(str(text))}</div>'
-                ))
+                )
 
 
             def plot_reading(see, meaning, limit):
@@ -569,22 +590,16 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 })
             threshold_table = pd.DataFrame(threshold_rows)
             official_threshold = float(np.quantile(sorted_errors, OFFICIAL_QUANTILE))
-            learning_threshold = float(np.quantile(sorted_errors, LEARNING_QUANTILE))
-
-            benchmark_scored["faktor_97_5"] = (
-                benchmark_scored["abs_residuum_vls"] / learning_threshold
+            benchmark_scored["faktor_q99"] = (
+                benchmark_scored["residuum_vls"] / official_threshold
             )
-            benchmark_scored["hinweis_97_5"] = benchmark_scored["faktor_97_5"].ge(1)
-            benchmark_scored["faktor_99"] = (
-                benchmark_scored["abs_residuum_vls"] / official_threshold
-            )
-            benchmark_scored["hinweis_99"] = benchmark_scored["faktor_99"].ge(1)
+            benchmark_scored["pruefhinweis_q99"] = benchmark_scored["faktor_q99"].abs().ge(1)
 
             case_id = "ZL-00147"
             case_history = benchmark_scored[
                 benchmark_scored["zaehler_id"].eq(case_id)
             ].sort_values("monat").copy()
-            assert int(case_history["hinweis_97_5"].sum()) == 2
+            assert int(case_history["pruefhinweis_q99"].sum()) == 1
 
             eligible_meter = (
                 df[df["jahr"].eq(2024) & ~df["unmoeglich"]]
@@ -1048,49 +1063,70 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
         code(
             "learn-metrics-example",
             """
-            toy = pd.DataFrame({
-                "Fall": ["A", "B", "C"],
-                "Ist (kWh)": [100, 120, 80],
-                "Prognose (kWh)": [90, 130, 100],
-            })
-            toy["Fehler"] = toy["Ist (kWh)"] - toy["Prognose (kWh)"]
-            toy["|Fehler|"] = toy["Fehler"].abs()
-            toy["Fehler²"] = toy["Fehler"] ** 2
-            toy_mae = toy["|Fehler|"].mean()
-            toy_rmse = np.sqrt(toy["Fehler²"].mean())
-            toy_r2 = r2_score(toy["Ist (kWh)"], toy["Prognose (kWh)"])
-            simple_table(toy)
+            toy_errors = {
+                "A · gleichmäßig verteilt": np.array([10, 10, 10, 10]),
+                "B · ein großer Einzelfehler": np.array([0, 0, 0, 40]),
+            }
+            toy_metrics = pd.DataFrame([
+                {
+                    "Szenario": scenario,
+                    "Vier Fehlerbeträge (kWh)": " · ".join(str(value) for value in errors),
+                    "Summe (kWh)": errors.sum(),
+                    "MAE (kWh)": errors.mean(),
+                    "RMSE (kWh)": np.sqrt(np.mean(errors ** 2)),
+                }
+                for scenario, errors in toy_errors.items()
+            ])
+            toy_view = toy_metrics.copy()
+            for column in ["Summe (kWh)", "MAE (kWh)", "RMSE (kWh)"]:
+                toy_view[column] = toy_view[column].map(lambda value: de(value, 1))
+            simple_table(toy_view)
 
             fig = go.Figure()
+            scenario_labels = ["A · gleichmäßig", "B · Einzelpeak"]
+            mae_values = toy_metrics["MAE (kWh)"].to_numpy()
+            rmse_values = toy_metrics["RMSE (kWh)"].to_numpy()
             fig.add_trace(go.Bar(
-                x=toy["Fall"], y=toy["|Fehler|"], name="absoluter Fehler",
-                marker_color=theme.ROLE["residuum"],
+                x=scenario_labels,
+                y=mae_values,
+                name="MAE · durchschnittlicher Fehlerbetrag",
+                marker_color=theme.TOKENS["grey-400"],
+                text=[f"{de(value, 0)} kWh" for value in mae_values],
+                textposition="outside",
+                cliponaxis=False,
+                hovertemplate="%{x}<br>MAE: %{y:.0f} kWh<extra></extra>",
             ))
             fig.add_trace(go.Bar(
-                x=toy["Fall"], y=np.sqrt(toy["Fehler²"]), name="Wurzel des quadrierten Fehlers",
-                marker_color=theme.TOKENS["navy-300"], opacity=0.55,
+                x=scenario_labels,
+                y=rmse_values,
+                name="RMSE · große Fehler stärker gewichtet",
+                marker_color=theme.ROLE["prognose"],
+                text=[f"{de(value, 0)} kWh" for value in rmse_values],
+                textposition="outside",
+                cliponaxis=False,
+                hovertemplate="%{x}<br>RMSE: %{y:.0f} kWh<extra></extra>",
             ))
             ci.stil(
                 fig,
-                "Ein größerer Einzelfehler beeinflusst den RMSE stärker",
-                "Didaktisches Zahlenbeispiel · nicht die Projektbewertung",
-                x_titel="Beispielfall",
-                y_titel="Fehlerbetrag (kWh)",
+                "Der RMSE macht den großen Einzelfehler sichtbar",
+                "A: 10 · 10 · 10 · 10 kWh  |  B: 0 · 0 · 0 · 40 kWh  |  MAE jeweils 10 kWh",
+                x_titel="Verteilung der vier Fehlerbeträge",
+                y_titel="Kennzahlenwert (kWh)",
             )
-            fig.update_layout(barmode="group")
+            fig.update_layout(
+                barmode="group",
+                yaxis_range=[0, 24],
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+            )
             ci.zeigen(fig)
-            cards([
-                ("MAE", f"{de(toy_mae, 1)} kWh", "Durchschnitt der absoluten Fehler; direkt als typische Abweichung lesbar."),
-                ("RMSE", f"{de(toy_rmse, 1)} kWh", "Quadriert zuerst; dadurch erhalten große Fehler mehr Gewicht."),
-                ("R²", de(toy_r2, 2), "Vergleich zur Mittelwertprognose; keine Trefferquote und kein Fehler in kWh."),
-            ])
-            formula(
-                "MAE = Mittelwert(|Ist − Prognose|) · RMSE = √Mittelwert((Ist − Prognose)²)",
-                "Unsere Hauptmetrik ist RMSE in kWh, weil große Mengenfehler betrieblich besonders relevant sind.",
+            plot_reading(
+                "In beiden Szenarien summieren sich die vier Fehlerbeträge auf 40 kWh. Deshalb beträgt der MAE jeweils 10 kWh.",
+                "Der einzelne Fehler von 40 kWh wird vor dem Mitteln quadriert. Dadurch steigt der RMSE in Szenario B von 10 auf 20 kWh.",
+                "Das ist kein Ergebnis unseres Projektmodells. Der RMSE zeigt außerdem weder die Fehlerrichtung noch die Anzahl der Prüfhinweise.",
             )
-            check(
-                "Bedeutet R² = 0,90, dass 90 % aller Prognosen richtig sind?",
-                "Nein. R² beschreibt den Anteil der im konkreten Datensatz erklärten Streuung, nicht den Anteil richtiger Einzelprognosen.",
+            formula(
+                "A: RMSE = √((10² + 10² + 10² + 10²) ÷ 4) = 10  ·  B: RMSE = √((0² + 0² + 0² + 40²) ÷ 4) = 20",
+                "Der MAE betrachtet die Fehlerbeträge gleichmäßig. Der RMSE gewichtet einen großen Einzelfehler stärker – deshalb ist er unsere Hauptmetrik.",
             )
             """,
         ),
@@ -1165,7 +1201,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             ci.stil(
                 fig,
                 "Das ausgewählte Modell bleibt auch 2025 vor den Baselines",
-                f"Retrospektiver One-Step-Ahead-Benchmark · {de(len(benchmark), 0)} bewertbare Zähler-Monate",
+                f"Retrospektiver One-Step-Ahead-Benchmark · Modell und 3-Monats-Mittel: {de(len(benchmark), 0)} Fälle · Vormonat: {de(int(benchmark['vormonat_kwh'].notna().sum()), 0)}",
                 x_titel="RMSE (kWh) – niedriger ist besser",
                 y_titel="",
             )
@@ -1176,7 +1212,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             cards([
                 ("RMSE", f"{de(selected_metrics['RMSE (kWh)'], 0)} kWh", "Große Fehler zählen stärker; Hauptmetrik der Modellentscheidung."),
                 ("MAE", f"{de(selected_metrics['MAE (kWh)'], 0)} kWh", "Durchschnittliche absolute Abweichung je Zähler-Monat."),
-                ("R²", de(selected_metrics["R²"], 3), "Das Modell erklärt einen großen Teil der Streuung des Testjahres."),
+                ("Bewertete Fälle", de(int(selected_metrics["n"]), 0), "Zähler-Monate des Modellbenchmarks 2025."),
                 ("Gegen Baseline", f"{de(baseline_gain * 100, 1)} % besser", "Relativer RMSE-Vorteil gegenüber dem Bis-zu-3-Monats-Mittel."),
             ])
             exam_sentence(
@@ -1238,7 +1274,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             plot_reading(
                 "Eine Gruppe wird zufällig gemischt; steigt der Fehler stark, war ihre Information für die Prognose nützlich.",
                 "Historie und Planinformationen tragen einen wesentlichen Teil der Prognoseleistung.",
-                "Wichtigkeit ist keine Kausalität. Korrelierte Merkmale können sich Bedeutung teilen; kleine negative Werte bedeuten ungefähr null.",
+                "Die Vertragsleistung wird nicht permutiert: Sie ist der feste Umrechnungsfaktor von VLS zu kWh, keine optionale Informationsgruppe. Wichtigkeit ist außerdem keine Kausalität.",
             )
             """,
         ),
@@ -1296,12 +1332,14 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             n_errors = len(sorted_errors)
             ranks = np.arange(1, n_errors + 1)
             percentile_positions = (ranks - 1) / (n_errors - 1) * 100
-            position_975 = (n_errors - 1) * LEARNING_QUANTILE
-            lower_index = int(np.floor(position_975))
-            upper_index = int(np.ceil(position_975))
-            interpolation_weight = position_975 - lower_index
+            quantile_position = (n_errors - 1) * OFFICIAL_QUANTILE
+            lower_index = int(np.floor(quantile_position))
+            upper_index = int(np.ceil(quantile_position))
+            interpolation_weight = quantile_position - lower_index
             lower_value = sorted_errors[lower_index]
             upper_value = sorted_errors[upper_index]
+            below_threshold = int(np.count_nonzero(sorted_errors <= official_threshold))
+            above_threshold = n_errors - below_threshold
 
             fig = go.Figure()
             fig.add_trace(go.Scatter(
@@ -1321,10 +1359,10 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 customdata=ranks[upper_index - 1 :],
             ))
             fig.add_trace(go.Scatter(
-                x=[LEARNING_QUANTILE * 100], y=[learning_threshold],
-                mode="markers", name="97,5-%-Schwelle",
+                x=[OFFICIAL_QUANTILE * 100], y=[official_threshold],
+                mode="markers", name="99-%-Schwelle",
                 marker=dict(color=theme.ROLE["schwellwert"], size=11, line=dict(color=theme.TOKENS["surface-card"], width=2)),
-                hovertemplate=f"97,5. Perzentil<br>{de(learning_threshold, 4)} VLS-h<extra></extra>",
+                hovertemplate=f"99. Perzentil<br>{de(official_threshold, 4)} VLS-h<extra></extra>",
             ))
             ci.stil(
                 fig,
@@ -1334,13 +1372,13 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 y_titel="Absoluter Prognosefehler (VLS-h)",
             )
             fig.update_xaxes(ticksuffix=" %", range=[0, 100])
-            ci.referenzlinie(fig, 97.5, "97,5 %", achse="x", position="top left")
-            ci.schwellwert(fig, learning_threshold, f"{de(learning_threshold, 1)} VLS-h")
+            ci.referenzlinie(fig, 99, "99 %", achse="x", position="top left")
+            ci.schwellwert(fig, official_threshold, f"{de(official_threshold, 1)} VLS-h")
             ci.zeigen(fig)
             plot_reading(
                 f"Alle {de(n_errors, 0)} absoluten Fehler sind von klein nach groß sortiert; links häufige kleine, rechts seltene große Fehler.",
-                f"Beim 97,5. Perzentil liegen 1.362 Fehler bis {de(learning_threshold, 1)} VLS-h und 35 darüber.",
-                "97,5 Prozent beziehen sich auf den Rang der Kalibrierungsfehler – nicht auf Verbrauch, Gesamtleistung oder Defektwahrscheinlichkeit.",
+                f"Beim 99. Perzentil liegen {de(below_threshold, 0)} Fehler bis {de(official_threshold, 1)} VLS-h und {de(above_threshold, 0)} darüber.",
+                "99 Prozent beziehen sich auf den Rang der Kalibrierungsfehler – nicht auf Verbrauch, Gesamtleistung oder Defektwahrscheinlichkeit.",
             )
             """,
         ),
@@ -1348,12 +1386,12 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             "learn-percentile-calculation",
             """
             formula(
-                "Position = (1.397 − 1) × 0,975 = 1.361,1 (nullbasiert)",
-                "Die Position liegt 10 Prozent des Weges zwischen dem 1.362. und 1.363. sortierten Fehler.",
+                f"Position = ({de(n_errors, 0)} − 1) × 0,99 = {de(quantile_position, 2)} (nullbasiert)",
+                f"Die Position liegt {de(interpolation_weight * 100, 0)} Prozent des Weges zwischen dem {de(lower_index + 1, 0)}. und {de(upper_index + 1, 0)}. sortierten Fehler.",
             )
             formula(
-                f"{de(lower_value, 4)} + 0,1 × ({de(upper_value, 4)} − {de(lower_value, 4)}) = {de(learning_threshold, 4)} VLS-h",
-                "Pandas verwendet hier lineare Interpolation. Darum muss 82,4304 selbst kein beobachteter Fehler sein.",
+                f"{de(lower_value, 4)} + {de(interpolation_weight, 2)} × ({de(upper_value, 4)} − {de(lower_value, 4)}) = {de(official_threshold, 4)} VLS-h",
+                f"Pandas verwendet hier lineare Interpolation. Darum muss {de(official_threshold, 4)} selbst kein beobachteter Fehler sein.",
             )
             around = pd.DataFrame({
                 "Aufsteigender Rang": ranks[lower_index - 3 : upper_index + 4],
@@ -1362,16 +1400,16 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             around["Absoluter Fehler (VLS-h)"] = around["Absoluter Fehler (VLS-h)"].map(lambda x: de(x, 4))
             simple_table(around)
             cards([
-                ("Unter der Grenze", "1.362 Fälle", "Diese historischen Fehler sind höchstens 82,4304 VLS-Stunden groß."),
-                ("Über der Grenze", "35 Fälle", "Diese rund 2,5 Prozent bilden den seltenen oberen Rand der absoluten Fehler."),
-                ("Nicht gemeint", "Keine Leistungsquote", "97,5 Prozent sind weder Anteil des Verbrauchs noch Anteil der Vertragsleistung."),
+                ("Bis zur Grenze", f"{de(below_threshold, 0)} Fälle", f"Diese historischen Fehler sind höchstens {de(official_threshold, 4)} VLS-Stunden groß."),
+                ("Über der Grenze", f"{de(above_threshold, 0)} Fälle", "Sie bilden den seltenen oberen Rand der absoluten Kalibrierungsfehler."),
+                ("Nicht gemeint", "Keine Leistungsquote", "99 Prozent sind weder Anteil des Verbrauchs noch Anteil der Vertragsleistung."),
             ])
             exam_sentence(
-                "Das 97,5. Perzentil ist die Rangposition, unter der ungefähr 97,5 Prozent der historischen absoluten Prognosefehler liegen."
+                "Das 99. Perzentil ist die Rangposition, unter der ungefähr 99 Prozent der historischen absoluten Prognosefehler liegen."
             )
             check(
-                "Warum gibt es die Schwelle 82,4304 nicht zwingend als echten Zeilenwert?",
-                "Weil sie durch lineare Interpolation zwischen Rang 1.362 mit 82,4129 und Rang 1.363 mit 82,5876 berechnet wird.",
+                f"Warum gibt es die Schwelle {de(official_threshold, 4)} nicht zwingend als echten Zeilenwert?",
+                f"Weil sie durch lineare Interpolation zwischen Rang {de(lower_index + 1, 0)} mit {de(lower_value, 4)} und Rang {de(upper_index + 1, 0)} mit {de(upper_value, 4)} berechnet wird.",
             )
             """,
         ),
@@ -1381,15 +1419,15 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             capacity_examples = pd.DataFrame({
                 "Vertragsleistung (kW)": [10, 49, 50, 100, 500],
             })
-            capacity_examples["kWh-Grenze bei 97,5 %"] = (
-                capacity_examples["Vertragsleistung (kW)"] * learning_threshold
+            capacity_examples["kWh-Grenze bei 99 %"] = (
+                capacity_examples["Vertragsleistung (kW)"] * official_threshold
             )
-            capacity_examples["kWh-Grenze bei 97,5 %"] = capacity_examples[
-                "kWh-Grenze bei 97,5 %"
+            capacity_examples["kWh-Grenze bei 99 %"] = capacity_examples[
+                "kWh-Grenze bei 99 %"
             ].map(lambda x: de(x, 1))
             formula(
                 "Individuelle kWh-Grenze = gemeinsame VLS-Schwelle × Vertragsleistung des Zählers",
-                "82,4304 VLS-Stunden gelten gemeinsam; in kWh erhält jeder Zähler eine seiner Größe entsprechende Grenze.",
+                f"{de(official_threshold, 4)} VLS-Stunden gelten gemeinsam; in kWh erhält jeder Zähler eine seiner Größe entsprechende Grenze.",
             )
             simple_table(capacity_examples)
             exam_sentence(
@@ -1400,9 +1438,9 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
         code(
             "learn-vls-boundary-plot",
             """
-            active = benchmark_scored["hinweis_97_5"]
+            active = benchmark_scored["pruefhinweis_q99"]
             normal = benchmark_scored[~active]
-            alerts_975 = benchmark_scored[active]
+            alerts_q99 = benchmark_scored[active]
             axis_max = 1.03 * max(
                 benchmark_scored["vollaststunden"].max(),
                 benchmark_scored["prognose_vls"].max(),
@@ -1416,10 +1454,10 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 hovertemplate="Prognose %{x:.1f} VLS-h<br>Ist %{y:.1f} VLS-h<extra></extra>",
             ))
             fig.add_trace(go.Scatter(
-                x=alerts_975["prognose_vls"], y=alerts_975["vollaststunden"],
+                x=alerts_q99["prognose_vls"], y=alerts_q99["vollaststunden"],
                 mode="markers", name="Prüfhinweis",
                 marker=dict(color=theme.ROLE["anomalie"], size=8, symbol="diamond", opacity=0.85),
-                customdata=np.c_[alerts_975["zaehler_id"], alerts_975["monat"].dt.strftime("%m/%Y"), alerts_975["residuum_vls"]],
+                customdata=np.c_[alerts_q99["zaehler_id"], alerts_q99["monat"].dt.strftime("%m/%Y"), alerts_q99["residuum_vls"]],
                 hovertemplate="%{customdata[0]} · %{customdata[1]}<br>Prognose %{x:.1f} VLS-h<br>Ist %{y:.1f} VLS-h<br>Residuum %{customdata[2]:.1f} VLS-h<extra></extra>",
             ))
             fig.add_trace(go.Scatter(
@@ -1427,19 +1465,19 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 line=dict(color=theme.ROLE["ist"], width=2), hoverinfo="skip",
             ))
             fig.add_trace(go.Scatter(
-                x=line_x, y=line_x + learning_threshold, mode="lines",
+                x=line_x, y=line_x + official_threshold, mode="lines",
                 name="obere Grenze", line=dict(color=theme.ROLE["schwellwert"], width=1.5, dash="3,3"),
                 hoverinfo="skip",
             ))
             fig.add_trace(go.Scatter(
-                x=line_x, y=np.maximum(0, line_x - learning_threshold), mode="lines",
+                x=line_x, y=np.maximum(0, line_x - official_threshold), mode="lines",
                 name="untere Grenze", line=dict(color=theme.ROLE["schwellwert"], width=1.5, dash="3,3"),
                 hoverinfo="skip",
             ))
             ci.stil(
                 fig,
                 "In VLS wird die gemeinsame Fehlergrenze als Band sichtbar",
-                "Benchmark 2025 · Lernbeispiel mit 97,5. Perzentil und ±82,4 VLS-Stunden",
+                f"Benchmark 2025 · q99-Pilotschwelle aus Ende 2024 · ±{de(official_threshold, 1)} VLS-Stunden",
                 x_titel="Prognose (VLS-h)",
                 y_titel="Ist (VLS-h)",
             )
@@ -1447,7 +1485,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             fig.update_yaxes(range=[0, axis_max])
             ci.zeigen(fig)
             plot_reading(
-                "Die Navy-Diagonale bedeutet perfekte Prognose. Die beiden gepunkteten Linien liegen jeweils 82,4 VLS-Stunden entfernt.",
+                f"Die Navy-Diagonale bedeutet perfekte Prognose. Die beiden gepunkteten Linien liegen jeweils {de(official_threshold, 1)} VLS-Stunden entfernt.",
                 "Punkte außerhalb dieses Bandes überschreiten die gewählte Grenze und werden als Prüfhinweis markiert.",
                 "Im gemeinsamen kWh-Plot wäre ein einziges paralleles Band falsch, weil die kWh-Grenze von der jeweiligen Vertragsleistung abhängt.",
             )
@@ -1485,8 +1523,8 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 ("Dashboard-Regler", "Kein Retraining", "Der Regler ändert nur die Entscheidungsgrenze auf bereits vorhandenen Prognosefehlern."),
             ])
             note(
-                "Warum sind 2025 nicht exakt 2,5 Prozent auffällig?",
-                "Das 97,5. Perzentil beschreibt die Fehlerverteilung der Kalibrierung Ende 2024. "
+                "Warum sind 2025 nicht exakt 1 Prozent auffällig?",
+                "Das 99. Perzentil beschreibt die Fehlerverteilung der Kalibrierung Ende 2024. "
                 "Auf 2025 wird die feste Grenze nur angewendet; die spätere Verteilung darf anders aussehen."
             )
             """,
@@ -1496,7 +1534,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             """
             ci.abschnitt(
                 "05", "Ein echter Fall vollständig durchgerechnet",
-                "ZL-00147 verbindet Ist, Prognose, zwei Monatsabweichungen und den Schwellenfaktor.",
+                "ZL-00147 verbindet Ist, Prognose, Residuum und die einheitliche q99-Entscheidungsgrenze.",
                 kontext="LERNPFAD / FALLBEISPIEL",
             )
             """,
@@ -1504,7 +1542,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
         code(
             "learn-case-timeseries",
             """
-            case_alerts = case_history[case_history["hinweis_97_5"]]
+            case_alerts = case_history[case_history["pruefhinweis_q99"]]
             fig = eda.timeseries_forecast(
                 case_history["monat"],
                 case_history["verbrauch_kwh"],
@@ -1516,15 +1554,15 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             fig.update_layout(hovermode="x unified")
             ci.stil(
                 fig,
-                f"Ein Zähler kann in verschiedenen Monaten getrennt auffällig sein · {case_id}",
-                "Benchmark 2025 · rote Marker nach der 97,5-%-Lernschwelle",
+                f"Ist und Prognose machen den Prüfhinweis sichtbar · {case_id}",
+                "Benchmark 2025 · roter Marker nach der q99-Pilotschwelle",
                 x_titel="Monat",
                 y_titel="Verbrauch (kWh)",
             )
             ci.zeigen(fig)
             plot_reading(
-                "August und September 2025 tragen jeweils einen roten Marker, weil beide Monate ihre eigene Schwellenprüfung überschreiten.",
-                "Das sind zwei unterschiedliche Zähler-Monate desselben Zählers – kein doppelter Datensatz und kein doppeltes Zählen desselben Monats.",
+                "Nur August 2025 trägt einen roten Marker: Der Istwert liegt deutlich über der Prognose und überschreitet die q99-Grenze.",
+                "September weicht ebenfalls nach unten ab, bleibt mit seinem absoluten VLS-Fehler aber unter der q99-Grenze und ist deshalb kein Prüfhinweis.",
                 "Der rote Marker besitzt absichtlich keinen eigenen Zahlen-Hover. So erscheinen Istwert und Prüfhinweis nicht mehr mit demselben Wert doppelt.",
             )
             """,
@@ -1533,13 +1571,13 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             "learn-factor-explanation",
             """
             formula(
-                "Schwellenfaktor = |VLS-Residuum| ÷ gewählte VLS-Schwelle",
-                "Kleiner 1: innerhalb der Grenze · genau 1: auf der Grenze · größer 1: Prüfhinweis. Der Faktor ist keine Wahrscheinlichkeit."
+                "signierter Schwellenfaktor = VLS-Residuum ÷ q99-Schwelle",
+                "Zwischen −1 und +1: innerhalb der Grenze · über +1: ungewöhnlich hoher Verbrauch · unter −1: ungewöhnlich niedriger Verbrauch. Der Faktor ist keine Wahrscheinlichkeit."
             )
             selected_months = case_history[case_history["monat"].dt.month.isin([8, 9])].copy()
             case_table = selected_months[[
                 "monat", "verbrauch_kwh", "prognose_kwh", "residuum_kwh",
-                "residuum_vls", "faktor_97_5", "hinweis_97_5",
+                "residuum_vls", "faktor_q99", "pruefhinweis_q99",
             ]].copy()
             case_table["Monat"] = case_table.pop("monat").dt.strftime("%m/%Y")
             case_table = case_table.rename(columns={
@@ -1547,31 +1585,31 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 "prognose_kwh": "Prognose (kWh)",
                 "residuum_kwh": "Residuum (kWh)",
                 "residuum_vls": "Residuum (VLS-h)",
-                "faktor_97_5": "Faktor",
-                "hinweis_97_5": "Prüfhinweis",
+                "faktor_q99": "Faktor q99",
+                "pruefhinweis_q99": "Prüfhinweis",
             })
             for column in ["Ist (kWh)", "Prognose (kWh)", "Residuum (kWh)"]:
                 case_table[column] = case_table[column].map(lambda x: de(x, 1))
             case_table["Residuum (VLS-h)"] = case_table["Residuum (VLS-h)"].map(lambda x: de(x, 3))
-            case_table["Faktor"] = case_table["Faktor"].map(lambda x: de(x, 3))
+            case_table["Faktor q99"] = case_table["Faktor q99"].map(lambda x: de(x, 3))
             case_table["Prüfhinweis"] = case_table["Prüfhinweis"].map({True: "ja", False: "nein"})
             simple_table(case_table)
 
             august = selected_months[selected_months["monat"].dt.month.eq(8)].iloc[0]
             september = selected_months[selected_months["monat"].dt.month.eq(9)].iloc[0]
-            individual_kwh_threshold = learning_threshold * august["vertragsleistung_kw"]
+            individual_kwh_threshold = official_threshold * august["vertragsleistung_kw"]
             cards([
-                ("Gemeinsame Schwelle", f"{de(learning_threshold, 4)} VLS-h", "Aus dem 97,5. Perzentil der 1.397 Kalibrierungsfehler."),
+                ("Gemeinsame Schwelle", f"{de(official_threshold, 4)} VLS-h", "Aus dem 99. Perzentil der 1.397 Kalibrierungsfehler."),
                 ("Zählergröße", f"{de(august['vertragsleistung_kw'], 0)} kW", "Vertragsleistung von ZL-00147."),
-                ("Individuelle kWh-Grenze", f"{de(individual_kwh_threshold, 1)} kWh", "82,4304 VLS-h × 49 kW."),
+                ("Individuelle kWh-Grenze", f"{de(individual_kwh_threshold, 1)} kWh", f"{de(official_threshold, 4)} VLS-h × 49 kW."),
             ])
             formula(
-                f"August: |{de(august['residuum_kwh'], 1)} kWh| ÷ 49 kW ÷ {de(learning_threshold, 4)} h = {de(august['faktor_97_5'], 3)}",
-                "Der Augustfehler ist rund viermal so groß wie die gewählte Grenze: ungewöhnlich hoch."
+                f"August: {de(august['residuum_kwh'], 1)} kWh ÷ 49 kW ÷ {de(official_threshold, 4)} h = +{de(august['faktor_q99'], 3)}",
+                "Der Augustfehler ist rund 2,30-mal so groß wie die q99-Grenze: Prüfhinweis für ungewöhnlich hohen Verbrauch."
             )
             formula(
-                f"September: |{de(september['residuum_kwh'], 1)} kWh| ÷ 49 kW ÷ {de(learning_threshold, 4)} h = {de(september['faktor_97_5'], 3)}",
-                "Der Septemberfehler liegt rund 19 Prozent über der Grenze: ungewöhnlich niedrig."
+                f"September: {de(september['residuum_kwh'], 1)} kWh ÷ 49 kW ÷ {de(official_threshold, 4)} h = {de(september['faktor_q99'], 3)}",
+                "Der Septemberfehler liegt bei rund −0,68 und bleibt damit innerhalb der q99-Grenze: kein Prüfhinweis."
             )
             """,
         ),
@@ -1579,46 +1617,47 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             "learn-factor-plot",
             """
             colors = np.where(
-                case_history["hinweis_97_5"],
+                case_history["pruefhinweis_q99"],
                 theme.ROLE["anomalie"],
                 theme.ROLE["residuum"],
             )
-            status = np.where(case_history["hinweis_97_5"], "Prüfhinweis", "innerhalb der Grenze")
+            status = np.where(case_history["pruefhinweis_q99"], "Prüfhinweis", "innerhalb der Grenze")
             fig = go.Figure(go.Bar(
-                x=case_history["monat"], y=case_history["faktor_97_5"],
+                x=case_history["monat"], y=case_history["faktor_q99"],
                 marker_color=colors,
                 customdata=np.c_[
-                    case_history["abs_residuum_vls"],
-                    np.repeat(learning_threshold, len(case_history)),
+                    case_history["residuum_vls"],
+                    np.repeat(official_threshold, len(case_history)),
                     status,
                 ],
                 hovertemplate=(
-                    "%{x|%m/%Y}<br>|VLS-Residuum| %{customdata[0]:.1f} h"
+                    "%{x|%m/%Y}<br>VLS-Residuum %{customdata[0]:.1f} h"
                     "<br>Schwelle %{customdata[1]:.1f} h<br>Faktor %{y:.2f}"
                     "<br>Status: %{customdata[2]}<extra></extra>"
                 ),
             ))
             ci.stil(
                 fig,
-                f"Der Faktor zeigt die Stärke relativ zur Grenze · {case_id}",
-                "Benchmark 2025 · Lernschwelle 97,5. Perzentil = ±82,4 VLS-Stunden",
+                f"Der signierte Faktor zeigt Richtung und Stärke · {case_id}",
+                f"Benchmark 2025 · q99-Pilotschwelle = ±{de(official_threshold, 1)} VLS-Stunden",
                 x_titel="Monat",
                 y_titel="Schwellenfaktor",
             )
             fig.update_xaxes(type="date", tickformat="%m/%Y", dtick="M3")
-            ci.schwellwert(fig, 1, "Grenze 1,00")
+            ci.schwellwert(fig, 1, "obere Grenze +1,00")
+            ci.schwellwert(fig, -1, "untere Grenze −1,00")
             ci.zeigen(fig)
             plot_reading(
-                "Blaue Balken bleiben unter 1. Die zwei roten Balken im August und September überschreiten 1.",
-                "August erreicht Faktor 4,03, September 1,19. Deshalb entstehen zwei getrennte monatliche Prüfhinweise.",
-                "Faktor 4 bedeutet vierfache Schwellenüberschreitung, nicht 400 Prozent Defektwahrscheinlichkeit.",
+                "Blaue Balken bleiben zwischen −1 und +1. Nur der rote Augustbalken überschreitet mit +2,30 die obere Grenze.",
+                "September liegt bei −0,68: Der Verbrauch ist niedriger als erwartet, aber die Abweichung reicht für q99 nicht aus.",
+                "Faktor +2,30 bedeutet 2,30-fache positive Schwellenabweichung, nicht 230 Prozent Defektwahrscheinlichkeit.",
             )
             exam_sentence(
-                "Der Faktor teilt den absoluten VLS-Fehler durch die gewählte Schwelle. Ab Faktor 1 wird der Zähler-Monat vorgelegt; das ist noch kein bestätigter Defekt."
+                "Der signierte Faktor teilt das VLS-Residuum durch die q99-Schwelle. Außerhalb von −1 bis +1 wird der Zähler-Monat vorgelegt; das ist noch kein bestätigter Defekt."
             )
             check(
-                "Warum ist der September ebenfalls rot, obwohl der Ausschlag viel kleiner als im August ist?",
-                "Sein Faktor beträgt 1,19 und liegt damit trotzdem über der Entscheidungsgrenze 1,00. Jeder Monat wird separat bewertet.",
+                "Warum ist der September trotz sichtbarer Abweichung nicht rot?",
+                "Sein Faktor beträgt −0,68 und bleibt damit innerhalb der q99-Entscheidungsgrenzen von −1 und +1.",
             )
             """,
         ),
@@ -1626,15 +1665,15 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             "learn-quantile-change-case",
             """
             cards([
-                ("97,5. Perzentil", "August und September", "Bei ±82,4 VLS-h überschreiten beide Monate die Grenze."),
-                ("99. Perzentil", "Nur August", "Bei ±144,4 VLS-h bleibt August auffällig; September fällt unter Faktor 1."),
+                ("q99-Pilotgrenze", "Nur August", f"Bei ±{de(official_threshold, 1)} VLS-h überschreitet nur August die dokumentierte Grenze."),
+                ("Sensitivitätsvergleich", "Mehr oder weniger Hinweise", "Niedrigere Perzentile zeigen mehr Fälle; höhere Perzentile priorisieren stärker."),
                 ("Wirkung des Reglers", "Gleiche Prognosen", "Nur die Entscheidungsschwelle ändert sich. Das Modell wird nicht erneut trainiert."),
             ])
             note(
-                "Lernbeispiel und Pilotannahme auseinanderhalten",
-                "Die Detailrechnung verwendet 97,5 Prozent, weil sie zu deinem Screenshot mit "
-                "zwei roten Monaten gehört. Im Prüfungsnotebook ist 99 Prozent als dokumentierte "
-                "Pilotannahme voreingestellt. Beide stammen aus derselben Kalibrierungslogik."
+                "Warum q99 und nicht automatisch der perfekte Sweet Spot?",
+                "q99 ist eine konservative, dokumentierte Pilotannahme mit rund 9,5 Hinweisen pro Monat. "
+                "Ohne fachlich bestätigte Labels gibt es noch keinen objektiv optimalen Sweet Spot; im Betrieb "
+                "werden Prüfaufwand und spätere Trefferquote gemeinsam ausgewertet."
             )
             """,
         ),
@@ -1653,7 +1692,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             """
             cards([
                 ("Statistischer Ausreißer", "Extremer Wert", "Ein Wert liegt ungewöhnlich weit von einer Vergleichsverteilung entfernt."),
-                ("Modellanomalie", "Unerwarteter Fehler", "Ist und Modellprognose unterscheiden sich stärker als die kalibrierte Grenze."),
+                ("Ungewöhnliche Modellabweichung", "Grenze überschritten", "Ist und Modellprognose unterscheiden sich stärker als die kalibrierte Grenze."),
                 ("Prüfhinweis", "Arbeitsauftrag", "Ein Mensch soll Datenqualität, Kontext und mögliche Ursache prüfen."),
                 ("Bestätigte Anomalie", "Fachliches Label", "Erst die Untersuchung bestätigt, ob wirklich ein relevanter Sachverhalt vorlag."),
             ])
@@ -1677,7 +1716,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 (3, "Fall öffnen", "Ist, Prognose, Residuum und Historie werden gemeinsam betrachtet."),
                 (4, "Kontext prüfen", "Wartung, Produktion, Stammdaten und Messwertqualität werden ergänzt."),
                 (5, "Entscheidung dokumentieren", "Bestätigen, verwerfen oder zur weiteren Prüfung geben."),
-                (6, "Aus Feedback lernen", "Erst bestätigte Ergebnisse ermöglichen später Precision, Recall und Schwellenoptimierung."),
+                (6, "Aus Feedback lernen", "Bestätigte Labels ermöglichen später Precision, Recall und ein zweites Klassifikationsmodell."),
             ])
             note(
                 "Verbindliche fachliche Grenze",
@@ -1702,7 +1741,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
             | absoluter Fehler | Betrag des Residuums ohne Richtung |
             | Kalibrierung | Festlegung der Schwelle auf vorgelagerten Fehlern |
             | Perzentil | Position in einer sortierten Werteverteilung |
-            | Schwellenfaktor | absoluter VLS-Fehler geteilt durch VLS-Schwelle |
+            | Schwellenfaktor | VLS-Residuum geteilt durch VLS-Schwelle; Vorzeichen zeigt die Richtung |
             | Prüfhinweis | Schwelle überschritten; fachliche Untersuchung erforderlich |
             | Data Leakage | unzulässige Nutzung zukünftiger oder fremder Prüfinformation |
             | Overfitting | gute Anpassung an bekannte Daten, aber schwache Übertragung auf neue Daten |
@@ -1718,11 +1757,11 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 ("Warum kein zufälliger Split?", "Weil spätere Monate sonst Informationen für frühere Prognosen liefern könnten. Vergangenheit muss Zukunft erklären."),
                 ("Wozu dienen Baselines?", "Sie zeigen, ob das Machine-Learning-Modell einfache betriebliche Regeln tatsächlich schlägt."),
                 ("Was zeigt der Whisker?", "Die Standardabweichung der drei zeitlichen Fold-RMSE, nicht ein Konfidenzintervall und keine Einzelprognoseunsicherheit."),
-                ("Was bedeutet das 97,5. Perzentil?", "Ungefähr 97,5 Prozent der sortierten absoluten Kalibrierungsfehler liegen bis zur Grenze von 82,4 VLS-Stunden."),
+                ("Was bedeutet das 99. Perzentil?", "Ungefähr 99 Prozent der sortierten absoluten Kalibrierungsfehler liegen bis zur Grenze von 144,4 VLS-Stunden; rund 1 Prozent liegt darüber."),
                 ("Ist die Schwelle pro Zähler?", "In VLS ist sie gemeinsam. In kWh wird sie durch Multiplikation mit der jeweiligen Vertragsleistung zählerspezifisch."),
-                ("Was ist der Faktor?", "Der absolute VLS-Fehler geteilt durch die gewählte VLS-Schwelle. Über 1 entsteht ein Prüfhinweis."),
-                ("Ist Faktor 4 eine Wahrscheinlichkeit?", "Nein. Der Fehler ist viermal so groß wie die Schwelle; über die Defektwahrscheinlichkeit sagt das allein nichts."),
-                ("Warum zwei rote Monate?", "Jeder Zähler-Monat wird einzeln bewertet. August und September können deshalb zwei getrennte Hinweise desselben Zählers sein."),
+                ("Was ist der Faktor?", "Das signierte VLS-Residuum geteilt durch die q99-Schwelle. Außerhalb von −1 bis +1 entsteht ein Prüfhinweis."),
+                ("Ist Faktor +2,30 eine Wahrscheinlichkeit?", "Nein. Der positive Fehler ist 2,30-mal so groß wie die Schwelle; über die Defektwahrscheinlichkeit sagt das allein nichts."),
+                ("Warum ist nur August rot?", "August liegt bei Faktor +2,30 außerhalb der Grenze. September liegt bei −0,68 und damit innerhalb des q99-Bands."),
                 ("Ist das Modell overfitted?", "Es gibt kein klares Signal, weil es in zeitlichen Folds und 2025 gut abschneidet. Ausschließen lässt es sich erst mit weiterem prospektivem Betrieb."),
                 ("Warum keine Precision und Recall?", "Weil noch keine vollständigen fachlich bestätigten Anomalielabel vorliegen."),
             ]
@@ -1769,7 +1808,7 @@ def build_notebook(destination: Path = DEFAULT_DESTINATION) -> Path:
                 "source_sha256": source_hash,
                 "purpose": "Lern- und Nachschlageheft zur IHK-Modellierung",
                 "official_exam_notebook": "notebooks/12_modeling_ihk_lernstory.ipynb",
-                "learning_quantile": 0.975,
+                "anomaly_quantile": 0.99,
                 "official_pilot_quantile": 0.99,
                 "generated_at_utc": datetime.now(timezone.utc).isoformat(),
             },
