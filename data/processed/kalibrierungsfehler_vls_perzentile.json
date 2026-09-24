@@ -1,0 +1,64 @@
+{
+  "source": "data/processed/modellierung_basis_bis_3_monate.csv",
+  "model_path": "scripts/build_anomaly_dashboard_data.py::_model_results",
+  "calibration_period": "2024-11 through 2024-12",
+  "observations": 1397,
+  "sort": "ascending by absolute VLS residual",
+  "residual_formula": "(verbrauch_kwh - prognose_kwh) / vertragsleistung_kw",
+  "absolute_residual_formula": "abs(residuum_vls)",
+  "quantile_method": "pandas Series.quantile default: linear interpolation",
+  "minimum_abs_residual_vls_hours": 0.07406263942500857,
+  "median_abs_residual_vls_hours": 17.29470491314496,
+  "mean_abs_residual_vls_hours": 24.54910920392641,
+  "maximum_abs_residual_vls_hours": 481.74489326159767,
+  "percentiles": [
+    {
+      "quantile": 0.95,
+      "percentile": 95.0,
+      "zero_based_position": 1326.2,
+      "lower_rank_one_based": 1327,
+      "lower_value_vls_hours": 67.940701866245,
+      "upper_rank_one_based": 1328,
+      "upper_value_vls_hours": 68.20858294754129,
+      "linear_interpolation_weight_upper": 0.20000000000004547,
+      "threshold_vls_hours": 67.99427808250428,
+      "calibration_values_at_or_above_threshold": 70
+    },
+    {
+      "quantile": 0.975,
+      "percentile": 97.5,
+      "zero_based_position": 1361.1,
+      "lower_rank_one_based": 1362,
+      "lower_value_vls_hours": 82.41292823195151,
+      "upper_rank_one_based": 1363,
+      "upper_value_vls_hours": 82.58764866861677,
+      "linear_interpolation_weight_upper": 0.09999999999990905,
+      "threshold_vls_hours": 82.43040027561803,
+      "calibration_values_at_or_above_threshold": 35
+    },
+    {
+      "quantile": 0.99,
+      "percentile": 99.0,
+      "zero_based_position": 1382.04,
+      "lower_rank_one_based": 1383,
+      "lower_value_vls_hours": 144.22146030563576,
+      "upper_rank_one_based": 1384,
+      "upper_value_vls_hours": 147.5525742653633,
+      "linear_interpolation_weight_upper": 0.03999999999996362,
+      "threshold_vls_hours": 144.35470486402474,
+      "calibration_values_at_or_above_threshold": 14
+    },
+    {
+      "quantile": 0.995,
+      "percentile": 99.5,
+      "zero_based_position": 1389.02,
+      "lower_rank_one_based": 1390,
+      "lower_value_vls_hours": 196.1525732769051,
+      "upper_rank_one_based": 1391,
+      "upper_value_vls_hours": 203.44166804477464,
+      "linear_interpolation_weight_upper": 0.01999999999998181,
+      "threshold_vls_hours": 196.29835517226235,
+      "calibration_values_at_or_above_threshold": 7
+    }
+  ]
+}

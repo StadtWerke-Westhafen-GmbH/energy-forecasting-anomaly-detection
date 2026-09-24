@@ -19,13 +19,33 @@ function optionLabel(options, value) {
   return options.find((option) => option.value === value)?.label || value || "Unklar";
 }
 
-function ZaehlerDetailScreen({ alertId, decisions = {}, onBack, onReview }) {
+function percentileLabel(value) {
+  return Number(value).toLocaleString("de-DE", {
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 1,
+    maximumFractionDigits: 1,
+  });
+}
+
+function ZaehlerDetailScreen({ alertId, decisions = {}, thresholdOption, onBack, onReview }) {
   const D = window.SWWAnomalyData;
-  const alert = D.alerts.find((item) => item.alert_id === alertId) || D.alerts[0];
+  const baseAlert = D.observations.find((item) => item.alert_id === alertId) || D.alerts[0];
+  const threshold = thresholdOption.threshold_vls;
+  const meterAlertCount = D.observations.filter((item) => (
+    item.zaehler_id === baseAlert.zaehler_id && item.abs_residual_vls >= threshold
+  )).length;
+  const alert = {
+    ...baseAlert,
+    score: baseAlert.abs_residual_vls / threshold,
+    meter_alert_count: meterAlertCount,
+  };
   const meter = D.meters[alert.zaehler_id];
   const decision = decisions[alert.alert_id] || { workflow: "nicht_bewertet" };
-  const scoreRows = meter.series.filter((item) => item.score != null);
-  const anomalyRows = meter.series.filter((item) => item.is_alert);
+  const scoreRows = meter.series.filter((item) => item.residual_vls != null).map((item) => ({
+    ...item,
+    score: Math.abs(item.residual_vls) / threshold,
+    is_alert: Math.abs(item.residual_vls) >= threshold,
+  }));
+  const anomalyRows = scoreRows.filter((item) => item.is_alert);
   const ReviewBadge = window.ReviewBadge;
 
   const contextRows = [
@@ -47,7 +67,7 @@ function ZaehlerDetailScreen({ alertId, decisions = {}, onBack, onReview }) {
         subtitle={`${alert.kunde_id} · ${alert.direction}. Das Modell priorisiert den Fall; die Ursache wird fachlich geprüft.`}
         meta={<>
           <Tag dotColor={KUNDENTYP_COLOR[alert.kundentyp]}>{alert.kundentyp}</Tag>
-          <Badge status="critical" icon="triangle-alert">Score {formatNumber(alert.score, 2)}</Badge>
+          <Badge status="critical" icon="triangle-alert">Faktor {formatNumber(alert.score, 2)}</Badge>
           <ReviewBadge workflow={decision.workflow} />
           {alert.wartung_aktiv ? <Tag icon="wrench">Wartung gemeldet</Tag> : null}
           {alert.dq_capacity ? <Badge status="critical" icon="database">DQ-Flag</Badge> : null}
@@ -63,12 +83,12 @@ function ZaehlerDetailScreen({ alertId, decisions = {}, onBack, onReview }) {
           reference="Random Forest · Vollaststunden" />
         <KpiTile label="Abweichung" value={signedValue(alert.residual_kwh, 0)} unit="kWh" icon="activity"
           delta={signedValue(alert.deviation_pct, 1, " %")} deltaTone="bad" reference="gegenüber Prognose" />
-        <KpiTile label="Anomalie-Score" value={formatNumber(alert.score, 2)} icon="triangle-alert"
-          reference={`Schwelle ${formatNumber(D.meta.threshold_score, 2)}`} />
+        <KpiTile label="Schwellenfaktor" value={formatNumber(alert.score, 2)} icon="triangle-alert"
+          reference={`ab 1,00 · ${percentileLabel(thresholdOption.percentile)}. Perzentil`} />
       </div>
 
       <Alert status="warn" title="Warum wurde dieser Fall markiert?" style={{ marginBottom: "var(--space-4)" }}>
-        Der robust normierte Log-Residual-Score {formatNumber(alert.score, 2)} liegt über der aus November und Dezember 2024 kalibrierten Schwelle {formatNumber(D.meta.threshold_score, 2)}. Ist {formatNumber(alert.actual_kwh, 2)} kWh und Prognose {formatNumber(alert.forecast_kwh, 2)} kWh unterscheiden sich um {signedValue(alert.residual_kwh, 2, " kWh")} beziehungsweise {signedValue(alert.deviation_pct, 2, " %")}.
+        Das VLS-Residuum beträgt {signedValue(alert.residual_vls, 1, " h")} und überschreitet damit die aus November und Dezember 2024 kalibrierte Grenze von ±{formatNumber(threshold, 1)} VLS-Stunden. Das entspricht Faktor {formatNumber(alert.score, 2)}. Ist {formatNumber(alert.actual_kwh, 2)} kWh und Prognose {formatNumber(alert.forecast_kwh, 2)} kWh unterscheiden sich um {signedValue(alert.residual_kwh, 2, " kWh")} beziehungsweise {signedValue(alert.deviation_pct, 2, " %")}.
       </Alert>
 
       {alert.dq_capacity ? (
@@ -96,19 +116,19 @@ function ZaehlerDetailScreen({ alertId, decisions = {}, onBack, onReview }) {
           ]} />
         </Card>
 
-        <Card title="Anomalie-Score" subtitle="Kalibrierung 11/2024–12/2024 · Benchmark 01/2025–12/2025" icon="activity"
-          footer={`Score ist keine Wahrscheinlichkeit · feste Schwelle ${formatNumber(D.meta.threshold_score, 2)}`}>
+        <Card title="Schwellenfaktor" subtitle="|VLS-Residuum| ÷ gewählte Schwelle" icon="activity"
+          footer={`Faktor ist keine Wahrscheinlichkeit · ${percentileLabel(thresholdOption.percentile)}. Perzentil = ±${formatNumber(threshold, 1)} VLS-h`}>
           <Chart height={310} layout={{
             margin: { l: 58, r: 18, t: 18, b: 52 }, showlegend: false,
-            yaxis: { title: { text: "Score" }, rangemode: "tozero" },
+            yaxis: { title: { text: "Faktor" }, rangemode: "tozero" },
             xaxis: { title: { text: "Monat" } },
-            shapes: [{ type: "line", xref: "paper", x0: 0, x1: 1, y0: D.meta.threshold_score, y1: D.meta.threshold_score, line: { color: ROLE.schwelle, width: 2, dash: "3,3" } }],
-            annotations: [{ xref: "paper", x: 1, xanchor: "right", y: D.meta.threshold_score, yanchor: "bottom", text: `Schwelle ${formatNumber(D.meta.threshold_score, 2)}`, showarrow: false, font: { color: ROLE.schwelle, size: 11 } }],
+            shapes: [{ type: "line", xref: "paper", x0: 0, x1: 1, y0: 1, y1: 1, line: { color: ROLE.schwelle, width: 2, dash: "3,3" } }],
+            annotations: [{ xref: "paper", x: 1, xanchor: "right", y: 1, yanchor: "bottom", text: "Grenze 1,00", showarrow: false, font: { color: ROLE.schwelle, size: 11 } }],
           }} data={[{
             type: "bar", x: scoreRows.map((item) => item.month_label), y: scoreRows.map((item) => item.score),
             marker: { color: scoreRows.map((item) => item.is_alert ? ROLE.anomalie : ROLE.residuum) },
             customdata: scoreRows.map((item) => item.phase),
-            hovertemplate: "%{x}<br>Score %{y:.2f}<br>%{customdata}<extra></extra>",
+            hovertemplate: "%{x}<br>Faktor %{y:.2f}<br>%{customdata}<extra></extra>",
           }]} />
         </Card>
       </div>

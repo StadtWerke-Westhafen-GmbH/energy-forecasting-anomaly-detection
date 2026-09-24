@@ -18,11 +18,15 @@ from nbclient import NotebookClient
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / "notebooks" / "12_modeling_ihk_lernstory.ipynb"
-DATA_SOURCE = ROOT / "data" / "raw" / "260916_verbrauch_bereinigt.csv"
+DATA_SOURCE = (
+    ROOT / "data" / "processed" / "modellierung_basis_bis_3_monate.csv"
+)
 PROTECTED = tuple(
     path
     for path in (
         DATA_SOURCE,
+        ROOT / "data" / "processed" / "modellierung_basis.csv",
+        ROOT / "data" / "processed" / "modellierung_basis_bis_3_monate.provenance.json",
         ROOT / "data" / "raw" / "verbrauch.csv",
         ROOT / "notebooks" / "00_design_system.ipynb",
         ROOT / "notebooks" / "10_modeling.ipynb",
@@ -63,7 +67,7 @@ def main() -> None:
     notebook = nbformat.read(TARGET, as_version=4)
     metadata = notebook.metadata.sww
     assert metadata.builder == "scripts/build_modeling_ihk_lernstory_notebook.py"
-    assert metadata.data_source == "data/raw/260916_verbrauch_bereinigt.csv"
+    assert metadata.data_source == "data/processed/modellierung_basis_bis_3_monate.csv"
     assert metadata.source_sha256 == _digest(DATA_SOURCE)
     assert metadata.development_period == "01/2024\u201312/2024"
     assert metadata.benchmark_period == "01/2025\u201312/2025"
@@ -106,7 +110,7 @@ def main() -> None:
             figure = output.get("data", {}).get("application/vnd.plotly.v1+json")
             if figure:
                 meta = figure["layout"]["meta"]["sww"]
-                assert meta["source"] == "data/raw/260916_verbrauch_bereinigt.csv"
+                assert meta["source"] == "data/processed/modellierung_basis_bis_3_monate.csv"
                 assert meta["period"] == "01/2024\u201312/2025"
                 figures.append(figure)
                 figure_cells.add(cell.id)

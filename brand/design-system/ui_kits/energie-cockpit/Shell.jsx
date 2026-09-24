@@ -34,12 +34,12 @@ function TopBar({ title, onMonthChange, monat, screen }) {
   );
 }
 
-function Shell({ screen, onNavigate, title, monat, onMonthChange, children }) {
+function Shell({ screen, onNavigate, title, monat, onMonthChange, anomalyCount, children }) {
   const { metrik } = window.SWWData;
   const anomaly = window.SWWAnomalyData;
   const anomalyMode = screen === "anomalien" || screen === "zaehler";
   const navItems = NAV.map((item) => item.id === "anomalien"
-    ? { ...item, count: anomaly.summary.alerts_total }
+    ? { ...item, count: anomalyCount ?? anomaly.summary.alerts_total }
     : item);
   return (
     <div className="sww-app" style={{ display: "flex", height: "100vh", overflow: "hidden", background: "var(--surface-page)" }}>
