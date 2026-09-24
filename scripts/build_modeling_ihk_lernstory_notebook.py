@@ -819,6 +819,20 @@ def build_notebook(destination: Path) -> Path:
             CAT_FEATURES = ["kundentyp"]
             X_COLUMNS = [*NUM_FEATURES, *CAT_FEATURES, "vertragsleistung_kw"]
 
+            DIRECT_KWH_NUM_FEATURES = [
+                "arbeitstage",
+                "feiertage_im_monat",
+                "heiztage",
+                "produktionsplan_index",
+                "wartung_aktiv",
+                "lag_1_kwh",
+                "rolling_3_kwh",
+                "monat_sin",
+                "monat_cos",
+                "vertragsleistung_kw",
+            ]
+            DIRECT_KWH_X_COLUMNS = [*DIRECT_KWH_NUM_FEATURES, *CAT_FEATURES]
+
 
             def make_preprocessor(scale=False):
                 numeric_steps = [
@@ -880,6 +894,50 @@ def build_notebook(destination: Path) -> Path:
                         ),
                     ),
                 ]))
+
+
+            def direct_kwh_forest_estimator(params):
+                direct_preprocessor = ColumnTransformer([
+                    (
+                        "num",
+                        Pipeline([
+                            (
+                                "impute",
+                                SimpleImputer(
+                                    strategy="median",
+                                    keep_empty_features=True,
+                                ),
+                            ),
+                        ]),
+                        DIRECT_KWH_NUM_FEATURES,
+                    ),
+                    (
+                        "cat",
+                        Pipeline([
+                            ("impute", SimpleImputer(strategy="most_frequent")),
+                            (
+                                "onehot",
+                                OneHotEncoder(
+                                    handle_unknown="ignore",
+                                    sparse_output=False,
+                                ),
+                            ),
+                        ]),
+                        CAT_FEATURES,
+                    ),
+                ], sparse_threshold=0.0)
+                return Pipeline([
+                    ("pre", direct_preprocessor),
+                    (
+                        "model",
+                        RandomForestRegressor(
+                            n_estimators=300,
+                            n_jobs=-1,
+                            random_state=RANDOM_STATE,
+                            **params,
+                        ),
+                    ),
+                ])
 
 
             def metrics(actual, predicted):
@@ -1287,6 +1345,228 @@ def build_notebook(destination: Path) -> Path:
             """,
         ),
         code(
+            "ihk-target-comparison",
+            """
+            direct_tuning_rows = []
+            for params in parameter_grid:
+                fold_scores = []
+                for train_idx, valid_idx in folds:
+                    train = selection.iloc[train_idx]
+                    valid = selection.iloc[valid_idx]
+                    fitted = direct_kwh_forest_estimator(params).fit(
+                        train[DIRECT_KWH_X_COLUMNS],
+                        train["verbrauch_kwh"],
+                    )
+                    prediction = fitted.predict(valid[DIRECT_KWH_X_COLUMNS])
+                    fold_scores.append(
+                        metrics(valid["verbrauch_kwh"], prediction)
+                    )
+                direct_tuning_rows.append({
+                    **params,
+                    "CV-RMSE (kWh)": np.mean([
+                        score["RMSE (kWh)"] for score in fold_scores
+                    ]),
+                    "CV-MAE (kWh)": np.mean([
+                        score["MAE (kWh)"] for score in fold_scores
+                    ]),
+                    "CV-R²": np.mean([score["R²"] for score in fold_scores]),
+                })
+
+            direct_tuning_results = pd.DataFrame(direct_tuning_rows).sort_values(
+                "CV-RMSE (kWh)"
+            ).reset_index(drop=True)
+            direct_absolute_best = direct_tuning_results.iloc[0]
+            direct_near_best = direct_tuning_results[
+                direct_tuning_results["CV-RMSE (kWh)"].le(
+                    direct_absolute_best["CV-RMSE (kWh)"]
+                    * (1 + RF_PARSIMONY_TOLERANCE)
+                )
+                & direct_tuning_results["max_depth"].notna()
+            ].sort_values("CV-RMSE (kWh)")
+            direct_recommended = (
+                direct_near_best.iloc[0]
+                if not direct_near_best.empty
+                else direct_absolute_best
+            )
+            direct_best_rf_params = {
+                "max_depth": (
+                    None
+                    if pd.isna(direct_recommended["max_depth"])
+                    else int(direct_recommended["max_depth"])
+                ),
+                "min_samples_leaf": int(
+                    direct_recommended["min_samples_leaf"]
+                ),
+                "max_features": float(direct_recommended["max_features"]),
+            }
+
+            direct_kwh_model = direct_kwh_forest_estimator(
+                direct_best_rf_params
+            ).fit(
+                development[DIRECT_KWH_X_COLUMNS],
+                development["verbrauch_kwh"],
+            )
+            direct_kwh_prediction = direct_kwh_model.predict(
+                benchmark[DIRECT_KWH_X_COLUMNS]
+            )
+            direct_test_metrics = metrics(
+                benchmark["verbrauch_kwh"],
+                direct_kwh_prediction,
+            )
+            vls_cv_metrics = comparison.set_index("Kandidat").loc[
+                "Random Forest"
+            ]
+            vls_test_metrics = benchmark_metrics.set_index("Kandidat").loc[
+                "Random Forest"
+            ]
+
+            target_comparison = pd.DataFrame([
+                {
+                    "Zeitraum": "Modellwahl 2024",
+                    "Zielansatz": "Direkt in kWh gelernt",
+                    "RMSE (kWh)": direct_recommended["CV-RMSE (kWh)"],
+                },
+                {
+                    "Zeitraum": "Modellwahl 2024",
+                    "Zielansatz": "VLS gelernt, in kWh bewertet",
+                    "RMSE (kWh)": vls_cv_metrics["CV-RMSE (kWh)"],
+                },
+                {
+                    "Zeitraum": "Retrospektiver Test 2025",
+                    "Zielansatz": "Direkt in kWh gelernt",
+                    "RMSE (kWh)": direct_test_metrics["RMSE (kWh)"],
+                },
+                {
+                    "Zeitraum": "Retrospektiver Test 2025",
+                    "Zielansatz": "VLS gelernt, in kWh bewertet",
+                    "RMSE (kWh)": vls_test_metrics["RMSE (kWh)"],
+                },
+            ])
+            cv_target_gain = (
+                1
+                - vls_cv_metrics["CV-RMSE (kWh)"]
+                / direct_recommended["CV-RMSE (kWh)"]
+            )
+            test_target_gain = (
+                1
+                - vls_test_metrics["RMSE (kWh)"]
+                / direct_test_metrics["RMSE (kWh)"]
+            )
+            test_target_mae_gain = (
+                1
+                - vls_test_metrics["MAE (kWh)"]
+                / direct_test_metrics["MAE (kWh)"]
+            )
+
+            size_labels = ["Q1 klein", "Q2", "Q3", "Q4 groß"]
+            size_segment = pd.qcut(
+                benchmark["vertragsleistung_kw"],
+                q=4,
+                labels=size_labels,
+            )
+            segment_gains = []
+            vls_test_prediction = benchmark_predictions["Random Forest"]
+            for segment in size_labels:
+                mask = size_segment.eq(segment).to_numpy()
+                vls_segment_rmse = metrics(
+                    benchmark.loc[mask, "verbrauch_kwh"],
+                    vls_test_prediction[mask],
+                )["RMSE (kWh)"]
+                direct_segment_rmse = metrics(
+                    benchmark.loc[mask, "verbrauch_kwh"],
+                    direct_kwh_prediction[mask],
+                )["RMSE (kWh)"]
+                segment_gains.append(1 - vls_segment_rmse / direct_segment_rmse)
+            improved_segments = sum(gain > 0 for gain in segment_gains)
+
+            fig = go.Figure()
+            for target_name, color in [
+                ("Direkt in kWh gelernt", theme.TOKENS["grey-400"]),
+                ("VLS gelernt, in kWh bewertet", theme.ROLE["prognose"]),
+            ]:
+                values = target_comparison[
+                    target_comparison["Zielansatz"].eq(target_name)
+                ]
+                fig.add_trace(go.Bar(
+                    name=target_name,
+                    x=values["RMSE (kWh)"],
+                    y=values["Zeitraum"],
+                    orientation="h",
+                    marker_color=color,
+                    text=[
+                        f"{de(value, 0)} kWh"
+                        for value in values["RMSE (kWh)"]
+                    ],
+                    textposition="outside",
+                    cliponaxis=False,
+                ))
+            fig.update_layout(barmode="group")
+            ci.stil(
+                fig,
+                "Vollaststunden senken den kWh-Fehler in beiden Zeiträumen",
+                "Random Forest gegen Random Forest · gleiche Zeitfenster · gleicher Suchraum",
+                x_titel="RMSE (kWh) – niedriger ist besser",
+                y_titel="",
+            )
+            ci.gitter_x(fig)
+            ci.zeigen(fig)
+            kpis([
+                (
+                    f"{de(test_target_gain * 100, 1)} %",
+                    "weniger RMSE im retrospektiven Test 2025",
+                ),
+                (
+                    f"{de(test_target_mae_gain * 100, 1)} %",
+                    "weniger MAE im retrospektiven Test 2025",
+                ),
+                (
+                    f"{improved_segments} von {len(size_labels)}",
+                    "Größenklassen mit geringerem RMSE",
+                ),
+            ])
+            plot_decision(
+                "Der A/B-Vergleich isoliert die fachliche Frage: VLS oder direkter kWh-Verbrauch?",
+                f"2025 sinkt der RMSE von {de(direct_test_metrics['RMSE (kWh)'], 0)} kWh "
+                f"auf {de(vls_test_metrics['RMSE (kWh)'], 0)} kWh; das sind "
+                f"{de(test_target_gain * 100, 1)} %. Bereits 2024 beträgt der Vorteil "
+                f"{de(cv_target_gain * 100, 1)} %.",
+                "Darum bleibt VLS die interne Zielgröße; Ausgabe und Bewertung erfolgen weiterhin in kWh.",
+                "Der Vorteil gilt für diesen Datensatz. Er beweist keine allgemeine Überlegenheit von VLS.",
+            )
+            details(
+                "Was macht diesen A/B-Vergleich fair?",
+                [
+                    "Beide Random Forests sehen dieselben zulässigen Zeilen, dieselben "
+                    "drei zeitlichen Prüfungen und dieselben fachlichen Informationen.",
+                    "Die Verbrauchshistorie steht jeweils in der passenden Skala bereit: "
+                    "VLS-Historie beim VLS-Modell und kWh-Historie beim direkten Modell.",
+                    "Das direkte kWh-Modell erhält die Vertragsleistung ausdrücklich als "
+                    "Merkmal. Das VLS-Modell nutzt sie zur Zielbildung und Rückrechnung.",
+                    "Beide Varianten durchsuchen dieselben acht Hyperparameterkombinationen "
+                    "und wählen separat ihr bestes ausreichend einfaches Modell.",
+                    "Am Ende werden beide auf denselben Istwerten in kWh beurteilt. Ein "
+                    "kleinerer Fehler in VLS allein wäre kein fairer Nachweis.",
+                ],
+            )
+            details(
+                "Prüferfrage: Wurde VLS erst wegen des guten 2025-Ergebnisses gewählt?",
+                [
+                    "Nein. Die Zielentscheidung wird durch den Vergleich in den drei "
+                    f"2024-Prüfzeiträumen gestützt: {de(vls_cv_metrics['CV-RMSE (kWh)'], 0)} "
+                    f"statt {de(direct_recommended['CV-RMSE (kWh)'], 0)} kWh RMSE.",
+                    "Der Wert für 2025 ist nur die spätere retrospektive Bestätigung und "
+                    "ändert die Auswahl nicht nachträglich.",
+                    f"Beide Varianten wählen dieselbe Konfiguration: Tiefe "
+                    f"{best_rf_params['max_depth']}, Blattgröße "
+                    f"{best_rf_params['min_samples_leaf']} und Merkmalsanteil "
+                    f"{best_rf_params['max_features']}.",
+                    "Die Verbesserung zeigt sich in allen vier Größenklassen. Trotzdem "
+                    "bleibt vor einem Produktiveinsatz ein prospektiver Pilot notwendig.",
+                ],
+            )
+            """,
+        ),
+        code(
             "ihk-feature-importance",
             """
             final_model = fitted_models[selected_name]
@@ -1579,6 +1859,120 @@ def build_notebook(destination: Path) -> Path:
             """,
         ),
         code(
+            "ihk-actual-vs-predicted",
+            """
+            normal_points = benchmark_scored[~benchmark_scored["anomalie"]].copy()
+            high_points = benchmark_scored[
+                benchmark_scored["anomalie"]
+                & benchmark_scored["richtung"].eq("ungewöhnlich hoch")
+            ].copy()
+            low_points = benchmark_scored[
+                benchmark_scored["anomalie"]
+                & benchmark_scored["richtung"].eq("ungewöhnlich niedrig")
+            ].copy()
+            axis_max = 1.05 * max(
+                benchmark_scored["verbrauch_kwh"].max(),
+                benchmark_scored["prognose_kwh"].max(),
+            )
+
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                x=[0, axis_max],
+                y=[0, axis_max],
+                mode="lines",
+                name="Ist = Prognose",
+                line=dict(color=theme.ROLE["ist"], width=2, dash="dash"),
+                hoverinfo="skip",
+            ))
+            fig.add_trace(go.Scattergl(
+                x=normal_points["prognose_kwh"],
+                y=normal_points["verbrauch_kwh"],
+                mode="markers",
+                name="kein Prüfhinweis",
+                marker=dict(
+                    color=theme.TOKENS["grey-400"],
+                    size=5,
+                    opacity=0.28,
+                ),
+                hovertemplate=(
+                    "Prognose: %{x:,.0f} kWh<br>"
+                    "Ist: %{y:,.0f} kWh<extra>kein Prüfhinweis</extra>"
+                ),
+            ))
+            for label, frame, color, symbol in [
+                (
+                    "Prüfhinweis · ungewöhnlich hoch",
+                    high_points,
+                    theme.ROLE["anomalie"],
+                    "triangle-up",
+                ),
+                (
+                    "Prüfhinweis · ungewöhnlich niedrig",
+                    low_points,
+                    theme.TOKENS["red-700"],
+                    "triangle-down",
+                ),
+            ]:
+                fig.add_trace(go.Scatter(
+                    x=frame["prognose_kwh"],
+                    y=frame["verbrauch_kwh"],
+                    mode="markers",
+                    name=label,
+                    marker=dict(
+                        color=color,
+                        symbol=symbol,
+                        size=11,
+                        line=dict(color=theme.TOKENS["surface-card"], width=1),
+                    ),
+                    customdata=np.column_stack([
+                        frame["zaehler_id"],
+                        frame["monat"].dt.strftime("%m/%Y"),
+                        frame["residuum_kwh"],
+                        frame["residuum_vls"],
+                        frame["anomalie_score"],
+                    ]),
+                    hovertemplate=(
+                        "Zähler %{customdata[0]} · %{customdata[1]}<br>"
+                        "Prognose: %{x:,.0f} kWh<br>"
+                        "Ist: %{y:,.0f} kWh<br>"
+                        "Abweichung: %{customdata[2]:,.0f} kWh<br>"
+                        "VLS-Residuum: %{customdata[3]:.1f} h<br>"
+                        "Anomalie-Score: %{customdata[4]:.2f}<extra></extra>"
+                    ),
+                ))
+            ci.stil(
+                fig,
+                "Ist gegen Prognose: Abstand zur Diagonalen zeigt den Fehler",
+                f"Alle {de(len(benchmark_scored), 0)} Zähler-Monate 2025 · farbig = VLS-Schwelle überschritten",
+                x_titel="Modellprognose (kWh)",
+                y_titel="Tatsächlicher Verbrauch (kWh)",
+            )
+            fig.update_xaxes(range=[0, axis_max], rangemode="tozero")
+            fig.update_yaxes(range=[0, axis_max], rangemode="tozero")
+            ci.zeigen(fig)
+            plot_decision(
+                "Jeder Punkt stellt einen Zähler-Monat dar; auf der Diagonalen stimmen Ist und Prognose überein.",
+                "Graue Punkte bleiben innerhalb der Pilotregel, farbige Dreiecke überschreiten die VLS-Schwelle.",
+                "Die markierten Fälle werden nach Score und kWh-Auswirkung zur fachlichen Prüfung priorisiert.",
+                "Der Abstand wird hier in kWh gezeigt, die faire Markierung über Anschlussgrößen erfolgt jedoch in VLS; ein Hinweis ist noch kein bestätigter Defekt.",
+            )
+            details(
+                "So liest du den Ist-Prognose-Plot in 20 Sekunden",
+                [
+                    "Die waagerechte Achse zeigt die Modellprognose, die senkrechte "
+                    "Achse den später eingetroffenen Istwert.",
+                    "Oberhalb der Diagonalen war der Verbrauch höher als erwartet; "
+                    "unterhalb war er niedriger als erwartet.",
+                    "Die Farbe entsteht nicht allein aus dem sichtbaren kWh-Abstand. "
+                    "Für kleine und große Anschlüsse wird die Abweichung zunächst in "
+                    "Vollaststunden vergleichbar gemacht.",
+                    "Viele Punkte überlagern sich. Deshalb zeigt der Plot die Lage der "
+                    "Fälle, aber keine bestätigte Ursache oder Störungshäufigkeit.",
+                ],
+            )
+            """,
+        ),
+        code(
             "ihk-case",
             """
             case_row = alerts.loc[alerts["anomalie_score"].idxmax()]
@@ -1682,6 +2076,11 @@ def build_notebook(destination: Path) -> Path:
                     f"auf 2024 gewählt; 2025-RMSE {de(selected_metrics['RMSE (kWh)'], 0)} kWh",
                 ),
                 (
+                    "Zielgröße",
+                    "Vollaststunden",
+                    f"{de(test_target_gain * 100, 1)} % weniger 2025-RMSE als direkt kWh",
+                ),
+                (
                     "Baseline",
                     str(best_baseline_test["Kandidat"]),
                     f"RMSE {de(best_baseline_test['RMSE (kWh)'], 0)} kWh",
@@ -1715,8 +2114,10 @@ def build_notebook(destination: Path) -> Path:
                     "ML Canvas, Modelltraining, Evaluation, Feature Importance und die "
                     "Definition der Anomaliehinweise.",
                     "Ich prognostiziere intern Vollaststunden, damit unterschiedlich große "
-                    "Anschlüsse vergleichbarer werden. Vor der Bewertung rechne ich jede "
-                    "Prognose wieder in kWh zurück.",
+                    "Anschlüsse vergleichbarer werden. Im fairen A/B-Vergleich sinkt der "
+                    f"2025-RMSE gegenüber direktem kWh-Lernen um "
+                    f"{de(test_target_gain * 100, 1)} Prozent. Vor der Bewertung rechne "
+                    "ich jede Prognose wieder in kWh zurück.",
                     f"Auf drei zeitlichen Prüfungen 2024 wurde {selected_name} ausgewählt. "
                     f"Im späteren Jahr erreicht das Modell {de(selected_metrics['RMSE (kWh)'], 0)} "
                     f"kWh RMSE und liegt damit {de(test_gain * 100, 1)} Prozent unter der "
@@ -1732,11 +2133,14 @@ def build_notebook(destination: Path) -> Path:
                 ],
             )
             details(
-                "Fünf wahrscheinliche Fachgesprächsfragen",
+                "Sechs wahrscheinliche Fachgesprächsfragen",
                 [
                     "Warum Regression? Weil der Monatsverbrauch eine kontinuierliche Zahl ist.",
                     "Warum zeitlicher Split? Weil zukünftige Monate beim Training unbekannt sein müssen.",
                     "Warum RMSE? Weil die Kennzahl in kWh bleibt und große Fehler stärker bestraft.",
+                    f"Warum Vollaststunden? Sie machen Anschlussgrößen vergleichbarer und "
+                    f"senken den 2025-RMSE im fairen Vergleich um "
+                    f"{de(test_target_gain * 100, 1)} Prozent; ausgegeben wird weiter kWh.",
                     "Warum Random Forest oder lineares Modell? Die Entscheidung folgt dem "
                     "2024-Vergleich und einem dokumentierten Komplexitätsgate.",
                     "Wie gut erkennt das System echte Defekte? Das ist ohne bestätigte "

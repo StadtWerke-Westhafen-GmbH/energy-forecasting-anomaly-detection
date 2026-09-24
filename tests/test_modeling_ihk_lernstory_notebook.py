@@ -16,10 +16,12 @@ EXPECTED_FIGURE_CELLS = {
     "ihk-time-split",
     "ihk-model-comparison",
     "ihk-benchmark",
+    "ihk-target-comparison",
     "ihk-feature-importance",
     "ihk-calibration",
     "ihk-threshold",
     "ihk-alerts",
+    "ihk-actual-vs-predicted",
     "ihk-case",
 }
 
@@ -104,6 +106,8 @@ def test_ihk_notebook_encodes_the_exam_contract():
         "Vollaststunden",
         "LinearRegression",
         "RandomForestRegressor",
+        "DIRECT_KWH_X_COLUMNS",
+        "direct_kwh_forest_estimator",
         "mean_squared_error",
         "mean_absolute_error",
         "r2_score",
@@ -115,6 +119,8 @@ def test_ihk_notebook_encodes_the_exam_contract():
         "RF_PARSIMONY_TOLERANCE",
         "One-Step-Ahead",
         "winterlastige Kalibrierung",
+        "Ist gegen Prognose: Abstand zur Diagonalen zeigt den Fehler",
+        "So liest du den Ist-Prognose-Plot in 20 Sekunden",
         "Das Modell ersetzt keine",
         "Precision und Recall",
         "LEARNING JOURNEY",
@@ -175,6 +181,10 @@ def test_saved_outputs_contain_the_verified_key_results():
     )
 
     assert "9.251 kWh" in html
+    assert "9.919 kWh" in html
+    assert "6,7 %" in html
+    assert "12,5 %" in html
+    assert "4 von 4" in html
     assert "16,9 %" in html
     assert "109" in html
     assert "155,3 VLS-Stunden" in html
