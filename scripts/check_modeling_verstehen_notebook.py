@@ -55,7 +55,7 @@ def main() -> None:
     metadata = notebook.metadata.sww
     assert metadata.builder == "scripts/build_modeling_verstehen_notebook.py"
     assert metadata.source_sha256 == _digest(DATA_SOURCE)
-    assert metadata.learning_quantile == 0.975
+    assert metadata.anomaly_quantile == 0.99
     assert metadata.official_pilot_quantile == 0.99
 
     client = NotebookClient(
