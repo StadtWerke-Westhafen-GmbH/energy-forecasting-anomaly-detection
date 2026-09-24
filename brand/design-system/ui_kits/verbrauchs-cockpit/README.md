@@ -10,6 +10,7 @@ Dashboard als Actionplan: Jede Ansicht beantwortet eine Frage und führt zur nä
 
 Start: `node scripts/preview.mjs` vom Repository-Stamm, dann
 `http://127.0.0.1:4173/design-system/ui_kits/verbrauchs-cockpit/index.html` (`?screen=prognose|anomalien|prueffall`).
+Auf macOS geht es auch per Doppelklick auf `Cockpit starten.command` im Repository-Stamm.
 
 ## Neue Modellversion einspielen
 

@@ -30,6 +30,10 @@ node scripts/preview.mjs
 Dann **http://127.0.0.1:4173** öffnen. Der Server ist nur lokal erreichbar und gibt ausschließlich
 Designsystem und Vorlagen frei. Rohdaten, Referenz-Uploads und Git-Dateien werden nicht ausgeliefert.
 
+Auf macOS startet ein Doppelklick auf **`Cockpit starten.command`** den Server und öffnet direkt das
+Verbrauchs-Cockpit im Browser. Läuft der Server schon, wird nur das Cockpit geöffnet. Schließen des
+Terminalfensters beendet den Server.
+
 ## Projektstruktur
 
 ```text
