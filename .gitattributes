@@ -12,6 +12,7 @@
 *.ipynb text eol=lf
 *.csv text eol=lf
 data/raw/260916_verbrauch_bereinigt.csv text eol=crlf
+data/processed/modellierung_basis.csv text eol=crlf
 *.png binary
 *.pdf binary
 *.pptx binary
