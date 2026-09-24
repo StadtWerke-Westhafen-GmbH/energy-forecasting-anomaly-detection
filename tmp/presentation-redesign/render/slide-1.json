@@ -1,0 +1,571 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/3fqonu",
+    "id": "3fqonu",
+    "slide": 1,
+    "layoutId": "469be577-bcf9-4108-8a9d-fa5cbf340d85",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "436e1a67-ea3a-470d-97af-b3025c74d1c0",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#063659",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "469be577-bcf9-4108-8a9d-fa5cbf340d85",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "436e1a67-ea3a-470d-97af-b3025c74d1c0",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "436e1a67-ea3a-470d-97af-b3025c74d1c0",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q1sv25kr",
+      "id": "1",
+      "name": "block-1",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#31607C",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d43ux0ji",
+      "id": "2",
+      "name": "block-2",
+      "bbox": [
+        64,
+        673,
+        900,
+        23
+      ],
+      "geometry": "rect",
+      "text": "SWW  /  IHK-Projekt",
+      "textPreview": "SWW  /  IHK-Projekt",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#A5C8DF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SWW  /  IHK-Projekt"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SWW  /  IHK-Projekt",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#A5C8DF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SWW  /  IHK-Projekt",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#A5C8DF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/c3ud4f2x",
+      "id": "3",
+      "name": "block-3",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "01 / 18",
+      "textPreview": "01 / 18",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#A5C8DF",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "01 / 18"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "01 / 18",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#A5C8DF",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "01 / 18",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#A5C8DF",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/a1kn6dwb",
+      "id": "4",
+      "bbox": [
+        1000,
+        64,
+        176,
+        198
+      ],
+      "alt": "Original SWW-Logo",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "asset": {
+        "assetId": "ffdf3f22-0b23-4c49-b503-971161e82974",
+        "contentType": "image/png",
+        "byteLength": 1128686
+      }
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/epcv65k3",
+      "id": "5",
+      "name": "block-4",
+      "bbox": [
+        64,
+        91,
+        890,
+        32
+      ],
+      "geometry": "rect",
+      "text": "IHK-PROJEKT  /  MODELLIERUNG",
+      "textPreview": "IHK-PROJEKT  /  MODELLIERUNG",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "IBM Plex Sans",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "IHK-PROJEKT  /  MODELLIERUNG"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "IHK-PROJEKT  /  MODELLIERUNG",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "typeface": "IBM Plex Sans",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "IHK-PROJEKT  /  MODELLIERUNG",
+              "fontSize": 20,
+              "typeface": "IBM Plex Sans",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1s3u1kje",
+      "id": "6",
+      "name": "block-5",
+      "bbox": [
+        64,
+        190,
+        1070,
+        240
+      ],
+      "geometry": "rect",
+      "text": "Energieverbräuche\nprognostizieren.\nAbweichungen prüfen.",
+      "textPreview": "Energieverbräuche | prognostizieren. | Abweichungen prüfen.",
+      "resolvedFontSize": 64,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 64,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Energieverbräuche"
+          },
+          {
+            "index": 2,
+            "text": "prognostizieren."
+          },
+          {
+            "index": 3,
+            "text": "Abweichungen prüfen."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Energieverbräuche",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Energieverbräuche",
+              "fontSize": 64,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "prognostizieren.",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "prognostizieren.",
+              "fontSize": 64,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Abweichungen prüfen.",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Abweichungen prüfen.",
+              "fontSize": 64,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0rud8f29",
+      "id": "7",
+      "name": "block-6",
+      "bbox": [
+        68,
+        470,
+        1110,
+        54
+      ],
+      "geometry": "rect",
+      "text": "Modeling, Kalibrierung und der Weg zur Fachprüfung",
+      "textPreview": "Modeling, Kalibrierung und der Weg zur Fachprüfung",
+      "resolvedFontSize": 28,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 28,
+        "typeface": "IBM Plex Sans",
+        "color": "#BED6E8",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Modeling, Kalibrierung und der Weg zur Fachprüfung"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Modeling, Kalibrierung und der Weg zur Fachprüfung",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "IBM Plex Sans",
+            "color": "#BED6E8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Modeling, Kalibrierung und der Weg zur Fachprüfung",
+              "fontSize": 28,
+              "typeface": "IBM Plex Sans",
+              "color": "#BED6E8"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/nu5c3u1k",
+      "id": "8",
+      "name": "block-7",
+      "bbox": [
+        68,
+        561,
+        64,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#99D7E5",
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/mtcvapkz",
+      "id": "9",
+      "name": "block-8",
+      "bbox": [
+        156,
+        548,
+        1040,
+        64
+      ],
+      "geometry": "rect",
+      "text": "Das Modell priorisiert. Die Fachprüfung entscheidet.",
+      "textPreview": "Das Modell priorisiert. Die Fachprüfung entscheidet.",
+      "resolvedFontSize": 30,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 30,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Das Modell priorisiert. Die Fachprüfung entscheidet."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Das Modell priorisiert. Die Fachprüfung entscheidet.",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Das Modell priorisiert. Die Fachprüfung entscheidet.",
+              "fontSize": 30,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

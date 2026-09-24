@@ -1,0 +1,525 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/2lsbiy",
+    "id": "2lsbiy",
+    "slide": 28,
+    "layoutId": "a5665a86-1b29-45b3-b448-6297ec716328",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#063659",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "a5665a86-1b29-45b3-b448-6297ec716328",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5w36tcra",
+      "id": "1",
+      "name": "block-485",
+      "bbox": [
+        64,
+        42,
+        1110,
+        24
+      ],
+      "geometry": "rect",
+      "text": "FACHGESPRÄCH",
+      "textPreview": "FACHGESPRÄCH",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "IBM Plex Sans",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "FACHGESPRÄCH"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "FACHGESPRÄCH",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "IBM Plex Sans",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "FACHGESPRÄCH",
+              "fontSize": 17,
+              "typeface": "IBM Plex Sans",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/its7ihsz",
+      "id": "2",
+      "name": "block-486",
+      "bbox": [
+        64,
+        80,
+        1152,
+        106
+      ],
+      "geometry": "rect",
+      "text": "Vielen Dank.",
+      "textPreview": "Vielen Dank.",
+      "resolvedFontSize": 43,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 43,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Vielen Dank."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Vielen Dank.",
+          "resolvedTextStyle": {
+            "fontSize": 43,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Vielen Dank.",
+              "fontSize": 43,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ju1orm94",
+      "id": "3",
+      "name": "block-487",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#31607C",
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wra5g7at",
+      "id": "4",
+      "name": "block-488",
+      "bbox": [
+        64,
+        673,
+        900,
+        23
+      ],
+      "geometry": "rect",
+      "text": "SWW / IHK-Projekt",
+      "textPreview": "SWW / IHK-Projekt",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#A5C8DF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SWW / IHK-Projekt"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SWW / IHK-Projekt",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#A5C8DF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SWW / IHK-Projekt",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#A5C8DF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xsj6pcre",
+      "id": "5",
+      "name": "block-489",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "28 / 39",
+      "textPreview": "28 / 39",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#A5C8DF",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "28 / 39"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "28 / 39",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#A5C8DF",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "28 / 39",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#A5C8DF",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/a5snexsn",
+      "id": "6",
+      "name": "block-490",
+      "bbox": [
+        64,
+        258,
+        1152,
+        151
+      ],
+      "geometry": "rect",
+      "text": "Das Modell priorisiert.\nDie Fachprüfung entscheidet.",
+      "textPreview": "Das Modell priorisiert. | Die Fachprüfung entscheidet.",
+      "resolvedFontSize": 54,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 54,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Das Modell priorisiert."
+          },
+          {
+            "index": 2,
+            "text": "Die Fachprüfung entscheidet."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Das Modell priorisiert.",
+          "resolvedTextStyle": {
+            "fontSize": 54,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Das Modell priorisiert.",
+              "fontSize": 54,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Die Fachprüfung entscheidet.",
+          "resolvedTextStyle": {
+            "fontSize": 54,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Die Fachprüfung entscheidet.",
+              "fontSize": 54,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bq1on298",
+      "id": "7",
+      "name": "block-491",
+      "bbox": [
+        64,
+        464,
+        96,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#99D7E5",
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/o3q5c7ah",
+      "id": "8",
+      "name": "block-492",
+      "bbox": [
+        64,
+        512,
+        1152,
+        61
+      ],
+      "geometry": "rect",
+      "text": "Fragen zu Daten, Modell und Umsetzung",
+      "textPreview": "Fragen zu Daten, Modell und Umsetzung",
+      "resolvedFontSize": 33,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 33,
+        "typeface": "IBM Plex Sans",
+        "color": "#BED6E8",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Fragen zu Daten, Modell und Umsetzung"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Fragen zu Daten, Modell und Umsetzung",
+          "resolvedTextStyle": {
+            "fontSize": 33,
+            "typeface": "IBM Plex Sans",
+            "color": "#BED6E8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Fragen zu Daten, Modell und Umsetzung",
+              "fontSize": 33,
+              "typeface": "IBM Plex Sans",
+              "color": "#BED6E8"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

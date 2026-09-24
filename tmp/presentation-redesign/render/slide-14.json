@@ -1,0 +1,847 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/txoaz4",
+    "id": "txoaz4",
+    "slide": 14,
+    "layoutId": "469be577-bcf9-4108-8a9d-fa5cbf340d85",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "436e1a67-ea3a-470d-97af-b3025c74d1c0",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "469be577-bcf9-4108-8a9d-fa5cbf340d85",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "436e1a67-ea3a-470d-97af-b3025c74d1c0",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "436e1a67-ea3a-470d-97af-b3025c74d1c0",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8f2lkryp",
+      "id": "1",
+      "name": "block-202",
+      "bbox": [
+        64,
+        42,
+        1110,
+        24
+      ],
+      "geometry": "rect",
+      "text": "ANHANG A  /  FEHLERMETRIKEN",
+      "textPreview": "ANHANG A  /  FEHLERMETRIKEN",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ANHANG A  /  FEHLERMETRIKEN"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ANHANG A  /  FEHLERMETRIKEN",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ANHANG A  /  FEHLERMETRIKEN",
+              "fontSize": 17,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7etkbmh4",
+      "id": "2",
+      "name": "block-203",
+      "bbox": [
+        64,
+        80,
+        1152,
+        106
+      ],
+      "geometry": "rect",
+      "text": "RMSE gewichtet große Fehler stärker",
+      "textPreview": "RMSE gewichtet große Fehler stärker",
+      "resolvedFontSize": 43,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 43,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "RMSE gewichtet große Fehler stärker"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "RMSE gewichtet große Fehler stärker",
+          "resolvedTextStyle": {
+            "fontSize": 43,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "RMSE gewichtet große Fehler stärker",
+              "fontSize": 43,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6dkji1gj",
+      "id": "3",
+      "name": "block-204",
+      "bbox": [
+        64,
+        183,
+        1152,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Beispiel: Fehlerbeträge A = [10, 10, 10, 10] kWh, B = [0, 0, 0, 40] kWh.",
+      "textPreview": "Beispiel: Fehlerbeträge A = [10, 10, 10, 10] kWh, B = [0, 0, 0, 40] kWh.",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Beispiel: Fehlerbeträge A = [10, 10, 10, 10] kWh, B = [0, 0, 0, 40] kWh."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Beispiel: Fehlerbeträge A = [10, 10, 10, 10] kWh, B = [0, 0, 0, 40] kWh.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Beispiel: Fehlerbeträge A = [10, 10, 10, 10] kWh, B = [0, 0, 0, 40] kWh.",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h4v2hgz6",
+      "id": "4",
+      "name": "block-205",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D6DFE7",
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/dczatcbe",
+      "id": "5",
+      "bbox": [
+        64,
+        668,
+        106,
+        36
+      ],
+      "alt": "StadtWerke Westhafen",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "asset": {
+        "assetId": "6ee00ef9-50e4-4e64-9dc8-652195a91788",
+        "contentType": "image/png",
+        "byteLength": 393870
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vidkf6hg",
+      "id": "6",
+      "name": "block-206",
+      "bbox": [
+        195,
+        673,
+        930,
+        23
+      ],
+      "geometry": "rect",
+      "text": "Vertiefung · Notebook 13",
+      "textPreview": "Vertiefung · Notebook 13",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Vertiefung · Notebook 13"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Vertiefung · Notebook 13",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Vertiefung · Notebook 13",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/uhk3m1gv",
+      "id": "7",
+      "name": "block-207",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "14 / 18",
+      "textPreview": "14 / 18",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "14 / 18"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "14 / 18",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "14 / 18",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "chart",
+      "scope": "slide",
+      "aid": "ch/lsn2twry",
+      "id": "8",
+      "bbox": [
+        52,
+        250,
+        816,
+        324
+      ],
+      "chartType": "bar"
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/47mlsbyx",
+      "id": "9",
+      "name": "block-208",
+      "bbox": [
+        920,
+        270,
+        296,
+        45
+      ],
+      "geometry": "rect",
+      "text": "MAE",
+      "textPreview": "MAE",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "MAE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "MAE",
+          "resolvedTextStyle": {
+            "fontSize": 32,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "MAE",
+              "fontSize": 32,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q1svqdsn",
+      "id": "10",
+      "name": "block-209",
+      "bbox": [
+        920,
+        319,
+        296,
+        79
+      ],
+      "geometry": "rect",
+      "text": "10 kWh\nin beiden Beispielen",
+      "textPreview": "10 kWh | in beiden Beispielen",
+      "resolvedFontSize": 28,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 28,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "10 kWh"
+          },
+          {
+            "index": 2,
+            "text": "in beiden Beispielen"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "10 kWh",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "10 kWh",
+              "fontSize": 28,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "in beiden Beispielen",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "in beiden Beispielen",
+              "fontSize": 28,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r21wzy98",
+      "id": "11",
+      "name": "block-210",
+      "bbox": [
+        920,
+        440,
+        296,
+        45
+      ],
+      "geometry": "rect",
+      "text": "RMSE",
+      "textPreview": "RMSE",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "RMSE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "RMSE",
+          "resolvedTextStyle": {
+            "fontSize": 32,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "RMSE",
+              "fontSize": 32,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/snads3ad",
+      "id": "12",
+      "name": "block-211",
+      "bbox": [
+        920,
+        489,
+        296,
+        82
+      ],
+      "geometry": "rect",
+      "text": "10 versus 20 kWh\nEinzelpeak zählt stärker.",
+      "textPreview": "10 versus 20 kWh | Einzelpeak zählt stärker.",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 27,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "10 versus 20 kWh"
+          },
+          {
+            "index": 2,
+            "text": "Einzelpeak zählt stärker."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "10 versus 20 kWh",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "10 versus 20 kWh",
+              "fontSize": 27,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Einzelpeak zählt stärker.",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Einzelpeak zählt stärker.",
+              "fontSize": 27,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/do3e18ry",
+      "id": "13",
+      "name": "block-212",
+      "bbox": [
+        64,
+        590,
+        56,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#0080A0",
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/epcvudsj",
+      "id": "14",
+      "name": "block-213",
+      "bbox": [
+        142,
+        583,
+        1074,
+        53
+      ],
+      "geometry": "rect",
+      "text": "Deshalb dient RMSE als Hauptmetrik. MAE ergänzt die mittlere Fehlergröße.",
+      "textPreview": "Deshalb dient RMSE als Hauptmetrik. MAE ergänzt die mittlere Fehlergröße.",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Deshalb dient RMSE als Hauptmetrik. MAE ergänzt die mittlere Fehlergröße."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Deshalb dient RMSE als Hauptmetrik. MAE ergänzt die mittlere Fehlergröße.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Deshalb dient RMSE als Hauptmetrik. MAE ergänzt die mittlere Fehlergröße.",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

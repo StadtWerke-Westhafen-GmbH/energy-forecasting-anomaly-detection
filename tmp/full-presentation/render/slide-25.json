@@ -1,0 +1,992 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/ea4wcx",
+    "id": "ea4wcx",
+    "slide": 25,
+    "layoutId": "a5665a86-1b29-45b3-b448-6297ec716328",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#063659",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "Geist Mono",
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "a5665a86-1b29-45b3-b448-6297ec716328",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/2x0fylo3",
+      "id": "1",
+      "name": "block-430",
+      "bbox": [
+        64,
+        42,
+        1110,
+        24
+      ],
+      "geometry": "rect",
+      "text": "07 / FAZIT",
+      "textPreview": "07 / FAZIT",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "IBM Plex Sans",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "07 / FAZIT"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "07 / FAZIT",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "IBM Plex Sans",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "07 / FAZIT",
+              "fontSize": 17,
+              "typeface": "IBM Plex Sans",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p0by90ne",
+      "id": "2",
+      "name": "block-431",
+      "bbox": [
+        64,
+        80,
+        1152,
+        106
+      ],
+      "geometry": "rect",
+      "text": "Die Grundlage steht. Der Betriebsnachweis folgt.",
+      "textPreview": "Die Grundlage steht. Der Betriebsnachweis folgt.",
+      "resolvedFontSize": 43,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 43,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Die Grundlage steht. Der Betriebsnachweis folgt."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Die Grundlage steht. Der Betriebsnachweis folgt.",
+          "resolvedTextStyle": {
+            "fontSize": 43,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Die Grundlage steht. Der Betriebsnachweis folgt.",
+              "fontSize": 43,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ozih0v6t",
+      "id": "3",
+      "name": "block-432",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#31607C",
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fu9g365c",
+      "id": "4",
+      "name": "block-433",
+      "bbox": [
+        64,
+        673,
+        900,
+        23
+      ],
+      "geometry": "rect",
+      "text": "SWW / IHK-Projekt",
+      "textPreview": "SWW / IHK-Projekt",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#A5C8DF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SWW / IHK-Projekt"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SWW / IHK-Projekt",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#A5C8DF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SWW / IHK-Projekt",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#A5C8DF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/et0fulor",
+      "id": "5",
+      "name": "block-434",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "25 / 39",
+      "textPreview": "25 / 39",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#A5C8DF",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "25 / 39"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "25 / 39",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#A5C8DF",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "25 / 39",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#A5C8DF",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1wry5gni",
+      "id": "6",
+      "name": "block-435",
+      "bbox": [
+        64,
+        265,
+        346,
+        80
+      ],
+      "geometry": "rect",
+      "text": "16.800",
+      "textPreview": "16.800",
+      "resolvedFontSize": 64,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 64,
+        "typeface": "Geist Mono",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "16.800"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "16.800",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "Geist Mono",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "16.800",
+              "fontSize": 64,
+              "typeface": "Geist Mono",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0vixwb6x",
+      "id": "7",
+      "name": "block-436",
+      "bbox": [
+        64,
+        347,
+        346,
+        65
+      ],
+      "geometry": "rect",
+      "text": "bereinigte\nZähler-Monate",
+      "textPreview": "bereinigte | Zähler-Monate",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "bereinigte"
+          },
+          {
+            "index": 2,
+            "text": "Zähler-Monate"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "bereinigte",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "bereinigte",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Zähler-Monate",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Zähler-Monate",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/zqtgfa5g",
+      "id": "8",
+      "name": "block-437",
+      "bbox": [
+        476,
+        265,
+        347,
+        80
+      ],
+      "geometry": "rect",
+      "text": "−15,9 %",
+      "textPreview": "−15,9 %",
+      "resolvedFontSize": 64,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 64,
+        "typeface": "Geist Mono",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "−15,9 %"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "−15,9 %",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "Geist Mono",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "−15,9 %",
+              "fontSize": 64,
+              "typeface": "Geist Mono",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ypkz65ov",
+      "id": "9",
+      "name": "block-438",
+      "bbox": [
+        476,
+        347,
+        347,
+        65
+      ],
+      "geometry": "rect",
+      "text": "RMSE gegenüber der\nbesten einfachen Baseline",
+      "textPreview": "RMSE gegenüber der | besten einfachen Baseline",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "RMSE gegenüber der"
+          },
+          {
+            "index": 2,
+            "text": "besten einfachen Baseline"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "RMSE gegenüber der",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "RMSE gegenüber der",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "besten einfachen Baseline",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "besten einfachen Baseline",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4fqlw3mp",
+      "id": "10",
+      "name": "block-439",
+      "bbox": [
+        893,
+        265,
+        323,
+        80
+      ],
+      "geometry": "rect",
+      "text": "9,5",
+      "textPreview": "9,5",
+      "resolvedFontSize": 64,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 64,
+        "typeface": "Geist Mono",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "9,5"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "9,5",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "Geist Mono",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "9,5",
+              "fontSize": 64,
+              "typeface": "Geist Mono",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/50z2p8na",
+      "id": "11",
+      "name": "block-440",
+      "bbox": [
+        893,
+        347,
+        323,
+        65
+      ],
+      "geometry": "rect",
+      "text": "Prüfhinweise pro Monat\nim Benchmark 2025",
+      "textPreview": "Prüfhinweise pro Monat | im Benchmark 2025",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Prüfhinweise pro Monat"
+          },
+          {
+            "index": 2,
+            "text": "im Benchmark 2025"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Prüfhinweise pro Monat",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Prüfhinweise pro Monat",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "im Benchmark 2025",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "im Benchmark 2025",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/id83ud4j",
+      "id": "12",
+      "name": "block-441",
+      "bbox": [
+        64,
+        521,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#31607C",
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ehkni54",
+      "id": "13",
+      "name": "block-442",
+      "bbox": [
+        64,
+        562,
+        300,
+        43
+      ],
+      "geometry": "rect",
+      "text": "Nächster Schritt",
+      "textPreview": "Nächster Schritt",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 29,
+        "typeface": "IBM Plex Sans",
+        "color": "#99D7E5",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Nächster Schritt"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Nächster Schritt",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "IBM Plex Sans",
+            "color": "#99D7E5",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Nächster Schritt",
+              "fontSize": 29,
+              "typeface": "IBM Plex Sans",
+              "color": "#99D7E5",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gb6ls3mt",
+      "id": "14",
+      "name": "block-443",
+      "bbox": [
+        395,
+        552,
+        821,
+        84
+      ],
+      "geometry": "rect",
+      "text": "Parallelbetrieb starten, Fälle fachlich prüfen\nund Nutzen anhand echter Ergebnisse bewerten.",
+      "textPreview": "Parallelbetrieb starten, Fälle fachlich prüfen | und Nutzen anhand echter Ergebnisse bewerten.",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 29,
+        "typeface": "IBM Plex Sans",
+        "color": "#FFFFFF",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Parallelbetrieb starten, Fälle fachlich prüfen"
+          },
+          {
+            "index": 2,
+            "text": "und Nutzen anhand echter Ergebnisse bewerten."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Parallelbetrieb starten, Fälle fachlich prüfen",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Parallelbetrieb starten, Fälle fachlich prüfen",
+              "fontSize": 29,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "und Nutzen anhand echter Ergebnisse bewerten.",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "IBM Plex Sans",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "und Nutzen anhand echter Ergebnisse bewerten.",
+              "fontSize": 29,
+              "typeface": "IBM Plex Sans",
+              "color": "#FFFFFF"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

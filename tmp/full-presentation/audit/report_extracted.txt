@@ -1,0 +1,182 @@
+[0]  
+[4] Projektarbeit
+[5] zur IHK-Zertifizierung Data Analyst (IHK)
+[8] Prognose des monatlichen Energieverbrauchs und Erkennung von Anomalien
+[10] Analyse von Verbrauchsmustern, Identifikation von Anomalien und Prognose des monatlichen Stromverbrauchs bei der StadtWerke Westhafen GmbH
+[14] Gruppe | 6 | Teilnehmende | Iana Kraievska · Patrick Olmo Hederer · Kiko Ramon Lukas  | Projektphase | 7.09.2024 – 30.09.2024 | Tutor / Tutorin | Anuar Santoyo | Datum der Abgabe | 24.09.2024
+[16] Inhaltsverzeichnis
+[17] Abkürzungsverzeichnis | 1 | 1   Ausgangssituation und Ist-Zustand | 2 | 2   Machine Learning Canvas | 3 | 3   Projektplanung und -durchführung | 4 | 4   Workflow, Datenmodell und Ergebnisse | 9 | Literaturverzeichnis | 15 | Anhang A   Machine Learning Canvas | 16 | Anhang B   Datenmodell und Formeln | 17 | Anhang C   Datenverständnis und EDA | 20 | Anhang D   Modellierung und Evaluation | 23 | Anhang E   Dashboard-Prototyp | 27
+[18] Abkürzungsverzeichnis
+[19] Abkürzung | Bedeutung | CV | Cross-Validation (Kreuzvalidierung) | EDA | Explorative Datenanalyse | KPI | Key Performance Indicator (Leistungskennzahl) | MAE | Mean Absolute Error (mittlerer absoluter Fehler) | ML | Machine Learning (maschinelles Lernen) | RMSE | Root Mean Squared Error (Wurzel des mittleren quadratischen Fehlers) | VLS | Vollaststunden
+[21] 1   Ausgangssituation und Ist-Zustand
+[22] 1.1   Vorstellung der Organisation
+[23] Die StadtWerke Westhafen GmbH ist ein städtischer Energieversorger im Hamburger Hafengebiet. Sie versorgt 700 gewerbliche, industrielle und kommunale Großkunden; der Jahresumsatz beträgt rund 180 Mio. EUR. Für Beschaffung und Netzbetrieb sind belastbare Verbrauchserwartungen und eine zeitnahe Prüfung ungewöhnlicher Zählerwerte erforderlich.
+[24] 1.2   Aktuelle Situation und Problemstellung
+[25] Die Beschaffungsplanung stützt sich bislang stark auf manuelle Fortschreibungen; Abweichungen können kurzfristige Käufe oder Verkäufe am Spotmarkt erforderlich machen. Ungewöhnlich hohe oder niedrige Monatsverbräuche werden überwiegend quartalsweise erkannt, sodass mögliche Messfehler, Abrechnungsprobleme oder technische Störungen verzögert geprüft werden.
+[26] Das Projekt prognostiziert den Folgemonatsverbrauch je Zähler und kennzeichnet nach Eingang des Istwerts ungewöhnlich große Abweichungen. Ein Prüfhinweis ist keine bestätigte Störung, sondern eine priorisierte Aufforderung zur Daten-, Kontext- und Fachprüfung.
+[27] 1.3   Bereits genutzte Analytics-Prozesse
+[28] Die monatliche Analyse erfolgt bislang rückblickend und ohne einheitliches Prognosemodell oder vorab festgelegte Fehlerschwelle. Beschaffung und Netzmanagement benötigen deshalb eine nachvollziehbare Folgemonatsprognose und eine begrenzte Prüfliste. Der Workflow ergänzt die bestehende Analyse, ersetzt aber keine fachliche Entscheidung.
+[29] 1.4   Projektziel und Abgrenzung
+[30] Ziel ist ein reproduzierbarer Python-Workflow für Verbrauchsprognose, Baselinevergleich und Prüfhinweise. Die Lösung wird mit den Projektdaten 2024 und 2025 retrospektiv bewertet. Eine produktive Systemanbindung, automatische Maßnahmen und belastbare Euro-Einsparungen sind nicht Bestandteil; ihre Wirkung müsste ein prospektiver Pilotbetrieb messen.
+[31] 2   Machine Learning Canvas
+[32] 2.1   Einordnung und Kohärenz
+[33] Der Machine Learning Canvas verbindet Geschäftsfrage, Daten, Modell und betriebliche Entscheidung. Die zehn aufeinander abgestimmten Felder sind in Tabelle A1 zusätzlich kompakt zusammengefasst.
+[34] 2.2   Die zehn Felder
+[35] 1 Mehrwert. Genauere Folgemonatsplanung und monatliche statt quartalsweise Prüfung.   2 Datenquellen. Zählerverbrauch, Vertragsleistung, Kundentyp, Kalender, Heizgradtage, Produktionsplan und Wartung.
+[36] 3 Vorhersage. VLS-Regression je Zähler-Monat, Rückrechnung in kWh und spätere Residuenprüfung.   4 Merkmale. Historie, Saison, Kalender, Wetterprognose, Produktionsplan, Wartung und Kundentyp; nur rechtzeitig verfügbare Informationen.
+[37] 5 Lernansatz. Überwachte Regression: lineare Referenz und Random Forest als nichtlinearer Vergleich.   6 Evaluation. RMSE in kWh als Hauptmetrik, MAE und R² ergänzend; Baselines sind Vormonat und Bis-zu-3-Monats-Mittel.
+[38] 7 Entscheidung. Prognose für die Beschaffung; Prüfhinweis für menschliche Daten-, Kontext- und Fachprüfung.   8 Auswirkung. Pilot-KPIs sind Fehler, Hinweisvolumen, Prüfzeit und Bestätigungsquote; keine unbelegten Euro-Einsparungen.
+[39] 9 Zeitpunkt. Prognose vor Monatsbeginn; Residuenprüfung nach Eingang des Istwerts.   10 Monitoring und Wartung. Monatliche Fehler-, Drift- und Hinweiskontrolle; Retraining erst bei belegtem Bedarf.
+[40] Das Modell prognostiziert eine kontinuierliche Größe und wird mit Regressionsmetriken bewertet; die Anomalieentscheidung ist ein nachgelagerter Regelschritt. Ohne bestätigte Labels werden keine Klassifikationsmetriken wie Precision oder Recall ausgewiesen.
+[41] 3   Projektplanung und -durchführung
+[42] 3.1   Projektorganisation
+[43] Die Gruppe arbeitete nach einer layerorientierten Aufgabenverteilung. Jede Person verantwortete über alle Sprints hinweg einen fachlichen Schwerpunkt; Entscheidungen an den Übergaben wurden gemeinsam abgestimmt.
+[44] Tabelle 1: Rollen und individuelle Beiträge
+[45] Person | Verantwortung | Sichtbarer Beitrag | Iana Kraievska | Datenmanagement und Datenqualität | Bereinigung, Datentypen, Einheiten, Fehlwerte und Plausibilitätsregeln | Patrick Olmo Hederer | Explorative Datenanalyse und Visualisierung | EDA, Treiberanalyse, Diagramme und visuelle Aufbereitung | Kiko Ramon Lukas | Machine Learning und Evaluation | ML Canvas, Zielgröße, Modellwahl, zeitliche Validierung, Kalibrierung und Anomalieprüfung
+[47] 3.2   Projektziel
+[48] Das Team entwickelte einen nachvollziehbaren Workflow von der Rohdatei bis zum Dashboard-Export. Als fachliche Erfolgskriterien wurden ein zeitlich sauberer Vergleich mit zwei Baselines, eine begründete Modellwahl und eine vor dem Benchmarkjahr festgelegte Schwelle für Prüfhinweise definiert. Damit blieb die Lösung sowohl prüfbar als auch für den geplanten Pilotbetrieb nutzbar.
+[49] 3.3   Agile Projektsteuerung mit SCRUM
+[50] Das dreiwöchige Projekt wurde in drei einwöchige Sprints mit Ziel, Aufgaben, Ergebnis und Retrospektive gegliedert. Der jeweilige Arbeitsstand wurde im Sprint-Log dokumentiert; Anpassungen wurden in den folgenden Sprint übernommen.
+[51] 3.3.1   Sprint 1 Datenbasis
+[52] Ziel. Eine konsistente analytische Grundlage aus 16.830 Rohzeilen, 700 Zählern und 24 Monaten.   Umsetzung. Kategorien und Datumsformate wurden vereinheitlicht, 672 MWh-Werte in kWh umgerechnet, 30 doppelte Zähler-Monat-Kombinationen entfernt und drei fehlende Zielwerte nachvollziehbar rekonstruiert.
+[53] Ergebnis. Die bereinigte Basis enthält 16.800 Zähler-Monate. Zehn physikalisch unmögliche Werte aus 2024 wurden vom Training ausgeschlossen. Die zehn entsprechenden Fälle aus 2025 blieben als operative Plausibilitätsfälle im Benchmark und wurden sämtlich als Prüfhinweis markiert.   Herausforderung. Plausible Verbrauchsspitzen durften nicht mit Messfehlern verwechselt werden; maßgeblich war die technisch mögliche Monatsenergie aus Vertragsleistung und Monatsstunden.
+[54] 3.3.2   Sprint 2 EDA und Canvas
+[55] Ziel. Treiber, Zielgröße und verfügbare Merkmale aus den bereinigten Daten ableiten.   Ergebnis. 92 % der Streuung des Rohverbrauchs lagen zwischen den Zählern. Die Vertragsleistung erklärte das Niveau stark; nach Normierung lagen die Mediane der Kundentypen nur noch zwischen 160 und 173 VLS-Stunden. Produktionsplan und geplante Wartung erwiesen sich als fachlich relevante Planinformationen.
+[56] Entscheidung. Vollaststunden wurden interne Zielgröße. Heizgradtage ersetzten die nahezu redundante Temperaturvariable. Der Vorjahreswert wurde wegen fehlender Historie aus 2023 nicht als Modellmerkmal verwendet.   Herausforderung. Saisonale Produktion erzeugte scheinbare Wetter- und Feiertagseffekte. Deshalb wurden Zusammenhänge innerhalb vergleichbarer Produktionsniveaus geprüft und nicht vorschnell kausal interpretiert.
+[57] Die wichtigsten EDA-Nachweise zeigen die Abbildungen C1 bis C6 im Anhang.
+[58] 3.3.3   Sprint 3 Modellierung und Bericht
+[59] Ziel. Ein verständliches Regressionsmodell auswählen, zeitlich validieren und die spätere Prüfschwelle getrennt kalibrieren.   Umsetzung. Lineare Regression und Random Forest wurden in drei vorwärts laufenden Folds aus 2024 gegen Vormonat und Bis-zu-3-Monats-Mittel geprüft. Acht kontrollierte Random-Forest-Konfigurationen wurden ausschließlich in diesen Folds verglichen.
+[60] Ergebnis. Der Random Forest erreichte 13.272 kWh mittleren CV-RMSE und gewann die Modellwahl. Im retrospektiven Benchmark 2025 erzielte er 9.188 kWh RMSE und lag 15,9 % vor der besten Baseline. Aus 1.397 rollierend erzeugten Fehlern für November und Dezember 2024 wurde das 99. Perzentil von 144,4 VLS-Stunden kalibriert.   Herausforderung. Modellwahl, Schwellenkalibrierung und Benchmark mussten strikt getrennt bleiben. Historische Merkmale wurden je Zähler ausschließlich aus vergangenen Monaten erzeugt, um Data Leakage zu vermeiden.
+[61] Zeitaufteilung, Modellergebnisse und Schwellenwirkung sind in den Abbildungen D1 bis D7 dokumentiert.
+[62] 3.3.4   Finalisierungsphase
+[63] In der Finalisierungsphase wurden Bericht, Präsentation und Live-Demo auf dieselben Kennzahlen und Begriffe gebracht. Die Gruppe reduzierte die Darstellung auf eine gemeinsame Kernaussage: Das Modell verbessert die retrospektive Folgemonatsprognose gegenüber der besten einfachen Baseline und übersetzt große Abweichungen in durchschnittlich 9,5 überprüfbare Hinweise pro Monat. Zusätzlich wurden typische Prüferfragen zur zeitlichen Validierung, zur Bedeutung des Perzentils und zur Grenze zwischen Hinweis und bestätigter Anomalie gemeinsam geübt.
+[64] 3.4   User Stories
+[65] Stefan Lechtenberg, Energiebeschaffung. Als Bereichsleiter möchte ich vor Monatsbeginn eine belastbare Verbrauchsprognose erhalten, damit die Beschaffung planbarer wird.
+[66] Anke Bürger, Netzmanagement. Als Leiterin möchte ich nach Monatsabschluss eine priorisierte Liste auffälliger Zähler erhalten, damit mein Team mögliche Ursachen gezielt prüfen kann.
+[67] Henrik Maaß, Datenanalyse. Als Senior-Datenanalyst möchte ich einen reproduzierbaren Workflow mit dokumentierter Schwelle, damit Ergebnisse geprüft und erneut erzeugt werden können.
+[68] 3.5   Meilensteine und Retrospektiven
+[69] Tabelle 2: Meilensteine, Erkenntnisse und Anpassungen
+[70] Zeitpunkt | Meilenstein | Retrospektive und Anpassung | Ende Sprint 1 | Bereinigte gemeinsame Datenbasis | Parallele Zwischenstände vermeiden; eine verbindliche Datei und gemeinsame Plausibilitätsregel festlegen. | Ende Sprint 2 | EDA-Vorgaben und ML Canvas | Rohverbrauch verzerrt die Bewertung zugunsten großer Zähler; VLS als normierte Zielgröße verwenden. | Ende Sprint 3 | Gewähltes Modell und kalibrierte Schwelle | Geliefertes Drei-Monats-Mittel enthielt unzulässige Informationen; Verlauf je Zähler ausschließlich aus der Vergangenheit neu berechnen. | Finalisierung | Bericht, Präsentation und Demo | Kennzahlen, Begriffe und Anhang vereinheitlichen; fachliche Grenzen sichtbar machen.
+[72] 3.6   Persönliches Fazit zu den Lernerfahrungen
+[73] Iana Kraievska. Ich habe gelernt, dass Datenbereinigung aus fachlichen Entscheidungen besteht. Besonders wichtig war die Trennung plausibler Lastspitzen von technisch unmöglichen Werten und die Erkenntnis, dass strukturell fehlende Historie nicht automatisch imputiert werden darf.
+[74] Patrick Olmo Hederer. Ich habe gelernt, dass eine auffällige Korrelation noch keinen Verbrauchstreiber beweist. Erst die Kontrolle nach Produktionsniveau zeigte, welche Zusammenhänge saisonal überlagert waren. Die Visualisierung wurde dadurch Teil der Analyse und nicht nur Darstellung am Ende.
+[75] Kiko Ramon Lukas. Ich habe gelernt, dass saubere zeitliche Validierung wichtiger ist als Modellkomplexität. Baselines, lineare Referenz und getrennte Kalibrierung machen den Mehrwert nachvollziehbar; bei Lag-Merkmalen war das Vermeiden von Data Leakage entscheidend.
+[76] 3.7   Ausblick
+[77] Empfohlen wird zunächst ein prospektiver Schattenbetrieb mit ausgewählten Zählern. Prognosen laufen parallel zum bisherigen Prozess; geprüft werden Fehlerniveau, Hinweisvolumen, Bearbeitungszeit, Datenqualität und bestätigte Ursachen. Erst nach stabiler Wirkungskontrolle sollte die Lösung in Beschaffung und Netzmanagement integriert und auf weitere Zähler ausgeweitet werden.
+[78] Kikos persönlicher Weiterentwicklungsschritt ist ein strukturierter Feedbackprozess im Dashboard. Nach jeder Prüfung wird gespeichert, ob ein Hinweis fachlich bestätigt wurde und welche Ursache vorlag. Mit genügend belastbaren Ja/Nein-Labels könnte später ein Klassifikationsmodell das Regressionsmodell ergänzen und eine kalibrierte Wahrscheinlichkeit für einen bestätigungswürdigen Fall ausgeben. Diese Prozentangabe wäre erst nach eigener Validierung und Wahrscheinlichkeitskalibrierung belastbar und müsste mit Precision und Recall bewertet werden.
+[79] 4   Workflow, Datenmodell und Ergebnisse
+[80] 4.1   Workflow-Dokumentation
+[81] (1) Quelle. Ausgangspunkt war die Datei verbrauch.csv mit 16.830 monatlichen Beobachtungen von 700 Zählern für 01/2024 bis 12/2025. Sie enthielt Verbrauch, Vertrags-, Kunden-, Kalender-, Wetter-, Produktions- und Wartungsangaben.
+[82] (2) Import und Prüfung. Die CSV-Datei wurde mit pandas eingelesen. Spalten, Datentypen, Datumswerte, Eindeutigkeit je Zähler-Monat und erwartete Monatsabdeckung wurden automatisiert geprüft.
+[83] (3) Bereinigung. Kundentypen und Datumsformate wurden vereinheitlicht, MWh in kWh umgerechnet und 30 Duplikate entfernt. Fehlwerte und Platzhalter wurden ursachenbezogen behandelt. Technisch unmögliche Werte aus 2024 wurden dem Split »ausschluss« zugeordnet und damit nicht trainiert; plausible Spitzen blieben erhalten.
+[84] (4) Transformation und EDA. Aus Verbrauch und Vertragsleistung wurden VLS gebildet. Lag-Merkmale wurden je Zähler chronologisch verschoben, sodass der aktuelle Istwert nicht in ein Eingangsmerkmal gelangen konnte. EDA und Plausibilitätsprüfungen bestimmten das finale Merkmalset.
+[85] (5) Modellierung. 2024 diente der Modellauswahl in drei zeitlichen Folds. November und Dezember 2024 dienten anschließend der Schwellenkalibrierung. Danach wurde das ausgewählte Modell mit den gültigen Entwicklungsdaten des gesamten Jahres 2024 neu trainiert. Modellparameter und Schwelle wurden anschließend eingefroren; 2025 wurde retrospektiv One Step Ahead bewertet, wobei bekannte Lag-Werte monatlich aktualisiert wurden.
+[86] (6) Visualisierung. Einheitliche Plotvorlagen im Corporate Design zeigen Zeitaufteilung, Modellvergleich, Schwelle und Fallbeispiele. Die Detailgrafiken befinden sich in den Anhängen C und D.
+[87] (7) Export. Prognosen, Istwerte, Residuen, Schwellenfaktor, Hinweisrichtung und Kennzahlen werden über einen geprüften JSON-Datenvertrag an den lokalen Dashboard-Prototyp übergeben. Pflichtfelder und eindeutige Schlüssel werden vor dem Export validiert.
+[88] 4.2   Datenmodell und Feature Engineering
+[89] Die analytische Grundlage ist eine einzelne Tabelle mit einer Zeile je Zähler und Monat. Das vollständige Datenwörterbuch der 20 Spalten befindet sich in Tabelle B1. Für das Training wurden neun Merkmale in fünf Informationsgruppen verwendet; die Vertragsleistung war kein gelerntes Merkmal, sondern diente der Normierung und exakten Rückrechnung.
+[90] Tabelle 3: Tatsächlich verwendete Modellmerkmale
+[91] Gruppe | Merkmale | Begründung | Historie | vormonat_vls, letzte_3_monate_vls | Zuletzt bekannte Auslastung und geglätteter Verlauf | Kalender | monat_idx, arbeitstage, feiertage_im_monat | Saisonale Lage und nutzbare Arbeitstage | Wetter | heizgradtage | Vor Monatsbeginn als Prognosewert bereitstellbarer Wärmebedarf | Planung | produktionsplan_index, wartung_aktiv | Erwartete Aktivität und geplanter Stillstand | Kundengruppe | kundentyp | Unterschiede zwischen Gewerbe, Industrie und Kommunal
+[93]  | (1)
+[94] Die Formel nennt die fachlichen Größen direkt. Projektbeispiel: ZL-00000 verbrauchte im Januar 2024 8.179 kWh bei 74 kW Vertragsleistung. Daraus ergeben sich 8.179 kWh ÷ 74 kW = 110,5 VLS-Stunden. Mit dem ungerundeten VLS-Wert führt die Rückrechnung wieder exakt zu 8.179 kWh. VLS sind hier eine rechnerische Normierung, keine gemessene Laufzeit.
+[95] Fehlende numerische Merkmale wurden ausschließlich innerhalb des jeweiligen Trainingsfolds mit dem Median behandelt und durch Fehlwertindikatoren ergänzt. Der Kundentyp wurde One-Hot-kodiert. Damit blieben Vorverarbeitung und Modelltraining innerhalb jeder zeitlichen Prüfung gekapselt.
+[96] 4.3   Ergebnisse
+[97] 4.3.1   Zielvariable, Validierung und Hauptmetrik
+[98] Die Modellauswahl verwendete drei vorwärts laufende Prüfzeiträume in 2024: Januar bis April trainierte für Mai bis Juni, Januar bis Juni für Juli bis August und Januar bis August für September bis Oktober. Damit lag jeder Bewertungsmonat vollständig nach seinem Trainingszeitraum. Abbildung D1 zeigt die Trennung von Lernen, Bewerten, Kalibrieren und Benchmark.
+[99]  | (2)
+[100] Der RMSE wurde nach der Rückrechnung in kWh über Zähler-Monate berechnet. Große Einzelabweichungen erhalten durch das Quadrieren ein höheres Gewicht. Projektwert: Für 8.398 bewertbare Zähler-Monate des Jahres 2025 ergibt sich ein RMSE von 9.188 kWh; MAE und R² ergänzen die Interpretation.
+[101] 4.3.2   Modellwahl im Jahr 2024
+[102] Trainiert wurden nur lineare Regression und Random Forest. Vormonat und Bis-zu-3-Monats-Mittel sind untrainierte Baselines. Acht Random-Forest-Konfigurationen wurden mit einem ParameterGrid kontrolliert verglichen; 2025 hatte keinen Einfluss auf die Hyperparameter. Die gewählte Konfiguration nutzt 300 Bäume, maximale Tiefe 8, mindestens 5 Fälle je Blatt, 70 % der Merkmale je Aufteilung und random_state 42.
+[103] Tabelle 4: Zeitliche Modellwahl 2024
+[104] Kandidat | Mittlerer CV-RMSE | Fold-Streuung | Random Forest | 13.272 kWh | 3.843 kWh | Lineare Regression | 13.643 kWh | 3.472 kWh | Bis-zu-3-Monats-Mittel | 15.483 kWh | 3.070 kWh | Vormonat | 18.460 kWh | 6.366 kWh
+[106] Der Random Forest erzielte den niedrigsten Mittelwert und wurde ausgewählt. Sein Vorsprung gegenüber der linearen Regression ist mit 2,7 % klein; beide Modelle übertreffen jedoch die stärkere Baseline. Die Fold-Streuung ist eine Standardabweichung der drei zeitlichen Ergebnisse und kein Konfidenzintervall. Einzelwerte und Whisker zeigt Abbildung D2.
+[107] 4.3.3   Retrospektiver Benchmark 2025
+[108] Auf 8.398 auswertbaren Zähler-Monaten des Jahres 2025 erreichte der Random Forest 9.188 kWh RMSE, 3.725 kWh MAE und R² = 0,901. Die lineare Regression lag bei 9.414 kWh, das Bis-zu-3-Monats-Mittel bei 10.922 kWh und der Vormonat bei 12.386 kWh RMSE. Der relative Vorteil gegenüber der besten Baseline beträgt 15,9 %. Abbildung D3 zeigt den vollständigen Vergleich.
+[109] Ein kontrollierter Vergleich desselben Modelltyps ergab für einen direkt auf kWh trainierten Random Forest 9.800 kWh RMSE. Die VLS-Variante lag nach Rückrechnung mit 9.188 kWh um 6,2 % niedriger. Das belegt keine allgemeine Überlegenheit von VLS, stützt aber die Zielgrößenentscheidung für diesen Datensatz und Versuchsaufbau (Abbildung D4).
+[110] 4.3.4   Einfluss der Informationsgruppen
+[111] Bei der gruppierten Permutationsanalyse wurden zusammengehörige Spalten gemeinsam zufällig gemischt. Für die Interpretation wurden die fünf Trainingsgruppen feiner in sieben Prüfgruppen zerlegt: Planung in Produktionsplan und Wartung sowie Kalender in Jahreszeit und übrige Kalendermerkmale. Der anschließende RMSE-Anstieg betrug für Verbrauchshistorie 7.256 kWh, Produktionsplan 798 kWh, Wartung 591 kWh, Kalender 276 kWh, Wetter 154 kWh, Jahreszeit 121 kWh und Kundentyp rund 3 kWh. Damit trägt die Historie den größten Prognosebeitrag. Die Werte zeigen Modellrelevanz, nicht Kausalität; korrelierte Gruppen können Bedeutung teilen. Tabelle D1 dokumentiert die Ergebnisse.
+[112] 4.3.5   Kalibrierung und Prüfhinweise
+[113] Nach der Modellwahl wurden für November und Dezember 2024 rollierend außerhalb des jeweiligen Trainingszeitraums 1.397 Prognosefehler erzeugt: November lernte aus Januar bis Oktober, Dezember aus Januar bis November. Das 99. Perzentil ihrer absoluten VLS-Fehler beträgt 144,4 Stunden. Die Lage der Schwelle in der sortierten Fehlerliste zeigt Abbildung D5.
+[114]  | (3)
+[115] Die Grenze₉₉ beträgt 144,4 VLS-Stunden. Projektbeispiel: Bei ZL-00147 im August 2025 lagen Istwert und Prognose bei 480,9 beziehungsweise 149,1 VLS-Stunden. Das absolute Residuum beträgt 331,8 VLS-Stunden; 331,8 ÷ 144,4 = 2,30. Weil der Faktor mindestens 1 ist, entsteht ein Prüfhinweis. Der Faktor ist dimensionslos und keine Wahrscheinlichkeit; in kWh ist die Grenze wegen der jeweiligen Vertragsleistung zählerspezifisch.
+[116] Die Schwelle ist kein Hyperparameter des Regressionsmodells. Sie wird nach der Modellwahl aus separaten Prognosefehlern kalibriert und verändert das Training nicht. Das 99. Perzentil garantiert außerdem nicht genau 1 % Hinweise in späteren Daten.
+[117] Im Benchmark 2025 entstanden 114 Hinweise für 107 Zähler, entsprechend 1,36 % der 8.398 Fälle und durchschnittlich 9,5 Hinweisen pro Monat. Davon lagen 68 Istwerte oberhalb und 46 unterhalb der Prognose; zehn Hinweise trafen zugleich einen Datenqualitätsfall. Bei 95 %, 97,5 %, 99 % und 99,5 % ergaben sich 33,3, 21,3, 9,5 und 5,8 Hinweise pro Monat. Abbildung D6 macht diesen Zielkonflikt zwischen Empfindlichkeit und Prüfaufwand sichtbar; Abbildung D7 zeigt Ist und Prognose aller Fälle.
+[118] 4.4   Bewertung der Ergebnisqualität
+[119] 4.4.1   Aussagekraft
+[120] Der Random Forest liegt sowohl in der zeitlichen Validierung 2024 als auch im Benchmark 2025 vor den Baselines. Ein eindeutiges Overfitting-Signal ist nicht erkennbar, dennoch sind die Jahre wegen unterschiedlicher Lastsituationen nicht direkt als Trainings- und Testfehlervergleich zu lesen. R² = 0,901 bedeutet erklärte Streuung, weder Trefferquote noch Anomaliewahrscheinlichkeit. Dass der RMSE deutlich über dem MAE liegt, weist auf wenige besonders große Fehler hin.
+[121] 4.4.2   Grenzen
+[122] Der Benchmark ist retrospektiv und kein künftig unangesehener Blindtest. Die Modellparameter blieben nach 2024 zwar unverändert, die bereits bekannten Lag-Merkmale wurden jedoch Monat für Monat aktualisiert. Die Schwelle stützt sich nur auf zwei Wintermonate. Vor allem fehlen vollständige fachliche Labels; Precision, Recall und eine Defektwahrscheinlichkeit können deshalb noch nicht belastbar ausgewiesen werden.
+[123] 4.4.3   Eignung für den Pilotbetrieb
+[124] Als Priorisierungshilfe ist der Ansatz für einen kontrollierten Schattenbetrieb geeignet. Monatlich sollten RMSE, MAE, Merkmalsverteilungen, Hinweisvolumen, Bearbeitungszeit und Bestätigungsquote überwacht werden. Retraining oder Schwellenanpassung erfolgen erst nach dokumentierter Verschlechterung und erneut getrennter Validierung.
+[125] 4.5   Visualisierung und Ergebnisübergabe
+[126] Der lokale Oberflächenprototyp bündelt Prognose, Istwert, Schwellenfaktor, Hinweisrichtung und Prüfstatus. Nutzer können das Perzentil als Szenario verändern und beobachten, wie sich Prüfmenge und markierte Fälle ändern. Der Prototyp basiert auf dem retrospektiven Export 2025 und ist keine Live-Anwendung. Abbildung E1 zeigt die Anomalieprüfung; die fachliche Rückmeldung bildet die Grundlage für den in Abschnitt 3.7 beschriebenen späteren Klassifikationsansatz.
+[127] Literaturverzeichnis
+[128] DIHK-Bildungs-GmbH (2026). Data Analyst (IHK) – Online-Zertifikatslehrgang. Verfügbar unter: https://www.dihk-bildungs-gmbh.de/weiterbildung/ihk-zertifikate/zertifikatslehrgaenge/data-analyst-ihk [abgerufen September 2026].
+[129] Lemanzyk, S. (2020). Data Analyst (IHK) – Konzept Plus. DIHK-Bildungs-GmbH, Bonn. K181/1/1.
+[130] Anhang A   Machine Learning Canvas
+[131] Tabelle A1 fasst die zehn Felder des in Kapitel 2 erläuterten Canvas in einer prüfbaren Gesamtansicht zusammen.
+[132] Tabelle A1: Machine Learning Canvas der Verbrauchsprognose und Anomalieprüfung
+[133] Nr. | Feld | Festlegung im Projekt | 1 | Mehrwert | Genauere Folgemonatsplanung und monatliche Prüfung ungewöhnlicher Zählerwerte. | 2 | Datenquellen | Zählerverbräuche, Verträge, Kundentyp, Kalender, Wetter, Produktionsplan und Wartung. | 3 | Vorhersage | VLS je Zähler-Monat; Rückrechnung in kWh; große Residuen werden Prüfhinweise. | 4 | Merkmale | Historie, Saison, Kalender, Wetterprognose, Produktionsplan, Wartung und Kundentyp. | 5 | Lernansatz | Überwachte Regression; lineare Regression als Referenz, Random Forest als nichtlinearer Vergleich. | 6 | Evaluation | RMSE in kWh als Hauptmetrik; MAE und R² ergänzend; Vergleich mit zwei Baselines. | 7 | Entscheidung | Prognose unterstützt Beschaffung; Hinweis führt zur menschlichen Prüfung. | 8 | Auswirkung | Pilot-KPIs: Fehler, Hinweisvolumen, Prüfzeit und Bestätigungsquote. | 9 | Zeitpunkt | Prognose vor Monatsbeginn; Residuenprüfung nach Eintreffen des Monatswerts. | 10 | Monitoring | Monatliche Fehler-, Drift- und Hinweiskontrolle; Retraining nur bei belegter Verschlechterung.
+[135] Anhang B   Datenmodell und Formeln
+[136] B.1   Datenwörterbuch der Modellierungsbasis
+[137] Tabelle B1: Spalten der Datei modellierung_basis_bis_3_monate.csv
+[138] Spalte | Typ | Rolle und Herkunft | zaehler_id | String | Eindeutige Zählerkennung; Originalfeld | monat | Datum | Beobachtungsmonat; bereinigt | jahr | Integer | Aus monat abgeleitet | split | Kategorie | train, test oder ausschluss; Steuerung der zeitlichen Nutzung | vollaststunden | Float [h] | Interne Trainingszielgröße: verbrauch_kwh / vertragsleistung_kw | verbrauch_kwh | Float [kWh] | Realisierter Monatsverbrauch; Ausgabe- und Bewertungseinheit | vertragsleistung_kw | Float [kW] | Originalfeld; Normierung und Rückrechnung, kein gelerntes Merkmal | kundentyp | Kategorie | Bereinigtes Originalfeld | monat_idx | Integer | Kalendermonat 1 bis 12 | arbeitstage | Integer | Kalendermerkmal | feiertage_im_monat | Integer | Kalendermerkmal | heizgradtage | Float | Wettermerkmal | produktionsplan_index | Float | Vorausplanbare Produktionsaktivität | wartung_aktiv | Bool | Geplante Wartung im Monat | vormonat_vls | Float [h] | VLS des unmittelbar vorherigen verfügbaren Monats | letzte_3_monate_vls | Float [h] | Mittel aus bis zu drei gültigen Vormonaten | vorjahr_vls | Float [h] | Vergleichswert aus dem Vorjahresmonat; nicht trainiert | anomalie | Bool | Bereitgestelltes Analysekennzeichen; kein Trainingslabel | unmoeglich | Bool | Technisches Plausibilitätskennzeichen | ziel_rekonstruiert | Bool | Kennzeichnet rekonstruierte Zielwerte
+[140] B.2   Modelle und Vorverarbeitung
+[141] Tabelle B2: Trainierte Modelle und ausgewählte Konfiguration
+[142] Modell | Rolle | Konfiguration | Lineare Regression | Erklärbare lineare Referenz | Standardisierung numerischer Merkmale; One-Hot-Kodierung des Kundentyps | Random Forest Regressor | Finales nichtlineares Modell | 300 Bäume; Tiefe 8; min. 5 Fälle je Blatt; max_features 0,7; random_state 42
+[144] Vormonat und Bis-zu-3-Monats-Mittel sind untrainierte Baselines, keine Modelle.
+[145] B.3   Formelsammlung und Rechenbeispiel
+[146]  | (4)
+[147] Der MAE beschreibt die durchschnittliche absolute Abweichung in kWh. Projektwert: Über die 8.398 bewertbaren Zähler-Monate des Jahres 2025 beträgt sie 3.724,6 kWh, gerundet 3.725 kWh.
+[148]  | (5)
+[149] Projektwert: Im Benchmark 2025 ergibt sich R² = 0,901. Das bedeutet erklärte Streuung gegenüber einer Mittelwertprognose und keine Trefferquote von 90,1 %. R² ist dimensionslos und kann negativ werden.
+[150]  | (6)
+[151] Direkte Projektrechnung: (10.922,441 kWh − 9.188,397 kWh) ÷ 10.922,441 kWh × 100 = 15,9 %. Der Vergleich bezieht sich auf den Random Forest und die stärkere Baseline, das Bis-zu-3-Monats-Mittel.
+[152]  | (7)
+[153] Projektbeispiel ZL-00000 für März 2024: Die Vormonats-Baseline nutzt den Februarwert 101,7 VLS-h. Das Bis-zu-3-Monats-Mittel nutzt wegen der kurzen Historie Januar und Februar: (110,5 + 101,7) ÷ 2 = 106,1 VLS-h. k ist die Zahl der verfügbaren gültigen Vormonate, höchstens drei.
+[154]  | (8)
+[155] Random-Forest-Projektwerte: Fold 1 = 17.537,588 kWh, Fold 2 = 8.223,484 kWh und Fold 3 = 14.056,150 kWh. Daraus folgen ein CV-Mittelwert von 13.272,407 kWh und eine Populations-Standardabweichung von 3.842,640 kWh. Die Whisker zeigen diese Streuung, kein Konfidenzintervall.
+[156]  | (9)
+[157] Bei 1.397 sortierten Kalibrierungsfehlern liegt die Position bei 1.382,04 in nullbasierter Zählung. Das entspricht der linearen Interpolation zwischen Rang 1.383 mit 144,2215 VLS-h und Rang 1.384 mit 147,5526 VLS-h. Die Rechnung ergibt 144,3547 VLS-h; 14 Kalibrierungsfehler liegen darüber.
+[158] Anhang C   Datenverständnis und EDA
+[160] Abbildung C1: Verteilung von Monatsverbrauch und Vollaststunden
+[161] Quelle: eigene Darstellung auf Basis der bereinigten Projektdaten.
+[162] Die Normierung reduziert den Größeneffekt der Anschlüsse und macht Zähler besser vergleichbar.
+[164] Abbildung C2: Verbrauch je Kundentyp, roh und normiert
+[165] Quelle: eigene Darstellung auf Basis der bereinigten Projektdaten.
+[166] Roh unterscheiden sich die Kundentypen deutlich; in VLS liegen ihre Mediane näher zusammen.
+[168] Abbildung C3: Vertragsleistung und physikalisch auffällige Monatswerte
+[169] Quelle: eigene Darstellung auf Basis der bereinigten Projektdaten.
+[170] Die technische Monatsgrenze trennt unmögliche Messwerte von plausiblen Lastspitzen.
+[172] Abbildung C4: Korrelationen vor und nach der VLS-Normierung
+[173] Quelle: eigene Darstellung auf Basis der bereinigten Projektdaten.
+[174] Nach der Normierung treten operative Treiber deutlicher hervor.
+[176] Abbildung C5: Produktionsplan und relativer Verbrauch
+[177] Quelle: eigene Darstellung auf Basis der bereinigten Projektdaten.
+[178] Der Zusammenhang ist deskriptiv und begründet die Aufnahme des vorausplanbaren Merkmals.
+[180] Abbildung C6: Verbrauch in Monaten mit und ohne geplante Wartung
+[181] Quelle: eigene Darstellung auf Basis der bereinigten Projektdaten.
+[182] Wartungsmonate zeigen ein niedrigeres Verbrauchsniveau; eine Kausalitätsaussage wird daraus nicht abgeleitet.
+[183] Anhang D   Modellierung und Evaluation
+[185] Abbildung D1: Zeitliche Trennung von Modellwahl, Kalibrierung und Benchmark
+[186] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[188] Abbildung D2: Mittlerer CV-RMSE und Streuung der drei zeitlichen Folds 2024
+[189] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[192] Abbildung D3: Modell- und Baselinevergleich im retrospektiven Benchmark 2025
+[193] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[195] Abbildung D4: Random Forest mit direkter kWh-Zielgröße gegenüber VLS mit Rückrechnung
+[196] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[199] Abbildung D5: Sortierte absolute Kalibrierungsfehler und 99. Perzentil
+[200] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[202] Abbildung D6: Perzentilwahl und monatlicher Prüfaufwand 2025
+[203] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[206] Abbildung D7: Ist gegen Prognose für 8.398 Zähler-Monate 2025
+[207] Quelle: eigene Darstellung auf Basis von data/processed/modellierung_basis_bis_3_monate.csv.
+[208] Tabelle D1: Gruppierte Permutationswichtigkeit im Benchmark 2025
+[209] Informationsgruppe | RMSE-Anstieg nach Mischen | Interpretation | Verbrauchshistorie | 7.256 kWh | größter Prognosebeitrag | Produktionsplan | 798 kWh | relevante Planinformation | Wartung | 591 kWh | relevante Planinformation | Kalender | 276 kWh | ergänzendes Signal | Wetter | 154 kWh | ergänzendes Signal | Jahreszeit | 121 kWh | kleiner zusätzlicher Beitrag | Kundentyp | ca. 3 kWh | nahezu kein zusätzlicher Beitrag nach Normierung
+[211] Ein RMSE-Anstieg zeigt Modellrelevanz, aber keine Kausalität. Korrelierte Merkmale können sich Bedeutung teilen.
+[212] Anhang E   Dashboard-Prototyp
+[213] Der Prototyp demonstriert den geplanten Arbeitsablauf mit dem retrospektiven Datenstand 2025. Er ist lokal, besitzt keine produktive Datenanbindung und löst keine automatische Maßnahme aus.
+[215] Abbildung E1: Anomalieprüfung mit 99. Perzentil, Prüfaufwand und Ist-Prognose-Diagramm
+[216] Quelle: eigener Oberflächenprototyp auf Basis des retrospektiven 2025-Exports.
+[217] Der vorgesehene Ablauf lautet: Schwelle wählen, Prüfliste priorisieren, Zählerfall öffnen, Kontext aus Datenqualität, Produktion und Wartung prüfen, Entscheidung dokumentieren und das Feedback für spätere Modelle speichern.

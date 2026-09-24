@@ -1,0 +1,93 @@
+{
+  "slides": 39,
+  "charts": [
+    {
+      "slide": 9,
+      "key": "eda_monthly",
+      "count": 1
+    },
+    {
+      "slide": 10,
+      "key": "eda_portfolio",
+      "count": 1
+    },
+    {
+      "slide": 16,
+      "key": "cv",
+      "count": 1
+    },
+    {
+      "slide": 17,
+      "key": "benchmark",
+      "count": 1
+    },
+    {
+      "slide": 18,
+      "key": "importance",
+      "count": 1
+    },
+    {
+      "slide": 19,
+      "key": "rank",
+      "count": 1
+    },
+    {
+      "slide": 20,
+      "key": "monthly",
+      "count": 1
+    },
+    {
+      "slide": 21,
+      "key": "case",
+      "count": 1
+    },
+    {
+      "slide": 31,
+      "key": "eda_normalization",
+      "count": 2
+    },
+    {
+      "slide": 32,
+      "key": "metrics",
+      "count": 1
+    },
+    {
+      "slide": 33,
+      "key": "target",
+      "count": 1
+    },
+    {
+      "slide": 34,
+      "key": "threshold",
+      "count": 1
+    },
+    {
+      "slide": 35,
+      "key": "folds",
+      "count": 1
+    }
+  ],
+  "chartOwners": [
+    9,
+    10,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "tableOwners": [
+    29,
+    30,
+    34,
+    35,
+    36,
+    38
+  ]
+}

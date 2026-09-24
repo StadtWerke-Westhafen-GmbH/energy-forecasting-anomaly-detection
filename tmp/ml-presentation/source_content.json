@@ -1,0 +1,3657 @@
+{
+  "source": "docs\\presentation\\Modellierung_Anomaliepruefung_IHK.pptx",
+  "size_emu": {
+    "cx": "12192000",
+    "cy": "6858000"
+  },
+  "slides": [
+    {
+      "number": 1,
+      "part": "ppt/slides/slide1.xml",
+      "texts": [
+        "IHK-PROJEKT  ·  MACHINE LEARNING",
+        "Prognosegestützte Prüfung",
+        "von Energieverbräuchen",
+        "Modeling, Kalibrierung und betrieblicher Workflow",
+        "01",
+        "Folgemonatsprognose",
+        "02",
+        "q99-Prüfhinweise",
+        "03",
+        "menschliche Entscheidung",
+        "Das Modell priorisiert Untersuchungswürdiges – es diagnostiziert keinen Defekt.",
+        "SWW · Energieanalyse · Modellierung",
+        "01"
+      ],
+      "notes": [
+        "Mein Teil beginnt dort, wo aus den aufbereiteten Daten eine belastbare Prognose und anschließend ein Prüfprozess entsteht. Das Ziel ist nicht, automatisch einen Defekt festzustellen. Das Modell soll zeigen, welcher Zähler-Monat ungewöhnlich stark von seinem erwarteten Verbrauch abweicht und deshalb fachlich geprüft werden sollte.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R78085b6b2e444bba",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rcfcdcf5da5fd4e99",
+          "type": "image",
+          "target": "ppt/media/image.png",
+          "external": false
+        },
+        {
+          "id": "R5199d66da31848c8",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide1.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "IHK-PROJEKT  ·  MACHINE LEARNING"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Prognosegestützte Prüfung",
+            "von Energieverbräuchen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Modeling, Kalibrierung und betrieblicher Workflow"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "01"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Folgemonatsprognose"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "02"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99-Prüfhinweise"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "03"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "menschliche Entscheidung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Das Modell priorisiert Untersuchungswürdiges – es diagnostiziert keinen Defekt."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW · Energieanalyse · Modellierung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "part": "ppt/slides/slide2.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  01 · AUFGABE",
+        "Vom Prognosewert zum Arbeitsauftrag",
+        "Prognose und Anomalieprüfung sind zwei getrennte Schritte.",
+        "1",
+        "Prognose",
+        "Vor Monatsbeginn: erwarteten Verbrauch schätzen.",
+        "2",
+        "Istwert",
+        "Nach Monatsende: gemessenen Verbrauch übernehmen.",
+        "3",
+        "Residuum",
+        "Ist minus Prognose – Richtung und Stärke bleiben sichtbar.",
+        "4",
+        "Fachprüfung",
+        "Große Abweichung priorisieren, Ursache menschlich prüfen.",
+        "Residuum = Istwert − Prognose",
+        "Schwelle überschritten  →  Prüfhinweis  ≠  bestätigte Anomalie",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "02"
+      ],
+      "notes": [
+        "Zuerst schätzt das Modell, welcher Monatsverbrauch unter den bekannten Bedingungen zu erwarten wäre. Sobald der tatsächliche Wert vorliegt, berechnen wir das Residuum: Istwert minus Prognose. Überschreitet der Betrag dieses Fehlers unsere gelernte Grenze, entsteht ein Prüfhinweis. Erst die anschließende Daten-, Kontext- und Fachprüfung entscheidet, ob wirklich ein relevanter Sachverhalt vorliegt.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R0e47fcb1d16b471a",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rf2fb7c33f8d84598",
+          "type": "image",
+          "target": "ppt/media/image2.png",
+          "external": false
+        },
+        {
+          "id": "R67cb46781c5e4cba",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide2.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  01 · AUFGABE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Vom Prognosewert zum Arbeitsauftrag"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Prognose und Anomalieprüfung sind zwei getrennte Schritte."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "1"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Prognose"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Vor Monatsbeginn: erwarteten Verbrauch schätzen."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "2"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Istwert"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Nach Monatsende: gemessenen Verbrauch übernehmen."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "3"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Residuum"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ist minus Prognose – Richtung und Stärke bleiben sichtbar."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "4"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fachprüfung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Große Abweichung priorisieren, Ursache menschlich prüfen."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Residuum = Istwert − Prognose"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Schwelle überschritten  →  Prüfhinweis  ≠  bestätigte Anomalie"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "02"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "part": "ppt/slides/slide3.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  01 · ZIELVARIABLE",
+        "Warum wir Vollaststunden vorhersagen",
+        "VLS normalisieren den Verbrauch auf die Anschlussgröße – sie sind keine gemessene Laufzeit.",
+        "VLS-h = Verbrauch in kWh  ÷  Vertragsleistung in kW",
+        "KLEINER ANSCHLUSS",
+        "10.000 kWh ÷ 50 kW = 200 h",
+        "Geringere Energiemenge, aber dieselbe relative Auslastung.",
+        "GROSSER ANSCHLUSS",
+        "40.000 kWh ÷ 200 kW = 200 h",
+        "Viermal mehr kWh und viermal mehr Leistung – daher gleiche VLS.",
+        "zurück in",
+        "kWh",
+        "Prognose-VLS",
+        "× Leistung",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "03"
+      ],
+      "notes": [
+        "Ein großer Anschluss verbraucht naturgemäß mehr Kilowattstunden als ein kleiner. Deshalb normalisieren wir den Verbrauch durch die vertragliche Leistung. Vollaststunden sind hier keine gemessene Laufzeit, sondern eine Vergleichsgröße. Das Modell lernt in VLS-Stunden; für die verständliche Bewertung rechnen wir die Prognose anschließend wieder in Kilowattstunden zurück.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "Rfd7edb826a1d4c1b",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R81d4a80e98ce4baa",
+          "type": "image",
+          "target": "ppt/media/image3.png",
+          "external": false
+        },
+        {
+          "id": "R62ad4efb72324f93",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide3.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  01 · ZIELVARIABLE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Warum wir Vollaststunden vorhersagen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "VLS normalisieren den Verbrauch auf die Anschlussgröße – sie sind keine gemessene Laufzeit."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "VLS-h = Verbrauch in kWh  ÷  Vertragsleistung in kW"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "KLEINER ANSCHLUSS"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "10.000 kWh ÷ 50 kW = 200 h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Geringere Energiemenge, aber dieselbe relative Auslastung."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "GROSSER ANSCHLUSS"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "40.000 kWh ÷ 200 kW = 200 h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Viermal mehr kWh und viermal mehr Leistung – daher gleiche VLS."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "zurück in",
+            "kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Prognose-VLS",
+            "× Leistung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "03"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "part": "ppt/slides/slide4.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  02 · VALIDIERUNG",
+        "Vergangenheit erklärt Zukunft – niemals umgekehrt",
+        "Drei vorwärts laufende Folds 2024 · Kalibrierung Ende 2024 · Benchmark 2025",
+        "Keine zufällige Mischung: Jeder Bewertungsblock liegt vollständig nach seinem Trainingsblock.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "04"
+      ],
+      "notes": [
+        "Wir mischen die Zeitreihe nicht zufällig. In jedem Fold lernt das Modell nur aus bereits vergangenen Monaten und wird auf späteren Monaten bewertet. Der Lernbereich wächst dabei von Fold zu Fold. November und Dezember 2024 verwenden wir anschließend nicht zur Modellwahl, sondern zur Festlegung der Fehlergrenze. So verhindern wir, dass Informationen aus der Zukunft in frühere Prognosen geraten.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "Rb482471d38a84cdc",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R8762f87d6a35415b",
+          "type": "image",
+          "target": "ppt/media/image4.png",
+          "external": false
+        },
+        {
+          "id": "R59923eff444f4756",
+          "type": "image",
+          "target": "ppt/media/image5.png",
+          "external": false
+        },
+        {
+          "id": "R38b2086613854c2b",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide4.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  02 · VALIDIERUNG"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Vergangenheit erklärt Zukunft – niemals umgekehrt"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Drei vorwärts laufende Folds 2024 · Kalibrierung Ende 2024 · Benchmark 2025"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Keine zufällige Mischung: Jeder Bewertungsblock liegt vollständig nach seinem Trainingsblock."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "04"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "part": "ppt/slides/slide5.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  02 · MODELLWAHL",
+        "Kontrollierter Hyperparametervergleich statt Black Box",
+        "2025 entscheidet keinen Hyperparameter – die Auswahl passiert ausschließlich in den drei Folds von 2024.",
+        "REFERENZ",
+        "Lineare Regression",
+        "Einfach, nachvollziehbar und ein sinnvoller Prüfstein für zusätzliche Modellkomplexität.",
+        "NICHTLINEAR",
+        "Random Forest",
+        "Kann Wechselwirkungen und nichtlineare Muster abbilden – muss seinen Mehrwert aber messen lassen.",
+        "Geprüfter Suchraum",
+        "max_depth",
+        "8  |  unbegrenzt",
+        "min_samples_leaf",
+        "5  |  20",
+        "max_features",
+        "0,7  |  1,0",
+        "8 × 3 = 24",
+        "Kombinationen × Zeit-Folds = Fits",
+        "GEWINNER",
+        "Tiefe 8 · Blatt 5 · Features 0,7",
+        "Auswahlregel: niedrigster mittlerer CV-RMSE.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "05"
+      ],
+      "notes": [
+        "Die lineare Regression ist unsere verständliche Referenz; der Random Forest kann zusätzlich nichtlineare Zusammenhänge abbilden. Statt einer unnötig großen Grid Search haben wir acht fachlich kontrollierte Kombinationen im gleichen zeitlichen Validierungsrahmen geprüft. Das sind 24 Fits. Gewonnen hat die Kombination mit dem niedrigsten mittleren RMSE – das Testjahr 2025 hatte auf diese Wahl keinen Einfluss.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R105f0c17912f436e",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rb222c44d3d7e47d2",
+          "type": "image",
+          "target": "ppt/media/image6.png",
+          "external": false
+        },
+        {
+          "id": "Rae4a1f277c714090",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide5.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  02 · MODELLWAHL"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Kontrollierter Hyperparametervergleich statt Black Box"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "2025 entscheidet keinen Hyperparameter – die Auswahl passiert ausschließlich in den drei Folds von 2024."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "REFERENZ"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Lineare Regression"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Einfach, nachvollziehbar und ein sinnvoller Prüfstein für zusätzliche Modellkomplexität."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "NICHTLINEAR"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Random Forest"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Kann Wechselwirkungen und nichtlineare Muster abbilden – muss seinen Mehrwert aber messen lassen."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Geprüfter Suchraum"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "max_depth"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "8  |  unbegrenzt"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "min_samples_leaf"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "5  |  20"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "max_features"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "0,7  |  1,0"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "8 × 3 = 24"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Kombinationen × Zeit-Folds = Fits"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "GEWINNER"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Tiefe 8 · Blatt 5 · Features 0,7"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Auswahlregel: niedrigster mittlerer CV-RMSE."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "05"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "part": "ppt/slides/slide6.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  03 · ERGEBNIS",
+        "Random Forest erzielt den niedrigsten Validierungsfehler",
+        "Balken = Fold-Mittel · Diamanten = einzelne Folds · Whisker = Standardabweichung",
+        "Knapper, aber konsistenter Sieg: Random Forest liegt 2,7 % vor der linearen Regression. Whisker sind keine Einzelprognose-Unsicherheit.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "06"
+      ],
+      "notes": [
+        "Der Balken ist jeweils der Mittelwert aus drei zeitlichen Bewertungen. Die Punkte zeigen die einzelnen Folds, die Whisker deren Streuung. Der Random Forest liegt mit 13.272 Kilowattstunden knapp vor der linearen Regression mit 13.643. Der Vorsprung ist also real, aber nicht riesig. Beide Modelle schlagen das Drei-Monats-Mittel mit 15.483 und den Vormonat mit 18.460 Kilowattstunden. Die Streuung mahnt zugleich, keinen einzelnen Mittelwert zu überinterpretieren.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "Re53f5b53ec1d4a80",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R9d1cdd86eae0448f",
+          "type": "image",
+          "target": "ppt/media/image7.png",
+          "external": false
+        },
+        {
+          "id": "R4d537138e48446fa",
+          "type": "image",
+          "target": "ppt/media/image8.png",
+          "external": false
+        },
+        {
+          "id": "R5abf53345fb147c0",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide6.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  03 · ERGEBNIS"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Random Forest erzielt den niedrigsten Validierungsfehler"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Balken = Fold-Mittel · Diamanten = einzelne Folds · Whisker = Standardabweichung"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Knapper, aber konsistenter Sieg: Random Forest liegt 2,7 % vor der linearen Regression. Whisker sind keine Einzelprognose-Unsicherheit."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "06"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "part": "ppt/slides/slide7.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  03 · BENCHMARK",
+        "Auch 2025 bleibt das Modell vor den Baselines",
+        "Retrospektiver One-Step-Ahead-Benchmark – monatlich vorhersagen, danach mit dem Istwert bewerten.",
+        "RMSE",
+        "9.188 kWh",
+        "Große Fehler zählen stärker.",
+        "MAE",
+        "3.725 kWh",
+        "Mittlere absolute Abweichung.",
+        "GEGEN 3-MONATS-MITTEL",
+        "15,9 % besser",
+        "Relativer RMSE-Vorteil.",
+        "Fallzahlen: RF, linear und 3-Monats-Mittel n = 8.398 · Vormonat n = 8.388 (10 fehlende Vergleichswerte).",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "07"
+      ],
+      "notes": [
+        "Danach prüfen wir die getroffene Modellentscheidung retrospektiv auf 2025. One Step Ahead bedeutet: Für jeden Monat werden nur die zu diesem Zeitpunkt bekannten Informationen verwendet; anschließend wird mit dem eingetroffenen Istwert bewertet. Über 8.398 Zähler-Monate erreicht der Random Forest einen RMSE von 9.188 und einen MAE von 3.725 Kilowattstunden. Gegenüber dem besten einfachen Vergleich, dem Drei-Monats-Mittel, sinkt der RMSE um 15,9 Prozent. Retrospektiv heißt: 2025 ist inzwischen bekannt und daher kein unangesehener Blindtest mehr. Nur der Vormonatsvergleich hat wegen zehn fehlender Werte n = 8.388; die entscheidende Gegenüberstellung zum Drei-Monats-Mittel nutzt dieselben 8.398 Fälle.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R995e418134024e2d",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rba0af0a53efc426c",
+          "type": "image",
+          "target": "ppt/media/image9.png",
+          "external": false
+        },
+        {
+          "id": "Rf5b48f5813a24339",
+          "type": "image",
+          "target": "ppt/media/image10.png",
+          "external": false
+        },
+        {
+          "id": "R4d52860146754506",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide7.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  03 · BENCHMARK"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Auch 2025 bleibt das Modell vor den Baselines"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Retrospektiver One-Step-Ahead-Benchmark – monatlich vorhersagen, danach mit dem Istwert bewerten."
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "RMSE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "9.188 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Große Fehler zählen stärker."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "MAE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "3.725 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Mittlere absolute Abweichung."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "GEGEN 3-MONATS-MITTEL"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "15,9 % besser"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Relativer RMSE-Vorteil."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fallzahlen: RF, linear und 3-Monats-Mittel n = 8.398 · Vormonat n = 8.388 (10 fehlende Vergleichswerte)."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "07"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "part": "ppt/slides/slide8.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  03 · ERKLÄRBARKEIT",
+        "Welche Informationsgruppen fehlen dem Modell am stärksten?",
+        "Gruppierte Permutation Importance auf dem retrospektiven Benchmarkjahr 2025",
+        "Wichtig: Modellnutzen ≠ Kausalität. Vertragsleistung wird nicht permutiert, weil sie der feste Umrechnungsfaktor VLS → kWh ist.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "08"
+      ],
+      "notes": [
+        "Für diese Auswertung mischen wir jeweils eine Informationsgruppe zufällig und lassen das trainierte Modell erneut vorhersagen. Steigt der RMSE stark, hat das Modell diese Information zuvor wirksam genutzt. Bei der Verbrauchshistorie steigt er um 7.349 Kilowattstunden – deutlich stärker als bei Produktionsplan oder Wartung. Weil zusammengehörige Spalten gemeinsam gemischt werden, messen wir den Beitrag der ganzen Informationsgruppe. Das ist Modellrelevanz, aber kein Beweis für einen kausalen Zusammenhang. Die Vertragsleistung wird bewusst nicht permutiert: Sie ist der feste Umrechnungsfaktor von VLS zurück in kWh.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "Ra7734da7d4a94470",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rf70f9923f6394848",
+          "type": "image",
+          "target": "ppt/media/image11.png",
+          "external": false
+        },
+        {
+          "id": "R0b29e9593c72442f",
+          "type": "image",
+          "target": "ppt/media/image12.png",
+          "external": false
+        },
+        {
+          "id": "R9bb2ed30387d4267",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide8.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  03 · ERKLÄRBARKEIT"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Welche Informationsgruppen fehlen dem Modell am stärksten?"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Gruppierte Permutation Importance auf dem retrospektiven Benchmarkjahr 2025"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Wichtig: Modellnutzen ≠ Kausalität. Vertragsleistung wird nicht permutiert, weil sie der feste Umrechnungsfaktor VLS → kWh ist."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "08"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "part": "ppt/slides/slide9.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  04 · KALIBRIERUNG",
+        "Die q99-Schwelle entsteht aus realen Prognosefehlern",
+        "1.397 absolute Out-of-Fold-Fehler aus November und Dezember 2024",
+        "99. PERZENTIL",
+        "144,4 VLS-h",
+        "Konservative Pilotgrenze, keine Defektwahrscheinlichkeit.",
+        "BIS ZUR GRENZE",
+        "1.383 Fehler",
+        "14 Fehler liegen darüber.",
+        "(1.397 − 1) × 0,99 = 1.382,04",
+        "Interpolation zwischen Rang 1.383 und 1.384 ergibt 144,3547 VLS-h.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "09"
+      ],
+      "notes": [
+        "Für die Kalibrierung sortieren wir 1.397 absolute Out-of-Fold-Fehler aus November und Dezember 2024 von klein nach groß. Das 99. Perzentil ist eine Position in dieser Liste. Durch die übliche lineare Interpolation liegt die Schwelle bei 144,4 VLS-Stunden. 1.383 Fehler liegen bis zu dieser Grenze und 14 darüber. q99 ist keine Defektwahrscheinlichkeit und nicht automatisch der perfekte Sweet Spot. Es ist eine konservative, nachvollziehbare Pilotentscheidung ohne bereits bestätigte Anomalie-Labels.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R7227c94a65464653",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R52891265e17c4746",
+          "type": "image",
+          "target": "ppt/media/image13.png",
+          "external": false
+        },
+        {
+          "id": "Rf9fdd14e175e43e3",
+          "type": "image",
+          "target": "ppt/media/image14.png",
+          "external": false
+        },
+        {
+          "id": "R9532b7781b2a4e3c",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide9.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  04 · KALIBRIERUNG"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Die q99-Schwelle entsteht aus realen Prognosefehlern"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "1.397 absolute Out-of-Fold-Fehler aus November und Dezember 2024"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "99. PERZENTIL"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "144,4 VLS-h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Konservative Pilotgrenze, keine Defektwahrscheinlichkeit."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "BIS ZUR GRENZE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "1.383 Fehler"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "14 Fehler liegen darüber."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "(1.397 − 1) × 0,99 = 1.382,04"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Interpolation zwischen Rang 1.383 und 1.384 ergibt 144,3547 VLS-h."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "09"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "part": "ppt/slides/slide10.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  04 · PRÜFHINWEISE",
+        "q99 übersetzt Fehler in ein handhabbares Pilotvolumen",
+        "Die Ende 2024 kalibrierte Grenze wird 2025 unverändert angewandt.",
+        "PRÜFHINWEISE 2025",
+        "114",
+        "von 8.398 Zähler-Monaten",
+        "ANTEIL",
+        "1,36 %",
+        "nicht exakt 1 %, weil 2025 anders verteilt ist",
+        "ARBEITSVOLUMEN",
+        "9,5 / Monat",
+        "107 unterschiedliche Zähler",
+        "Außerhalb des Bandes = Prüfhinweis. Innerhalb = kein Hinweis. Beides ist noch keine fachliche Diagnose.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "10"
+      ],
+      "notes": [
+        "Die in 2024 festgelegte Grenze wird anschließend unverändert auf den Benchmark 2025 angewandt. Außerhalb des Bandes entstehen 114 Prüfhinweise, also 1,36 Prozent der 8.398 bewertbaren Zähler-Monate. Das entspricht durchschnittlich 9,5 Fällen pro Monat und 107 unterschiedlichen Zählern. Der Anteil muss nicht exakt ein Prozent betragen, weil 2025 eine andere Fehlerverteilung als die Kalibrierungsmonate haben kann.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "Re6dcd34cfaad48c4",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R1bffb30751c449e4",
+          "type": "image",
+          "target": "ppt/media/image15.png",
+          "external": false
+        },
+        {
+          "id": "Rb618be710be142b9",
+          "type": "image",
+          "target": "ppt/media/image16.png",
+          "external": false
+        },
+        {
+          "id": "R498121942e2441ec",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide10.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  04 · PRÜFHINWEISE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99 übersetzt Fehler in ein handhabbares Pilotvolumen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Die Ende 2024 kalibrierte Grenze wird 2025 unverändert angewandt."
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "PRÜFHINWEISE 2025"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "114"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "von 8.398 Zähler-Monaten"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "ANTEIL"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "1,36 %"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "nicht exakt 1 %, weil 2025 anders verteilt ist"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "ARBEITSVOLUMEN"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "9,5 / Monat"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "107 unterschiedliche Zähler"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Außerhalb des Bandes = Prüfhinweis. Innerhalb = kein Hinweis. Beides ist noch keine fachliche Diagnose."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "10"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "part": "ppt/slides/slide11.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  05 · FALLBEISPIEL",
+        "Ein konkreter Fall macht die Entscheidung sichtbar",
+        "ZL-00147 · Vertragsleistung 49 kW · q99-Grenze 7.073,4 kWh",
+        "08 / 2025 · PRÜFHINWEIS",
+        "+2,30",
+        "Ist 23.563,5 kWh",
+        "Prognose 7.303,9 kWh",
+        "Residuum +16.259,6 kWh = +331,8 VLS-h",
+        "09 / 2025 · KEIN HINWEIS",
+        "−0,68",
+        "Ist 5.915,0 kWh",
+        "Prognose 10.739,7 kWh",
+        "Residuum −4.824,7 kWh = −98,5 VLS-h",
+        "Faktor = VLS-Residuum ÷ 144,3547 · außerhalb von −1 bis +1 entsteht ein Prüfhinweis.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "11"
+      ],
+      "notes": [
+        "Beim Zähler ZL-00147 sehen wir im August einen Istverbrauch von 23.563 gegenüber einer Prognose von 7.304 Kilowattstunden. Die Abweichung beträgt plus 16.260 Kilowattstunden beziehungsweise plus 331,8 VLS-Stunden. Geteilt durch die q99-Grenze ergibt das den Faktor plus 2,30: ein Prüfhinweis. Im September liegt der Istwert zwar deutlich unter der Prognose, aber die Abweichung beträgt nur minus 98,5 VLS-Stunden beziehungsweise Faktor minus 0,68. Sie bleibt innerhalb des Bandes. Der Faktor zeigt also die Stärke relativ zur Grenze – er ist keine Wahrscheinlichkeit.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R40ffa00151eb465d",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R160ebe1c25894420",
+          "type": "image",
+          "target": "ppt/media/image17.png",
+          "external": false
+        },
+        {
+          "id": "Rfa5c88aca5e44bb4",
+          "type": "image",
+          "target": "ppt/media/image18.png",
+          "external": false
+        },
+        {
+          "id": "R384f80fc465c41e6",
+          "type": "image",
+          "target": "ppt/media/image19.png",
+          "external": false
+        },
+        {
+          "id": "R232c84ea3116482d",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide11.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  05 · FALLBEISPIEL"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ein konkreter Fall macht die Entscheidung sichtbar"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "ZL-00147 · Vertragsleistung 49 kW · q99-Grenze 7.073,4 kWh"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "08 / 2025 · PRÜFHINWEIS"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "+2,30"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ist 23.563,5 kWh",
+            "Prognose 7.303,9 kWh",
+            "Residuum +16.259,6 kWh = +331,8 VLS-h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "09 / 2025 · KEIN HINWEIS"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "−0,68"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ist 5.915,0 kWh",
+            "Prognose 10.739,7 kWh",
+            "Residuum −4.824,7 kWh = −98,5 VLS-h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Faktor = VLS-Residuum ÷ 144,3547 · außerhalb von −1 bis +1 entsteht ein Prüfhinweis."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "11"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "part": "ppt/slides/slide12.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  05 · LIVE-DEMO",
+        "Zwei Minuten vom Modellwert zum dokumentierten Fall",
+        "Die Demo zeigt einen möglichen Prüfworkflow – sie beweist keinen Defekt.",
+        "Demo-Ablauf",
+        "00:00",
+        "q99 & Umfang",
+        "00:20",
+        "2 hohe + 2 niedrige Fälle",
+        "00:40",
+        "Fall öffnen",
+        "01:10",
+        "Kontext prüfen",
+        "01:35",
+        "Entscheidung dokumentieren",
+        "01:55",
+        "Label als Lernsignal",
+        "Live-Demo im Browser öffnen",
+        "Quelle: brand/design-system/ui_kits/energie-cockpit · lokale Demo, keine Live-Anbindung",
+        "12"
+      ],
+      "notes": [
+        "Jetzt zeige ich den möglichen betrieblichen Ablauf live. Die Demo beweist keinen Defekt. Sie zeigt, wie Prüfhinweise priorisiert, geprüft und dokumentiert werden können.",
+        "",
+        "0:00–0:20: Aktive q99-Schwelle von 144,4 VLS-Stunden und daraus 9,5 Hinweise pro Monat zeigen.",
+        "0:20–0:40: Zwei ungewöhnlich hohe und zwei ungewöhnlich niedrige Fälle priorisieren.",
+        "0:40–1:10: Einen Fall öffnen und Istwert, Prognose, Residuum und Schwellenfaktor erklären.",
+        "1:10–1:35: Kontextinformationen wie Wartung, Produktionsplanung und Datenqualität prüfen.",
+        "1:35–1:55: Dokumentieren, ob der Prüfhinweis fachlich relevant war, und eine Begründung ergänzen.",
+        "1:55–2:00: Dieses Feedback liefert künftig die Labels für eine zweite Modellstufe.",
+        "",
+        "Vor der Präsentation lokal starten: node scripts/preview.mjs",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R5c83abc09d274bf9",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rc16691d55078473c",
+          "type": "image",
+          "target": "ppt/media/image20.png",
+          "external": false
+        },
+        {
+          "id": "R363b5e0d79e74906",
+          "type": "hyperlink",
+          "target": "ppt/slides/http:/127.0.0.1:4173/design-system/ui_kits/energie-cockpit/index.html?screen=anomalien",
+          "external": true
+        },
+        {
+          "id": "R68ede33a5f424087",
+          "type": "image",
+          "target": "ppt/media/image21.png",
+          "external": false
+        },
+        {
+          "id": "R16cf135f5b204d5f",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide12.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  05 · LIVE-DEMO"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Zwei Minuten vom Modellwert zum dokumentierten Fall"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Die Demo zeigt einen möglichen Prüfworkflow – sie beweist keinen Defekt."
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Demo-Ablauf"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "00:00"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99 & Umfang"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "00:20"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "2 hohe + 2 niedrige Fälle"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "00:40"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fall öffnen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "01:10"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Kontext prüfen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "01:35"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Entscheidung dokumentieren"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "01:55"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Label als Lernsignal"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Live-Demo im Browser öffnen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: brand/design-system/ui_kits/energie-cockpit · lokale Demo, keine Live-Anbindung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "12"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "part": "ppt/slides/slide13.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE  ·  06 · FAZIT",
+        "Belastbares Ergebnis und klarer nächster Schritt",
+        "Heute priorisieren wir Modellabweichungen; morgen können bestätigte Labels eine zweite Lernaufgabe ermöglichen.",
+        "HEUTE · Regression",
+        "1",
+        "VLS prognostizieren",
+        "Erwarteten Folgemonatsverbrauch schätzen.",
+        "2",
+        "Residuum bewerten",
+        "q99 übersetzt die Abweichung in Prüfaufwand.",
+        "3",
+        "Mensch prüft",
+        "Ursache und Relevanz werden dokumentiert.",
+        "Feedback",
+        "AUSBLICK · Klassifikation",
+        "Bestätigtes Label → relevant / nicht relevant",
+        "Ein zweites überwacht gelerntes Klassifikationsmodell kann später die Priorisierung verbessern. Das ist kein weiteres Regressionstuning.",
+        "BELASTBAR",
+        "15,9 %",
+        "weniger RMSE als beste einfache Baseline",
+        "BETRIEBLICH",
+        "9,5 / Monat",
+        "q99-Pilotvolumen statt automatische Diagnose",
+        "OFFEN",
+        "Labels fehlen",
+        "erst dann sind Precision und Recall belastbar",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "13"
+      ],
+      "notes": [
+        "Unser belastbares Ergebnis ist ein prognosegestützter Prüfprozess: Der Random Forest verbessert die Vorhersage gegenüber den einfachen Baselines, und q99 übersetzt ungewöhnlich große Modellabweichungen in ein handhabbares Arbeitsvolumen. Was wir noch nicht behaupten dürfen, ist eine automatische Defekt- oder Anomalieerkennung. Dafür fehlen bestätigte Labels. Wenn die Fachanwender ihre Entscheidungen strukturiert dokumentieren, können diese Rückmeldungen später ein Klassifikationsmodell trainieren. Das wäre kein weiteres Tuning der Regression, sondern eine zweite überwachte Lernaufgabe: relevant oder nicht relevant.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "Rc0c7fccf03b745aa",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R042baa2a8f0f4405",
+          "type": "image",
+          "target": "ppt/media/image22.png",
+          "external": false
+        },
+        {
+          "id": "R6b7d2290d3ce4d9e",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide13.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE  ·  06 · FAZIT"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Belastbares Ergebnis und klarer nächster Schritt"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Heute priorisieren wir Modellabweichungen; morgen können bestätigte Labels eine zweite Lernaufgabe ermöglichen."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "HEUTE · Regression"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "1"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "VLS prognostizieren"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Erwarteten Folgemonatsverbrauch schätzen."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "2"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Residuum bewerten"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99 übersetzt die Abweichung in Prüfaufwand."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "3"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Mensch prüft"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ursache und Relevanz werden dokumentiert."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Feedback"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "AUSBLICK · Klassifikation"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Bestätigtes Label → relevant / nicht relevant"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ein zweites überwacht gelerntes Klassifikationsmodell kann später die Priorisierung verbessern. Das ist kein weiteres Regressionstuning."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "BELASTBAR"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "15,9 %"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "weniger RMSE als beste einfache Baseline"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "BETRIEBLICH"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "9,5 / Monat"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99-Pilotvolumen statt automatische Diagnose"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "OFFEN"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Labels fehlen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "erst dann sind Precision und Recall belastbar"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "13"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "part": "ppt/slides/slide14.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG A",
+        "Warum RMSE Hauptmetrik und MAE Ergänzung sind",
+        "Ein didaktisches Beispiel – kein Ergebnis des Projektmodells.",
+        "MAE",
+        "Ø Fehlerbetrag",
+        "Alle absoluten Fehler gehen gleichgewichtet in den Mittelwert ein.",
+        "RMSE",
+        "große Fehler stärker",
+        "Fehler werden quadriert, gemittelt und anschließend wird die Wurzel gezogen. Deshalb Hauptmetrik der Modellwahl.",
+        "R² ist bewusst nicht Teil dieser Erklärung: Für die Prüfung reichen RMSE und MAE als verständliche Fehlermaße.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "14"
+      ],
+      "notes": [
+        "Der MAE sagt anschaulich, wie groß die absolute Abweichung im Durchschnitt ist. Beim RMSE werden die Fehler zuerst quadriert; dadurch wirken große Einzelfehler stärker. Das passt zu unserem Ziel, erhebliche Fehlprognosen nicht zu verdecken. Deshalb entscheiden wir die Modelle mit dem RMSE und ergänzen den leichter interpretierbaren MAE. R² lasse ich aus dieser didaktischen Geschichte heraus, weil es für die Kernaussage nicht nötig ist.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R6704313a45af4faf",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R9ce9d9e5cabc47e1",
+          "type": "image",
+          "target": "ppt/media/image23.png",
+          "external": false
+        },
+        {
+          "id": "R3f61b945e6ef4799",
+          "type": "image",
+          "target": "ppt/media/image24.png",
+          "external": false
+        },
+        {
+          "id": "R27b5c50bb27a4694",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide14.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG A"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Warum RMSE Hauptmetrik und MAE Ergänzung sind"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ein didaktisches Beispiel – kein Ergebnis des Projektmodells."
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "MAE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ø Fehlerbetrag"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Alle absoluten Fehler gehen gleichgewichtet in den Mittelwert ein."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "RMSE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "große Fehler stärker"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fehler werden quadriert, gemittelt und anschließend wird die Wurzel gezogen. Deshalb Hauptmetrik der Modellwahl."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "R² ist bewusst nicht Teil dieser Erklärung: Für die Prüfung reichen RMSE und MAE als verständliche Fehlermaße."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "14"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "part": "ppt/slides/slide15.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG B",
+        "VLS verbessert diesen konkreten Modellvergleich",
+        "Gleicher Modelltyp · gleiche Bewertungseinheit kWh · gleicher Benchmark 2025",
+        "6,2 %",
+        "niedrigerer RMSE",
+        "9.800 → 9.188 kWh",
+        "Saubere Grenze",
+        "Datensatzspezifischer Befund – keine allgemeine Überlegenheit von VLS.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "15"
+      ],
+      "notes": [
+        "Hier vergleichen wir fair denselben Modelltyp und bewerten beide Varianten in Kilowattstunden. Die VLS-Variante erreicht 9.188 statt rund 9.800 Kilowattstunden RMSE. Das sind 6,2 Prozent weniger. Daraus folgt nicht, dass VLS immer überlegen sind; es ist das Ergebnis dieses Datensatzes und unseres Versuchsaufbaus.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R6df77000c2b04425",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "Rbcb68a05ecc848ca",
+          "type": "image",
+          "target": "ppt/media/image25.png",
+          "external": false
+        },
+        {
+          "id": "R937be623bde14355",
+          "type": "image",
+          "target": "ppt/media/image26.png",
+          "external": false
+        },
+        {
+          "id": "R85661790144c44c5",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide15.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG B"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "VLS verbessert diesen konkreten Modellvergleich"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Gleicher Modelltyp · gleiche Bewertungseinheit kWh · gleicher Benchmark 2025"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "6,2 %"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "niedrigerer RMSE"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "9.800 → 9.188 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Saubere Grenze"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Datensatzspezifischer Befund – keine allgemeine Überlegenheit von VLS."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "15"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "part": "ppt/slides/slide16.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG C",
+        "Das Perzentil steuert direkt den Prüfaufwand",
+        "Sensitivitätsanalyse: gleiche Prognosen, andere Entscheidungsgrenze – kein Retraining.",
+        "Perzentil      Schwelle      Hinweise",
+        "q95",
+        "68,0 h",
+        "33,3 / Monat",
+        "q97,5",
+        "82,4 h",
+        "21,3 / Monat",
+        "q99",
+        "144,4 h",
+        "9,5 / Monat",
+        "q99,5",
+        "196,3 h",
+        "5,8 / Monat",
+        "q99 ist eine dokumentierte Pilotannahme – der spätere Sweet Spot benötigt Prüfkapazität und bestätigte Labels.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "16"
+      ],
+      "notes": [
+        "Diese Sensitivitätsanalyse verändert nicht das Modell und trainiert nichts neu. Sie verschiebt nur die betriebliche Fehlergrenze. Eine niedrigere Grenze erzeugt mehr Hinweise und erhöht die Chance, relevante Fälle zu sehen, aber auch den Prüfaufwand. q99 ist unsere konservative Pilotannahme. Welcher Punkt langfristig richtig ist, muss der Fachbereich anhand verfügbarer Prüfkapazität und später bestätigter Labels entscheiden.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R2cbee96a2eae4758",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R5cccf8faa6504dd6",
+          "type": "image",
+          "target": "ppt/media/image27.png",
+          "external": false
+        },
+        {
+          "id": "R729020c01c8c4e8d",
+          "type": "image",
+          "target": "ppt/media/image28.png",
+          "external": false
+        },
+        {
+          "id": "Rebe2c80f1eab48a7",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide16.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG C"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Das Perzentil steuert direkt den Prüfaufwand"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Sensitivitätsanalyse: gleiche Prognosen, andere Entscheidungsgrenze – kein Retraining."
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Perzentil      Schwelle      Hinweise"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q95"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "68,0 h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "33,3 / Monat"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q97,5"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "82,4 h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "21,3 / Monat"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "144,4 h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "9,5 / Monat"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99,5"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "196,3 h"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "5,8 / Monat"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99 ist eine dokumentierte Pilotannahme – der spätere Sweet Spot benötigt Prüfkapazität und bestätigte Labels."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "16"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "part": "ppt/slides/slide17.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG D",
+        "Fold-Ergebnisse und gewählte Random-Forest-Einstellung",
+        "Mehr Trainingsmonate bedeuten nicht automatisch einen leichteren Bewertungszeitraum.",
+        "Random-Forest-RMSE je Fold",
+        "Fold 1",
+        "17.538 kWh",
+        "Fold 2",
+        "8.224 kWh",
+        "Fold 3",
+        "14.056 kWh",
+        "Mittel: 13.272 kWh · Standardabweichung: 3.843 kWh",
+        "Gewählte Konfiguration",
+        "max_depth",
+        "8",
+        "begrenzt sehr spezielle Regeln",
+        "min_samples_leaf",
+        "5",
+        "mindestens fünf Fälle je Blatt",
+        "max_features",
+        "0,7",
+        "Bäume sehen unterschiedliche Merkmale",
+        "n_estimators",
+        "300",
+        "stabilisiert das Ensemble",
+        "random_state",
+        "42",
+        "reproduzierbarer Vergleich",
+        "Fold 2 ist am besten – aber nicht zwingend wegen mehr Training. Jeder Fold bewertet einen anderen Zeitraum mit eigener Schwierigkeit.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "17"
+      ],
+      "notes": [
+        "Die einzelnen Fold-Werte erklären den Whisker aus der Hauptfolie. Fold 2 ist hier am besten, Fold 1 am schwächsten. Mehr Trainingsmonate bedeuten aber nicht automatisch einen besseren Bewertungswert, weil auch der jeweilige Bewertungszeitraum unterschiedlich schwierig sein kann. Die ausgewählte Kombination begrenzt die Baumtiefe auf acht und verlangt mindestens fünf Fälle pro Blatt; das bremst zu spezielle Regeln. 300 Bäume stabilisieren das Ensemble, der Zufallsstart 42 macht den Vergleich reproduzierbar.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R28a26b6f3aa84796",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R761b18d348e44604",
+          "type": "image",
+          "target": "ppt/media/image29.png",
+          "external": false
+        },
+        {
+          "id": "Rfa0fc8f3abac4f0d",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide17.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG D"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fold-Ergebnisse und gewählte Random-Forest-Einstellung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Mehr Trainingsmonate bedeuten nicht automatisch einen leichteren Bewertungszeitraum."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Random-Forest-RMSE je Fold"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fold 1"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "17.538 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fold 2"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "8.224 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fold 3"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "14.056 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Mittel: 13.272 kWh · Standardabweichung: 3.843 kWh"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Gewählte Konfiguration"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "max_depth"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "8"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "begrenzt sehr spezielle Regeln"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "min_samples_leaf"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "5"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "mindestens fünf Fälle je Blatt"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "max_features"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "0,7"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Bäume sehen unterschiedliche Merkmale"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "n_estimators"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "300"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "stabilisiert das Ensemble"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "random_state"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "42"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "reproduzierbarer Vergleich"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Fold 2 ist am besten – aber nicht zwingend wegen mehr Training. Jeder Fold bewertet einen anderen Zeitraum mit eigener Schwierigkeit."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "17"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "part": "ppt/slides/slide18.xml",
+      "texts": [
+        "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG E",
+        "Vier Begriffe – vier unterschiedliche Aussagen",
+        "Prüfhinweis und bestätigte Anomalie dürfen nicht gleichgesetzt werden.",
+        "1",
+        "Statistischer Ausreißer",
+        "Ungewöhnlich gegenüber einer Vergleichsverteilung.",
+        "2",
+        "Modellabweichung",
+        "Ist und individuelle Prognose liegen ungewöhnlich weit auseinander.",
+        "3",
+        "Prüfhinweis",
+        "q99-Grenze überschritten – ein Arbeitsauftrag entsteht.",
+        "4",
+        "Bestätigte Anomalie",
+        "Erst die fachliche Untersuchung liefert das Label.",
+        "Warum noch keine Precision und Recall?",
+        "Ohne Ground-Truth-Labels wären Treffer- und Fehlalarmquote erfunden. Zusätzlich müssen zufällig ausgewählte Nicht-Hinweise geprüft werden, um übersehene Fälle abschätzen zu können.",
+        "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb",
+        "18"
+      ],
+      "notes": [
+        "Diese Begriffe dürfen nicht gleichgesetzt werden. Ein statistischer Ausreißer ist lediglich ungewöhnlich gegenüber einer Verteilung. Unsere Methode betrachtet dagegen die Abweichung zwischen Istwert und individueller Modellprognose. Wird die q99-Grenze überschritten, entsteht ein Prüfhinweis. Erst eine menschliche Untersuchung kann daraus eine bestätigte Anomalie machen. Ohne solche Ground-Truth-Labels wären Precision und Recall erfunden; zusätzlich sollten auch zufällig ausgewählte Fälle ohne Hinweis geprüft werden, damit später nicht nur die Trefferquote, sondern auch übersehene Fälle beurteilt werden können.",
+        ""
+      ],
+      "relationships": [
+        {
+          "id": "R641c2edc020c4eb3",
+          "type": "slideLayout",
+          "target": "ppt/slideLayouts/slideLayout1.xml",
+          "external": false
+        },
+        {
+          "id": "R7eda3f27c48a4185",
+          "type": "image",
+          "target": "ppt/media/image30.png",
+          "external": false
+        },
+        {
+          "id": "Rad6e0bd9c86c4de9",
+          "type": "notesSlide",
+          "target": "ppt/notesSlides/notesSlide18.xml",
+          "external": false
+        }
+      ],
+      "shapes": [
+        {
+          "kind": "nvGrpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "grpSpPr",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "SWW / ENERGIEANALYSE · BACKUP  ·  ANHANG E"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Vier Begriffe – vier unterschiedliche Aussagen"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Prüfhinweis und bestätigte Anomalie dürfen nicht gleichgesetzt werden."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "1"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Statistischer Ausreißer"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ungewöhnlich gegenüber einer Vergleichsverteilung."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "2"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Modellabweichung"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ist und individuelle Prognose liegen ungewöhnlich weit auseinander."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "3"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Prüfhinweis"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "q99-Grenze überschritten – ein Arbeitsauftrag entsteht."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "4"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Bestätigte Anomalie"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Erst die fachliche Untersuchung liefert das Label."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Warum noch keine Precision und Recall?"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Ohne Ground-Truth-Labels wären Treffer- und Fehlalarmquote erfunden. Zusätzlich müssen zufällig ausgewählte Nicht-Hinweise geprüft werden, um übersehene Fälle abschätzen zu können."
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": []
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "Quelle: notebooks/13_modellierung_von_grund_auf_verstehen.ipynb"
+          ]
+        },
+        {
+          "kind": "sp",
+          "texts": [
+            "18"
+          ]
+        },
+        {
+          "kind": "pic",
+          "texts": []
+        }
+      ]
+    }
+  ],
+  "charts": [],
+  "media": [
+    {
+      "part": "ppt/media/image.png",
+      "bytes": 1128686,
+      "slides": [
+        1
+      ]
+    },
+    {
+      "part": "ppt/media/image10.png",
+      "bytes": 700120,
+      "slides": [
+        7
+      ]
+    },
+    {
+      "part": "ppt/media/image11.png",
+      "bytes": 30600,
+      "slides": [
+        8
+      ]
+    },
+    {
+      "part": "ppt/media/image12.png",
+      "bytes": 700120,
+      "slides": [
+        8
+      ]
+    },
+    {
+      "part": "ppt/media/image13.png",
+      "bytes": 26727,
+      "slides": [
+        9
+      ]
+    },
+    {
+      "part": "ppt/media/image14.png",
+      "bytes": 700120,
+      "slides": [
+        9
+      ]
+    },
+    {
+      "part": "ppt/media/image15.png",
+      "bytes": 96850,
+      "slides": [
+        10
+      ]
+    },
+    {
+      "part": "ppt/media/image16.png",
+      "bytes": 700120,
+      "slides": [
+        10
+      ]
+    },
+    {
+      "part": "ppt/media/image17.png",
+      "bytes": 44867,
+      "slides": [
+        11
+      ]
+    },
+    {
+      "part": "ppt/media/image18.png",
+      "bytes": 12478,
+      "slides": [
+        11
+      ]
+    },
+    {
+      "part": "ppt/media/image19.png",
+      "bytes": 700120,
+      "slides": [
+        11
+      ]
+    },
+    {
+      "part": "ppt/media/image2.png",
+      "bytes": 700120,
+      "slides": [
+        2
+      ]
+    },
+    {
+      "part": "ppt/media/image20.png",
+      "bytes": 241615,
+      "slides": [
+        12
+      ]
+    },
+    {
+      "part": "ppt/media/image21.png",
+      "bytes": 700120,
+      "slides": [
+        12
+      ]
+    },
+    {
+      "part": "ppt/media/image22.png",
+      "bytes": 700120,
+      "slides": [
+        13
+      ]
+    },
+    {
+      "part": "ppt/media/image23.png",
+      "bytes": 21125,
+      "slides": [
+        14
+      ]
+    },
+    {
+      "part": "ppt/media/image24.png",
+      "bytes": 700120,
+      "slides": [
+        14
+      ]
+    },
+    {
+      "part": "ppt/media/image25.png",
+      "bytes": 19260,
+      "slides": [
+        15
+      ]
+    },
+    {
+      "part": "ppt/media/image26.png",
+      "bytes": 700120,
+      "slides": [
+        15
+      ]
+    },
+    {
+      "part": "ppt/media/image27.png",
+      "bytes": 27609,
+      "slides": [
+        16
+      ]
+    },
+    {
+      "part": "ppt/media/image28.png",
+      "bytes": 700120,
+      "slides": [
+        16
+      ]
+    },
+    {
+      "part": "ppt/media/image29.png",
+      "bytes": 700120,
+      "slides": [
+        17
+      ]
+    },
+    {
+      "part": "ppt/media/image3.png",
+      "bytes": 700120,
+      "slides": [
+        3
+      ]
+    },
+    {
+      "part": "ppt/media/image30.png",
+      "bytes": 700120,
+      "slides": [
+        18
+      ]
+    },
+    {
+      "part": "ppt/media/image4.png",
+      "bytes": 18790,
+      "slides": [
+        4
+      ]
+    },
+    {
+      "part": "ppt/media/image5.png",
+      "bytes": 700120,
+      "slides": [
+        4
+      ]
+    },
+    {
+      "part": "ppt/media/image6.png",
+      "bytes": 700120,
+      "slides": [
+        5
+      ]
+    },
+    {
+      "part": "ppt/media/image7.png",
+      "bytes": 31904,
+      "slides": [
+        6
+      ]
+    },
+    {
+      "part": "ppt/media/image8.png",
+      "bytes": 700120,
+      "slides": [
+        6
+      ]
+    },
+    {
+      "part": "ppt/media/image9.png",
+      "bytes": 23835,
+      "slides": [
+        7
+      ]
+    }
+  ]
+}

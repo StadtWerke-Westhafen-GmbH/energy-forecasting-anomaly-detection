@@ -1,0 +1,493 @@
+{
+  "meta": {
+    "title": "Anomalieprüfung 2025",
+    "source": "data/processed/modellierung_basis_bis_3_monate.csv",
+    "source_sha256": "8ccdbf98049d72d08ca2eeebae7ab05a0325254b887cecca3ff28d4baf335c46",
+    "display_mapping_source": "data/raw/260916_verbrauch_bereinigt.csv",
+    "display_mapping_sha256": "bf2f657600407d52e51d935e292e781d2cda7e09dd456b88a1c1d7bc374fb7fa",
+    "data_period": "01/2024–12/2025",
+    "benchmark_period": "01/2025–12/2025",
+    "calibration_period": "11/2024–12/2024",
+    "as_of": "31.12.2025",
+    "model": "Random-Forest-Regressor auf Vollaststunden",
+    "model_version": "RF-VLS 2.0",
+    "benchmark_rmse_kwh": 9188.397,
+    "benchmark_mae_kwh": 3724.6012,
+    "benchmark_r2": 0.901147,
+    "threshold_quantile": 0.99,
+    "threshold_vls": 144.3547,
+    "threshold_score": 144.3547,
+    "calibration_observations": 1397,
+    "labels_available": false,
+    "retrospective": true,
+    "caveat": "Das Modell ersetzt keine Abrechnungsentscheidung — es flaggt nur Untersuchungswürdiges."
+  },
+  "summary": {
+    "observations": 8398,
+    "meters_total": 700,
+    "alerts_total": 114,
+    "meters_affected": 107,
+    "alerts_per_month": 9.5,
+    "alert_rate_pct": 1.3575,
+    "high": 68,
+    "low": 46,
+    "dq_flags_total": 10,
+    "dq_overlap": 10
+  },
+  "threshold_options": [
+    {
+      "quantile": 0.95,
+      "percentile": 95.0,
+      "threshold_vls": 67.9943,
+      "alerts": 400,
+      "alerts_per_month": 33.3333,
+      "meters_affected": 265,
+      "high": 248,
+      "low": 152
+    },
+    {
+      "quantile": 0.975,
+      "percentile": 97.5,
+      "threshold_vls": 82.4304,
+      "alerts": 256,
+      "alerts_per_month": 21.3333,
+      "meters_affected": 197,
+      "high": 149,
+      "low": 107
+    },
+    {
+      "quantile": 0.99,
+      "percentile": 99.0,
+      "threshold_vls": 144.3547,
+      "alerts": 114,
+      "alerts_per_month": 9.5,
+      "meters_affected": 107,
+      "high": 68,
+      "low": 46
+    },
+    {
+      "quantile": 0.995,
+      "percentile": 99.5,
+      "threshold_vls": 196.2984,
+      "alerts": 69,
+      "alerts_per_month": 5.75,
+      "meters_affected": 66,
+      "high": 58,
+      "low": 11
+    }
+  ],
+  "monthly": [
+    {
+      "month_key": "2025-01",
+      "month_label": "01/2025",
+      "alerts": 7,
+      "high": 3,
+      "low": 4,
+      "dq_overlap": 2
+    },
+    {
+      "month_key": "2025-02",
+      "month_label": "02/2025",
+      "alerts": 11,
+      "high": 2,
+      "low": 9,
+      "dq_overlap": 1
+    },
+    {
+      "month_key": "2025-03",
+      "month_label": "03/2025",
+      "alerts": 9,
+      "high": 5,
+      "low": 4,
+      "dq_overlap": 1
+    },
+    {
+      "month_key": "2025-04",
+      "month_label": "04/2025",
+      "alerts": 10,
+      "high": 6,
+      "low": 4,
+      "dq_overlap": 3
+    },
+    {
+      "month_key": "2025-05",
+      "month_label": "05/2025",
+      "alerts": 12,
+      "high": 7,
+      "low": 5,
+      "dq_overlap": 0
+    },
+    {
+      "month_key": "2025-06",
+      "month_label": "06/2025",
+      "alerts": 16,
+      "high": 11,
+      "low": 5,
+      "dq_overlap": 1
+    },
+    {
+      "month_key": "2025-07",
+      "month_label": "07/2025",
+      "alerts": 6,
+      "high": 5,
+      "low": 1,
+      "dq_overlap": 1
+    },
+    {
+      "month_key": "2025-08",
+      "month_label": "08/2025",
+      "alerts": 8,
+      "high": 6,
+      "low": 2,
+      "dq_overlap": 0
+    },
+    {
+      "month_key": "2025-09",
+      "month_label": "09/2025",
+      "alerts": 8,
+      "high": 5,
+      "low": 3,
+      "dq_overlap": 0
+    },
+    {
+      "month_key": "2025-10",
+      "month_label": "10/2025",
+      "alerts": 13,
+      "high": 9,
+      "low": 4,
+      "dq_overlap": 0
+    },
+    {
+      "month_key": "2025-11",
+      "month_label": "11/2025",
+      "alerts": 4,
+      "high": 2,
+      "low": 2,
+      "dq_overlap": 0
+    },
+    {
+      "month_key": "2025-12",
+      "month_label": "12/2025",
+      "alerts": 10,
+      "high": 7,
+      "low": 3,
+      "dq_overlap": 1
+    }
+  ],
+  "segments": [
+    {
+      "kundentyp": "Gewerbe",
+      "observations": 4511,
+      "alerts": 56,
+      "rate_pct": 1.2414
+    },
+    {
+      "kundentyp": "Industrie",
+      "observations": 2711,
+      "alerts": 40,
+      "rate_pct": 1.4755
+    },
+    {
+      "kundentyp": "Kommunal",
+      "observations": 1176,
+      "alerts": 18,
+      "rate_pct": 1.5306
+    }
+  ],
+  "case_ZL00147": {
+    "zaehler_id": "ZL-00147",
+    "kunde_id": "KD-747972",
+    "kundentyp": "Gewerbe",
+    "vertragsleistung_kw": 49.0,
+    "series": [
+      {
+        "month_key": "2024-01",
+        "month_label": "01/2024",
+        "actual_kwh": 10059.0,
+        "forecast_kwh": null,
+        "actual_vls": 205.2857,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-02",
+        "month_label": "02/2024",
+        "actual_kwh": 10052.0,
+        "forecast_kwh": null,
+        "actual_vls": 205.1429,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-03",
+        "month_label": "03/2024",
+        "actual_kwh": 494.18,
+        "forecast_kwh": null,
+        "actual_vls": 10.0853,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-04",
+        "month_label": "04/2024",
+        "actual_kwh": 9398.0,
+        "forecast_kwh": null,
+        "actual_vls": 191.7959,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-05",
+        "month_label": "05/2024",
+        "actual_kwh": 9229.0,
+        "forecast_kwh": null,
+        "actual_vls": 188.3469,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-06",
+        "month_label": "06/2024",
+        "actual_kwh": 5959.0,
+        "forecast_kwh": null,
+        "actual_vls": 121.6122,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-07",
+        "month_label": "07/2024",
+        "actual_kwh": 6356.0,
+        "forecast_kwh": null,
+        "actual_vls": 129.7143,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-08",
+        "month_label": "08/2024",
+        "actual_kwh": 6569.0,
+        "forecast_kwh": null,
+        "actual_vls": 134.0612,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-09",
+        "month_label": "09/2024",
+        "actual_kwh": 6215.0,
+        "forecast_kwh": null,
+        "actual_vls": 126.8367,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-10",
+        "month_label": "10/2024",
+        "actual_kwh": 5338.0,
+        "forecast_kwh": null,
+        "actual_vls": 108.9388,
+        "forecast_vls": null,
+        "residual_vls": null,
+        "score": null,
+        "is_alert": false,
+        "phase": "Historie"
+      },
+      {
+        "month_key": "2024-11",
+        "month_label": "11/2024",
+        "actual_kwh": 5690.0,
+        "forecast_kwh": 5784.26,
+        "actual_vls": 116.1224,
+        "forecast_vls": 118.0462,
+        "residual_vls": -1.9237,
+        "score": 0.0133,
+        "is_alert": false,
+        "phase": "Kalibrierung"
+      },
+      {
+        "month_key": "2024-12",
+        "month_label": "12/2024",
+        "actual_kwh": 7920.0,
+        "forecast_kwh": 6111.17,
+        "actual_vls": 161.6327,
+        "forecast_vls": 124.7178,
+        "residual_vls": 36.9149,
+        "score": 0.2557,
+        "is_alert": false,
+        "phase": "Kalibrierung"
+      },
+      {
+        "month_key": "2025-01",
+        "month_label": "01/2025",
+        "actual_kwh": 8866.0,
+        "forecast_kwh": 8255.37,
+        "actual_vls": 180.9388,
+        "forecast_vls": 168.477,
+        "residual_vls": 12.4618,
+        "score": 0.0863,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-02",
+        "month_label": "02/2025",
+        "actual_kwh": 8334.0,
+        "forecast_kwh": 8531.28,
+        "actual_vls": 170.0816,
+        "forecast_vls": 174.1077,
+        "residual_vls": -4.026,
+        "score": 0.0279,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-03",
+        "month_label": "03/2025",
+        "actual_kwh": 9538.0,
+        "forecast_kwh": 9566.46,
+        "actual_vls": 194.6531,
+        "forecast_vls": 195.2339,
+        "residual_vls": -0.5809,
+        "score": 0.004,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-04",
+        "month_label": "04/2025",
+        "actual_kwh": 9577.0,
+        "forecast_kwh": 10061.7,
+        "actual_vls": 195.449,
+        "forecast_vls": 205.3409,
+        "residual_vls": -9.8919,
+        "score": 0.0685,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-05",
+        "month_label": "05/2025",
+        "actual_kwh": 7268.0,
+        "forecast_kwh": 9628.24,
+        "actual_vls": 148.3265,
+        "forecast_vls": 196.4948,
+        "residual_vls": -48.1682,
+        "score": 0.3337,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-06",
+        "month_label": "06/2025",
+        "actual_kwh": 6517.0,
+        "forecast_kwh": 7954.36,
+        "actual_vls": 133.0,
+        "forecast_vls": 162.334,
+        "residual_vls": -29.334,
+        "score": 0.2032,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-07",
+        "month_label": "07/2025",
+        "actual_kwh": 8837.0,
+        "forecast_kwh": 7284.77,
+        "actual_vls": 180.3469,
+        "forecast_vls": 148.6687,
+        "residual_vls": 31.6782,
+        "score": 0.2194,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-08",
+        "month_label": "08/2025",
+        "actual_kwh": 23563.49,
+        "forecast_kwh": 7303.9,
+        "actual_vls": 480.8876,
+        "forecast_vls": 149.0592,
+        "residual_vls": 331.8284,
+        "score": 2.2987,
+        "is_alert": true,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-09",
+        "month_label": "09/2025",
+        "actual_kwh": 5915.0,
+        "forecast_kwh": 10739.71,
+        "actual_vls": 120.7143,
+        "forecast_vls": 219.1777,
+        "residual_vls": -98.4635,
+        "score": 0.6821,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-10",
+        "month_label": "10/2025",
+        "actual_kwh": 6566.0,
+        "forecast_kwh": 8459.14,
+        "actual_vls": 134.0,
+        "forecast_vls": 172.6356,
+        "residual_vls": -38.6356,
+        "score": 0.2676,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-11",
+        "month_label": "11/2025",
+        "actual_kwh": 6543.0,
+        "forecast_kwh": 9083.97,
+        "actual_vls": 133.5306,
+        "forecast_vls": 185.3871,
+        "residual_vls": -51.8565,
+        "score": 0.3592,
+        "is_alert": false,
+        "phase": "Benchmark"
+      },
+      {
+        "month_key": "2025-12",
+        "month_label": "12/2025",
+        "actual_kwh": 8585.0,
+        "forecast_kwh": 7594.81,
+        "actual_vls": 175.2041,
+        "forecast_vls": 154.996,
+        "residual_vls": 20.208,
+        "score": 0.14,
+        "is_alert": false,
+        "phase": "Benchmark"
+      }
+    ]
+  }
+}

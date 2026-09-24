@@ -1,0 +1,51 @@
+{
+  "pdf": "C:\\Users\\Kiko\\Desktop\\IHK\\energy-forecasting-anomaly-detection\\docs\\presentation\\Modellierung_Anomaliepruefung_IHK_SWW.pdf",
+  "pages": 18,
+  "page_size_pt": [
+    960,
+    540
+  ],
+  "source": "C:\\Users\\Kiko\\Desktop\\IHK\\energy-forecasting-anomaly-detection\\tmp\\presentation-redesign\\final-render",
+  "source_dimensions": [
+    1920,
+    1080
+  ],
+  "checks": [
+    {
+      "page": 4,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.7678382201646088,
+      "max_difference": 243
+    },
+    {
+      "page": 7,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.7671125900205762,
+      "max_difference": 243
+    },
+    {
+      "page": 10,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.745291763117284,
+      "max_difference": 243
+    },
+    {
+      "page": 18,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 2.3653237525720168,
+      "max_difference": 243
+    }
+  ]
+}

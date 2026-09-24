@@ -1,0 +1,197 @@
+Dataset: https://drive.google.com/file/d/1A4QDD-n3XQIGNyXNI8Kh2qnTACvPPOPO/view?
+usp=drive_link
+
+
+1. Ausgangslage
+StadtWerke Westhafen GmbH ist ein städtischer Energieversorger im Hamburger Hafengebiet.
+Versorgt werden 700 gewerbliche, industrielle und kommunale Großkunden über Mittel- und
+Niederspannungsanschlüsse. Der Gesamtjahresumsatz liegt bei rund 180 Mio. EUR.
+Zwei operative Probleme sind in den letzten zwei Jahren gewachsen:
+    1. Beschaffungsplanung: Die monatliche Strombeschaffung erfolgt vorausschauend.
+       Schlechte Verbrauchsprognosen führen zu kostspieligen Spotmarkt-Käufen oder Verkäufen.
+    2. Anomalien: Ungewöhnlich hoher oder niedriger Verbrauch ist häufig ein Hinweis auf
+       Defekte, undetektierte Leitungsverluste, falsch ausgelesene Zähler oder Abrechnungsfehler.
+       Aktuell werden Anomalien meist erst beim Quartalsabschluss bemerkt — manchmal Monate
+       zu spät.
+Die Geschäftsführung möchte ein Vorhersage- und Frühwarn-Modell, das auf Basis historischer
+Verbrauchsdaten, Wettereinflüssen und Produktionsplänen pro Zähler den voraussichtlichen
+Monatsverbrauch schätzt und Abweichungen zwischen Prognose und tatsächlichem Verbrauch als
+Anomalien markiert.
+
+
+2. Auftrag an Ihre Gruppe
+    1. Den Ist-Zustand der Energieverbrauchs-Daten analysieren und die Datenqualität bewerten.
+    2. Ein Machine Learning Canvas für ein zweistufiges Modell (Prognose + Anomalie-
+       Erkennung) entwickeln.
+    3. Die Daten bereinigen, transformieren und visualisieren.
+    4. Ein Regressionsmodell trainieren, das den Monatsverbrauch pro Zähler vorhersagt — und
+       auf Basis der Residuen Anomalien markieren.
+    5. Ihre Erkenntnisse für Beschaffung und Asset-Management dokumentieren und präsentieren.
+
+
+3. Stakeholder
+     Person                   Rolle                              Erwartung
+Stefan           Bereichsleiter               Genaue Verbrauchsprognose für den Folgemonat
+Lechtenberg      Energiebeschaffung (Sponsor) zur Optimierung der Beschaffung
+                                              Anomalie-Hinweise pro Zähler für schnellere
+Anke Bürger      Leiterin Netzmanagement
+                                              Wartungsentscheidungen
+                                              Will eine reproduzierbare Pipeline und
+Henrik Maaß      Senior-Datenanalyst
+                                              nachvollziehbare Anomalie-Definition
+
+4. Die Daten
+    • Datei: data/verbrauch.csv
+    • Umfang: rund 16.800 monatliche Verbrauchsbeobachtungen (700 Zähler × 24 Monate)
+    • Zeitraum: Januar 2024 bis Dezember 2025
+    • Encoding: UTF-8 (mit BOM)
+
+Datenwörterbuch
+          Spalte                          Typ                         Beschreibung
+zaehler_id                            Text          Eindeutige Zählerkennung
+kunde_id                              Text          Kundennummer
+                                                    Gewerbe, Industrie, Kommunal (teilweise
+kundentyp                             Text
+                                                    abweichend geschrieben)
+vertragsleistung_kw                   Ganzzahl      Vertraglich vereinbarte Anschlussleistung in kW
+monat                                 Text          Monat (gemischtes Format)
+monat_idx                             Ganzzahl      Monatszahl 1–12 (für Saisonalität)
+arbeitstage                           Ganzzahl      Werktage im Monat
+feiertage_im_monat                    Ganzzahl      Anzahl gesetzlicher Feiertage
+mittlere_temperatur_c                 Zahl          Mittlere Außentemperatur des Monats in °C
+heiztage                              Ganzzahl      Heizgrad-Tage (vereinfachte Variante)
+produktionsplan_index                               Kundenspezifischer Produktionsplan-Index (1.0 =
+                                      Zahl
+                                                    Normalmonat)
+wartung_aktiv                         Ganzzahl
+                                                    1 = Wartung / Stillstand im Monat
+                                      (0/1)
+vormonat_verbrauch_kwh                              Verbrauch im Vormonat (NaN für den ersten
+                                      Zahl
+                                                    Monat)
+letzte_3_monate_durchsch
+nitt_kwh                 Zahl                       Gleitender 3-Monats-Durchschnitt
+vorjahr_monat_verbrauch_                            Verbrauch im gleichen Monat des Vorjahres (NaN
+kwh                      Zahl
+                                                    für 2024)
+                                                    Zielvariable. Realisierter Monatsverbrauch in
+verbrauch_kwh                         Gemischt
+                                                    kWh (manche Werte als MWh-Text)
+
+Wichtiger Hinweis zum zeitlichen Bezug
+Alle Merkmale beschreiben Werte, die zum Monatsbeginn bekannt sind: Kundenmerkmale,
+Wettervorhersage, geplante Wartung, Produktionsplan-Index, sowie historische Verbrauchswerte
+(Vormonat, 3-Monats-Schnitt, Vorjahr). Die Zielvariable verbrauch_kwh ist der realisierte
+Monatsverbrauch.
+
+Train/Test-Split
+Wie bei Dataset 03 ist hier ein zeitlicher Split erforderlich:
+    • Training: Monate aus dem Jahr 2024
+    • Test: Monate aus dem Jahr 2025
+
+
+5. Was im Bericht stehen muss
+Die vier IHK-Standardkapitel.
+Hinweis zum „Datenmodell" in Kapitel 4
+Einzelne Tabelle mit Zeitreihen-Struktur. „Datenmodell" beschreibt: die bereinigte analytische
+Tabelle, neu konstruierte Features (z. B. verbrauch_pro_arbeitstag,
+temperatur_anomalie), die zeitliche Aufteilung von Trainings- und Testdaten, und die
+Anomalie-Definition (z. B. „absolute prozentuale Abweichung > 95-Perzentil-Schwelle").
+
+
+6. Vorschläge für die ML-Canvas-Felder
+           Feld                                         Vorschlag
+Value Proposition /         Bessere Beschaffungsplanung und schnellere Erkennung anomaler
+Mehrwert                    Verbrauchsmuster
+                            Smart-Meter-Daten, Vertragsstammdaten, Wetterdienst,
+Data Sources / Datenquellen
+                            Produktionspläne, Wartungsplanung
+Prediction / Vorhersage     Regression: Monatsverbrauch in kWh pro Zähler
+                            Vertragsleistung, Vormonat-Verbrauch, 3-Monats-Schnitt, Vorjahres-
+Features / Merkmale         Monat, Arbeitstage, Heiztage, Mitteltemperatur, Produktionsplan-
+                            Index, Wartung, Kundentyp
+Learning Approach /         Überwachte Regression (lineare Regression, Random Forest
+Lernansatz                  Regressor, Gradient Boosting)
+Evaluation / Überprüfung RMSE, MAE, R² auf der zeitlich getrennten Testperiode
+                            Prognose → Beschaffungsmengen. Residual > Schwelle →
+Decision / Entscheidung
+                            Anomalie-Ticket für Netzmanagement
+Impact / Auswirkung         Reduzierte Spotmarkt-Kosten + schnelleres Erkennen von Defekten
+Prediction Timing /
+                            Monatlich zum Monatsbeginn
+Vorhersagezeitpunkt
+Monitoring &                Quartalsweises Retraining; Drift-Monitoring auf Temperatur und
+Maintenance / Wartung       Produktionsindex
+
+7. Mögliche Leitfragen
+    •   Welcher Kundentyp ist am schwersten zu prognostizieren?
+    •   Wie stark trägt die Wetterabhängigkeit zur Vorhersage bei?
+    •   Welche Monate haben die größten Restfehler — saisonale Übergänge?
+    •   Wie viele Anomalien identifiziert das Modell pro Monat? Sind sie operativ plausibel?
+
+
+8. Ethik- und Risiko-Hinweis
+In dieser Domäne gibt es keine Personendaten im engeren Sinn. Risiken liegen aber in der
+Anomalie-Erkennung:
+    • Ein falsch-positiver Anomalie-Alarm (Modell flaggt einen normalen Monat) löst unnötigen
+      Aufwand beim Netzmanagement aus.
+    • Ein falsch-negativer Fall (Modell erkennt echte Anomalie nicht) lässt Defekte länger
+      unbemerkt.
+Diskutieren Sie diesen Trade-off im Bericht und schlagen Sie eine Schwellwert-Politik vor.
+Erläutern Sie auch, dass das Modell keine Abrechnungsentscheidung ersetzt — es flaggt nur
+Untersuchungswürdiges.
+9. Empfohlene Aufgabenverteilung pro Sprint
+Sprint 1
+    •   Brief lesen, Datensatz herunterladen
+    •   Datenqualitätsprüfung
+    •   Werkzeuge aufsetzen
+    •   Kapitel 1 (Ist-Zustand) schreiben
+    •   3–5 User Stories formulieren
+    •   ML-Canvas-Felder Value Proposition und Data Sources befüllen
+    •   Sprint-Log starten
+
+Sprint 2
+    • Daten bereinigen (Datumsformate, Tippfehler in kundentyp, gemischte Einheiten in
+      verbrauch_kwh (MWh vs kWh), fehlende Werte, Duplikate, negative Verbräuche)
+    • Vollständiges ML Canvas
+    • Explorative Datenanalyse: Saisonalität, Temperaturabhängigkeit pro Kundentyp
+    • Workflow-Dokumentation beginnen
+    • Sprint-1-Retrospektive, Sprint 2 planen
+
+Sprint 3
+    •   Regressionsmodell trainieren mit zeitlichem Split
+    •   Anomalie-Schwellwert definieren und begründen
+    •   Feature Importance auswerten
+    •   Dashboard / Visualisierungen
+    •   Kapitel 3 und 4 ausarbeiten
+    •   Bericht entwerfen und abgeben
+
+Finalisierungsphase
+    •   Bericht-Feinschliff
+    •   Live-Demo einüben
+    •   Gruppenpräsentation und Fachgespräch üben
+    •   Mock-Prüfung
+
+
+10. Werkzeug-Empfehlung
+    •   Tableau für Dashboards (Heatmaps, Saisonalität)
+    •   Python für Bereinigung, Feature Engineering, Modellierung, Anomalie-Erkennung
+    •   SQL für aggregierte Auswertungen
+    •   Google Sheets für Sprint-Log
+
+
+11. Erfolgskriterien
+Ihr Projekt ist erfolgreich, wenn am Ende:
+    • Die Daten sauber bereinigt sind, einschließlich der MWh/kWh-Vereinheitlichung
+    •   Der Train/Test-Split zeitlich erfolgt und im Bericht erklärt ist
+    •   Das ML Canvas alle 10 Felder kohärent ausfüllt
+    •   Ein Regressionsmodell mit sinnvollen Metriken (RMSE, MAE, R²) bewertet wurde
+    •   Eine begründete Anomalie-Schwellwert-Definition vorliegt
+    •   Eine klare Aussage über die Treiber des Energieverbrauchs existiert
+    •   Jedes Gruppenmitglied seine Sektion eigenständig im Fachgespräch verteidigen kann
+
+Wann ist die IHK-Prüfung bestanden?
+≥ 50 % unabhängig im schriftlichen Bericht (70 Punkte) UND in der mündlichen Prüfung (30
+Punkte).
+Viel Erfolg.
+

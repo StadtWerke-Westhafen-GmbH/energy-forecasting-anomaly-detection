@@ -1,0 +1,1158 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/y0bqz9",
+    "id": "y0bqz9",
+    "slide": 29,
+    "layoutId": "a5665a86-1b29-45b3-b448-6297ec716328",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "a5665a86-1b29-45b3-b448-6297ec716328",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1872tcv6",
+      "id": "1",
+      "name": "block-493",
+      "bbox": [
+        64,
+        42,
+        1110,
+        24
+      ],
+      "geometry": "rect",
+      "text": "ANHANG A / BEREINIGUNGSPROTOKOLL",
+      "textPreview": "ANHANG A / BEREINIGUNGSPROTOKOLL",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ANHANG A / BEREINIGUNGSPROTOKOLL"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ANHANG A / BEREINIGUNGSPROTOKOLL",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ANHANG A / BEREINIGUNGSPROTOKOLL",
+              "fontSize": 17,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/elw3yhcv",
+      "id": "2",
+      "name": "block-494",
+      "bbox": [
+        64,
+        80,
+        1152,
+        106
+      ],
+      "geometry": "rect",
+      "text": "Formate und Einheiten nachvollziehbar korrigieren",
+      "textPreview": "Formate und Einheiten nachvollziehbar korrigieren",
+      "resolvedFontSize": 43,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 43,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Formate und Einheiten nachvollziehbar korrigieren"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Formate und Einheiten nachvollziehbar korrigieren",
+          "resolvedTextStyle": {
+            "fontSize": 43,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Formate und Einheiten nachvollziehbar korrigieren",
+              "fontSize": 43,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fm5krmd0",
+      "id": "3",
+      "name": "block-495",
+      "bbox": [
+        64,
+        183,
+        1152,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Bezugsbasis: 16.800 Zeilen nach Deduplizierung, außer bei den Dubletten.",
+      "textPreview": "Bezugsbasis: 16.800 Zeilen nach Deduplizierung, außer bei den Dubletten.",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Bezugsbasis: 16.800 Zeilen nach Deduplizierung, außer bei den Dubletten."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Bezugsbasis: 16.800 Zeilen nach Deduplizierung, außer bei den Dubletten.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Bezugsbasis: 16.800 Zeilen nach Deduplizierung, außer bei den Dubletten.",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/obyl4rux",
+      "id": "4",
+      "name": "block-496",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D6DFE7",
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/c32dw7a5",
+      "id": "5",
+      "bbox": [
+        64,
+        668,
+        106,
+        36
+      ],
+      "alt": "StadtWerke Westhafen",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "asset": {
+        "assetId": "8fe60d45-1973-4b34-88c0-6342f35d0dbe",
+        "contentType": "image/png",
+        "byteLength": 393870
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/29g32hcr",
+      "id": "6",
+      "name": "block-497",
+      "bbox": [
+        195,
+        673,
+        900,
+        23
+      ],
+      "geometry": "rect",
+      "text": "Gruppe 6 · Projektdaten 2024–2025",
+      "textPreview": "Gruppe 6 · Projektdaten 2024–2025",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Gruppe 6 · Projektdaten 2024–2025"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Gruppe 6 · Projektdaten 2024–2025",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Gruppe 6 · Projektdaten 2024–2025",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/napkvmdc",
+      "id": "7",
+      "name": "block-498",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "29 / 39",
+      "textPreview": "29 / 39",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "29 / 39"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "29 / 39",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "29 / 39",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/xof69g3i",
+      "id": "8",
+      "bbox": [
+        64,
+        265,
+        1152,
+        312
+      ],
+      "text": "Befund | Anzahl | Behandlung\nIdentische Dubletten | 30 / 16.830 | Entfernen; Schlüssel prüfen\nNicht-ISO-Monat | 11.298 | Ein Datum pro Monat\nKundentyp-Schreibweise | 504 | 13 Varianten → 3 Typen\nVerbrauch als MWh-Text | 672 | × 1.000 → kWh\nZielwerte 0 / −50 / −1.000 | 3 | Rekonstruieren; aus ML ausschließen",
+      "textPreview": "Befund | Anzahl | Behandlung | Identische Dubletten | 30 / 16.830 | Entfernen; Schlüssel prüfen | Nicht-ISO-Monat | 11.298 | Ein Datum pr...",
+      "rows": 6,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            64,
+            265,
+            431,
+            52
+          ],
+          "text": "Befund",
+          "textPreview": "Befund",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Befund",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Befund",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            495,
+            265,
+            205,
+            52
+          ],
+          "text": "Anzahl",
+          "textPreview": "Anzahl",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Anzahl",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Anzahl",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            700,
+            265,
+            516,
+            52
+          ],
+          "text": "Behandlung",
+          "textPreview": "Behandlung",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Behandlung",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Behandlung",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            64,
+            317,
+            431,
+            52
+          ],
+          "text": "Identische Dubletten",
+          "textPreview": "Identische Dubletten",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Identische Dubletten",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Identische Dubletten",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            495,
+            317,
+            205,
+            52
+          ],
+          "text": "30 / 16.830",
+          "textPreview": "30 / 16.830",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "30 / 16.830",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "30 / 16.830",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            700,
+            317,
+            516,
+            52
+          ],
+          "text": "Entfernen; Schlüssel prüfen",
+          "textPreview": "Entfernen; Schlüssel prüfen",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Entfernen; Schlüssel prüfen",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Entfernen; Schlüssel prüfen",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            64,
+            369,
+            431,
+            52
+          ],
+          "text": "Nicht-ISO-Monat",
+          "textPreview": "Nicht-ISO-Monat",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Nicht-ISO-Monat",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Nicht-ISO-Monat",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            495,
+            369,
+            205,
+            52
+          ],
+          "text": "11.298",
+          "textPreview": "11.298",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "11.298",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "11.298",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            700,
+            369,
+            516,
+            52
+          ],
+          "text": "Ein Datum pro Monat",
+          "textPreview": "Ein Datum pro Monat",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Ein Datum pro Monat",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Ein Datum pro Monat",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            64,
+            421,
+            431,
+            52
+          ],
+          "text": "Kundentyp-Schreibweise",
+          "textPreview": "Kundentyp-Schreibweise",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Kundentyp-Schreibweise",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Kundentyp-Schreibweise",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            495,
+            421,
+            205,
+            52
+          ],
+          "text": "504",
+          "textPreview": "504",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "504",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "504",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            700,
+            421,
+            516,
+            52
+          ],
+          "text": "13 Varianten → 3 Typen",
+          "textPreview": "13 Varianten → 3 Typen",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "13 Varianten → 3 Typen",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "13 Varianten → 3 Typen",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            64,
+            473,
+            431,
+            52
+          ],
+          "text": "Verbrauch als MWh-Text",
+          "textPreview": "Verbrauch als MWh-Text",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Verbrauch als MWh-Text",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Verbrauch als MWh-Text",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            495,
+            473,
+            205,
+            52
+          ],
+          "text": "672",
+          "textPreview": "672",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "672",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "672",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 5,
+          "column": 3,
+          "bbox": [
+            700,
+            473,
+            516,
+            52
+          ],
+          "text": "× 1.000 → kWh",
+          "textPreview": "× 1.000 → kWh",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "× 1.000 → kWh",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "× 1.000 → kWh",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "row": 6,
+          "column": 1,
+          "bbox": [
+            64,
+            525,
+            431,
+            52
+          ],
+          "text": "Zielwerte 0 / −50 / −1.000",
+          "textPreview": "Zielwerte 0 / −50 / −1.000",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Zielwerte 0 / −50 / −1.000",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Zielwerte 0 / −50 / −1.000",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 17,
+          "row": 6,
+          "column": 2,
+          "bbox": [
+            495,
+            525,
+            205,
+            52
+          ],
+          "text": "3",
+          "textPreview": "3",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "3",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "3",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 18,
+          "row": 6,
+          "column": 3,
+          "bbox": [
+            700,
+            525,
+            516,
+            52
+          ],
+          "text": "Rekonstruieren; aus ML ausschließen",
+          "textPreview": "Rekonstruieren; aus ML ausschließen",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Rekonstruieren; aus ML ausschließen",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Rekonstruieren; aus ML ausschließen",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5gn2lsvy",
+      "id": "9",
+      "name": "block-499",
+      "bbox": [
+        64,
+        590,
+        56,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#0080A0",
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1w32h4ji",
+      "id": "10",
+      "name": "block-500",
+      "bbox": [
+        142,
+        583,
+        1074,
+        53
+      ],
+      "geometry": "rect",
+      "text": "Jede Regel bleibt dokumentiert und reproduzierbar.",
+      "textPreview": "Jede Regel bleibt dokumentiert und reproduzierbar.",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Jede Regel bleibt dokumentiert und reproduzierbar."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Jede Regel bleibt dokumentiert und reproduzierbar.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Jede Regel bleibt dokumentiert und reproduzierbar.",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

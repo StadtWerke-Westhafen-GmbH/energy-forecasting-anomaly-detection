@@ -1,0 +1,69 @@
+{
+  "pdf": "C:\\Users\\Kiko\\Desktop\\IHK\\energy-forecasting-anomaly-detection\\docs\\presentation\\Gesamtpraesentation_IHK_SWW.pdf",
+  "pages": 39,
+  "page_size_pt": [
+    960,
+    540
+  ],
+  "source": "C:\\Users\\Kiko\\Desktop\\IHK\\energy-forecasting-anomaly-detection\\tmp\\full-presentation\\final-render",
+  "source_dimensions": [
+    1920,
+    1080
+  ],
+  "checks": [
+    {
+      "page": 1,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.487227366255144,
+      "max_difference": 233
+    },
+    {
+      "page": 9,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.7277798675411524,
+      "max_difference": 243
+    },
+    {
+      "page": 17,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.7744209747942385,
+      "max_difference": 243
+    },
+    {
+      "page": 29,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 4.027064364711934,
+      "max_difference": 243
+    },
+    {
+      "page": 31,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 1.9781143904320988,
+      "max_difference": 243
+    },
+    {
+      "page": 39,
+      "size": [
+        1920,
+        1080
+      ],
+      "mean_abs_pixel_difference": 2.1280750064300413,
+      "max_difference": 243
+    }
+  ]
+}

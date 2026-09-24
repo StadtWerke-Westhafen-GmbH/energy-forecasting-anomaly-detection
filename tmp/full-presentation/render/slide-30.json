@@ -1,0 +1,1158 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/ad3yqp",
+    "id": "ad3yqp",
+    "slide": 30,
+    "layoutId": "a5665a86-1b29-45b3-b448-6297ec716328",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "a5665a86-1b29-45b3-b448-6297ec716328",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "443a8b5d-b3e5-4558-83b4-02624afcee53",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m14vuhsr",
+      "id": "1",
+      "name": "block-501",
+      "bbox": [
+        64,
+        42,
+        1110,
+        24
+      ],
+      "geometry": "rect",
+      "text": "ANHANG B / FEHLWERTE & PLAUSIBILITÄT",
+      "textPreview": "ANHANG B / FEHLWERTE & PLAUSIBILITÄT",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ANHANG B / FEHLWERTE & PLAUSIBILITÄT"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ANHANG B / FEHLWERTE & PLAUSIBILITÄT",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ANHANG B / FEHLWERTE & PLAUSIBILITÄT",
+              "fontSize": 17,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/9ovupwr2",
+      "id": "2",
+      "name": "block-502",
+      "bbox": [
+        64,
+        80,
+        1152,
+        106
+      ],
+      "geometry": "rect",
+      "text": "Fehlende Historie ist nicht automatisch ein Datenfehler",
+      "textPreview": "Fehlende Historie ist nicht automatisch ein Datenfehler",
+      "resolvedFontSize": 43,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 43,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Fehlende Historie ist nicht automatisch ein Datenfehler"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Fehlende Historie ist nicht automatisch ein Datenfehler",
+          "resolvedTextStyle": {
+            "fontSize": 43,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Fehlende Historie ist nicht automatisch ein Datenfehler",
+              "fontSize": 43,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/o3mdwrah",
+      "id": "3",
+      "name": "block-503",
+      "bbox": [
+        64,
+        183,
+        1152,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Bereinigte Basis vor Neuberechnung der ML-Historie · unterschiedliche Fehlgründe",
+      "textPreview": "Bereinigte Basis vor Neuberechnung der ML-Historie · unterschiedliche Fehlgründe",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Bereinigte Basis vor Neuberechnung der ML-Historie · unterschiedliche Fehlgründe"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Bereinigte Basis vor Neuberechnung der ML-Historie · unterschiedliche Fehlgründe",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Bereinigte Basis vor Neuberechnung der ML-Historie · unterschiedliche Fehlgründe",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bqxwrm98",
+      "id": "4",
+      "name": "block-504",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D6DFE7",
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/jmxov2t4",
+      "id": "5",
+      "bbox": [
+        64,
+        668,
+        106,
+        36
+      ],
+      "alt": "StadtWerke Westhafen",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "asset": {
+        "assetId": "4ba88bfd-0ba6-4413-a87e-61c3bf442f7a",
+        "contentType": "image/png",
+        "byteLength": 393870
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xsfetwre",
+      "id": "6",
+      "name": "block-505",
+      "bbox": [
+        195,
+        673,
+        900,
+        23
+      ],
+      "geometry": "rect",
+      "text": "Gruppe 6 · Projektdaten 2024–2025",
+      "textPreview": "Gruppe 6 · Projektdaten 2024–2025",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Gruppe 6 · Projektdaten 2024–2025"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Gruppe 6 · Projektdaten 2024–2025",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Gruppe 6 · Projektdaten 2024–2025",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wr6d0rat",
+      "id": "7",
+      "name": "block-506",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "30 / 39",
+      "textPreview": "30 / 39",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "30 / 39"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "30 / 39",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "30 / 39",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/y5gridwj",
+      "id": "8",
+      "bbox": [
+        64,
+        265,
+        1152,
+        312
+      ],
+      "text": "Befund | Anzahl | Folgerung\nTemperatur fehlt | 504 | Heizgradtage als Modellmerkmal\nProduktionsplan fehlt | 672 | Im Trainingsfold imputieren\nVormonat fehlt | 700 | Start der Zeitreihe beachten\nVorjahr fehlt | 8.400 | 2023 fehlt → Merkmal weglassen\nVertragsleistung überschritten | 20 | Markieren und fachlich prüfen",
+      "textPreview": "Befund | Anzahl | Folgerung | Temperatur fehlt | 504 | Heizgradtage als Modellmerkmal | Produktionsplan fehlt | 672 | Im Trainingsfold im...",
+      "rows": 6,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            64,
+            265,
+            480,
+            52
+          ],
+          "text": "Befund",
+          "textPreview": "Befund",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Befund",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Befund",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            544,
+            265,
+            161,
+            52
+          ],
+          "text": "Anzahl",
+          "textPreview": "Anzahl",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Anzahl",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Anzahl",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            705,
+            265,
+            511,
+            52
+          ],
+          "text": "Folgerung",
+          "textPreview": "Folgerung",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Folgerung",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Folgerung",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            64,
+            317,
+            480,
+            52
+          ],
+          "text": "Temperatur fehlt",
+          "textPreview": "Temperatur fehlt",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Temperatur fehlt",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Temperatur fehlt",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            544,
+            317,
+            161,
+            52
+          ],
+          "text": "504",
+          "textPreview": "504",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "504",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "504",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            705,
+            317,
+            511,
+            52
+          ],
+          "text": "Heizgradtage als Modellmerkmal",
+          "textPreview": "Heizgradtage als Modellmerkmal",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Heizgradtage als Modellmerkmal",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Heizgradtage als Modellmerkmal",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            64,
+            369,
+            480,
+            52
+          ],
+          "text": "Produktionsplan fehlt",
+          "textPreview": "Produktionsplan fehlt",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Produktionsplan fehlt",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Produktionsplan fehlt",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            544,
+            369,
+            161,
+            52
+          ],
+          "text": "672",
+          "textPreview": "672",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "672",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "672",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            705,
+            369,
+            511,
+            52
+          ],
+          "text": "Im Trainingsfold imputieren",
+          "textPreview": "Im Trainingsfold imputieren",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Im Trainingsfold imputieren",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Im Trainingsfold imputieren",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            64,
+            421,
+            480,
+            52
+          ],
+          "text": "Vormonat fehlt",
+          "textPreview": "Vormonat fehlt",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Vormonat fehlt",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Vormonat fehlt",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            544,
+            421,
+            161,
+            52
+          ],
+          "text": "700",
+          "textPreview": "700",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "700",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "700",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            705,
+            421,
+            511,
+            52
+          ],
+          "text": "Start der Zeitreihe beachten",
+          "textPreview": "Start der Zeitreihe beachten",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Start der Zeitreihe beachten",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Start der Zeitreihe beachten",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            64,
+            473,
+            480,
+            52
+          ],
+          "text": "Vorjahr fehlt",
+          "textPreview": "Vorjahr fehlt",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Vorjahr fehlt",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Vorjahr fehlt",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            544,
+            473,
+            161,
+            52
+          ],
+          "text": "8.400",
+          "textPreview": "8.400",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "8.400",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "8.400",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 5,
+          "column": 3,
+          "bbox": [
+            705,
+            473,
+            511,
+            52
+          ],
+          "text": "2023 fehlt → Merkmal weglassen",
+          "textPreview": "2023 fehlt → Merkmal weglassen",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "2023 fehlt → Merkmal weglassen",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "2023 fehlt → Merkmal weglassen",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "row": 6,
+          "column": 1,
+          "bbox": [
+            64,
+            525,
+            480,
+            52
+          ],
+          "text": "Vertragsleistung überschritten",
+          "textPreview": "Vertragsleistung überschritten",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Vertragsleistung überschritten",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Vertragsleistung überschritten",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 17,
+          "row": 6,
+          "column": 2,
+          "bbox": [
+            544,
+            525,
+            161,
+            52
+          ],
+          "text": "20",
+          "textPreview": "20",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "20",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "20",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 18,
+          "row": 6,
+          "column": 3,
+          "bbox": [
+            705,
+            525,
+            511,
+            52
+          ],
+          "text": "Markieren und fachlich prüfen",
+          "textPreview": "Markieren und fachlich prüfen",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Markieren und fachlich prüfen",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Markieren und fachlich prüfen",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ytov21sz",
+      "id": "9",
+      "name": "block-507",
+      "bbox": [
+        64,
+        590,
+        56,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#0080A0",
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0r2hcfah",
+      "id": "10",
+      "name": "block-508",
+      "bbox": [
+        142,
+        583,
+        1074,
+        53
+      ],
+      "geometry": "rect",
+      "text": "Rekonstruierte Zielwerte und offene Plausibilitätsflags sind getrennte Kategorien.",
+      "textPreview": "Rekonstruierte Zielwerte und offene Plausibilitätsflags sind getrennte Kategorien.",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Rekonstruierte Zielwerte und offene Plausibilitätsflags sind getrennte Kategorien."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Rekonstruierte Zielwerte und offene Plausibilitätsflags sind getrennte Kategorien.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Rekonstruierte Zielwerte und offene Plausibilitätsflags sind getrennte Kategorien.",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

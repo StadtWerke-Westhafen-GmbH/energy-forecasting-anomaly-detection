@@ -1,0 +1,1111 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/cf8nyw",
+    "id": "cf8nyw",
+    "slide": 6,
+    "layoutId": "8e3822b6-d6fb-46d2-8054-915be3e8d109",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "6120de36-7b74-498e-9efd-7247872c4467",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "StadtWerke Westhafen",
+    "colors": {
+      "accent1": "#084878",
+      "accent2": "#0090C8",
+      "accent3": "#0080A0",
+      "accent4": "#A86505",
+      "accent5": "#B3261E",
+      "accent6": "#8C98A6",
+      "bg1": "#FFFFFF",
+      "bg2": "#F1F4F7",
+      "tx1": "#141A21",
+      "tx2": "#4E5A68",
+      "dk1": "#141A21",
+      "dk2": "#063659",
+      "lt1": "#FFFFFF",
+      "lt2": "#F1F4F7",
+      "hlink": "#0080A0",
+      "folHlink": "#084878"
+    },
+    "typefaces": [
+      "IBM Plex Sans"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "8e3822b6-d6fb-46d2-8054-915be3e8d109",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "6120de36-7b74-498e-9efd-7247872c4467",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "6120de36-7b74-498e-9efd-7247872c4467",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/32p8bqpw",
+      "id": "1",
+      "name": "block-114",
+      "bbox": [
+        64,
+        42,
+        1110,
+        24
+      ],
+      "geometry": "rect",
+      "text": "02  /  MODELLWAHL",
+      "textPreview": "02  /  MODELLWAHL",
+      "resolvedFontSize": 17,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 17,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "02  /  MODELLWAHL"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "02  /  MODELLWAHL",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "02  /  MODELLWAHL",
+              "fontSize": 17,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/o3y94vqh",
+      "id": "2",
+      "name": "block-115",
+      "bbox": [
+        64,
+        80,
+        1152,
+        106
+      ],
+      "geometry": "rect",
+      "text": "24 Fits für eine kontrollierte Modellwahl",
+      "textPreview": "24 Fits für eine kontrollierte Modellwahl",
+      "resolvedFontSize": 43,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 43,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "24 Fits für eine kontrollierte Modellwahl"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "24 Fits für eine kontrollierte Modellwahl",
+          "resolvedTextStyle": {
+            "fontSize": 43,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "24 Fits für eine kontrollierte Modellwahl",
+              "fontSize": 43,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p47qd072",
+      "id": "3",
+      "name": "block-116",
+      "bbox": [
+        64,
+        183,
+        1152,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Acht Einstellungen, drei Zeit-Folds. Auswahl nach dem mittleren CV-RMSE.",
+      "textPreview": "Acht Einstellungen, drei Zeit-Folds. Auswahl nach dem mittleren CV-RMSE.",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 25,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Acht Einstellungen, drei Zeit-Folds. Auswahl nach dem mittleren CV-RMSE."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Acht Einstellungen, drei Zeit-Folds. Auswahl nach dem mittleren CV-RMSE.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Acht Einstellungen, drei Zeit-Folds. Auswahl nach dem mittleren CV-RMSE.",
+              "fontSize": 25,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/exw7e18f",
+      "id": "4",
+      "name": "block-117",
+      "bbox": [
+        64,
+        650,
+        1152,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D6DFE7",
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/6t0fyl0b",
+      "id": "5",
+      "bbox": [
+        64,
+        668,
+        106,
+        36
+      ],
+      "alt": "StadtWerke Westhafen",
+      "contentType": "image/png",
+      "imageFit": "contain",
+      "asset": {
+        "assetId": "01479fed-b3e2-4312-a840-3e8e863f3457",
+        "contentType": "image/png",
+        "byteLength": 393870
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gzyp0bql",
+      "id": "6",
+      "name": "block-118",
+      "bbox": [
+        195,
+        673,
+        930,
+        23
+      ],
+      "geometry": "rect",
+      "text": "ML-Modellierung · Notebook 13",
+      "textPreview": "ML-Modellierung · Notebook 13",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ML-Modellierung · Notebook 13"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ML-Modellierung · Notebook 13",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ML-Modellierung · Notebook 13",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/107q9g7q",
+      "id": "7",
+      "name": "block-119",
+      "bbox": [
+        1130,
+        673,
+        86,
+        25
+      ],
+      "geometry": "rect",
+      "text": "06 / 18",
+      "textPreview": "06 / 18",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "right",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "06 / 18"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "06 / 18",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "06 / 18",
+              "fontSize": 16,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6tw7a183",
+      "id": "8",
+      "name": "block-120",
+      "bbox": [
+        64,
+        268,
+        490,
+        48
+      ],
+      "geometry": "rect",
+      "text": "Lineare Regression",
+      "textPreview": "Lineare Regression",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "IBM Plex Sans",
+        "color": "#063659",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Lineare Regression"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Lineare Regression",
+          "resolvedTextStyle": {
+            "fontSize": 32,
+            "typeface": "IBM Plex Sans",
+            "color": "#063659",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Lineare Regression",
+              "fontSize": 32,
+              "typeface": "IBM Plex Sans",
+              "color": "#063659",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ru5836po",
+      "id": "9",
+      "name": "block-121",
+      "bbox": [
+        64,
+        323,
+        500,
+        90
+      ],
+      "geometry": "rect",
+      "text": "Die nachvollziehbare Referenz\nfür zusätzliche Modellkomplexität.",
+      "textPreview": "Die nachvollziehbare Referenz | für zusätzliche Modellkomplexität.",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 27,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Die nachvollziehbare Referenz"
+          },
+          {
+            "index": 2,
+            "text": "für zusätzliche Modellkomplexität."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Die nachvollziehbare Referenz",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Die nachvollziehbare Referenz",
+              "fontSize": 27,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "für zusätzliche Modellkomplexität.",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "für zusätzliche Modellkomplexität.",
+              "fontSize": 27,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7qt8j6lw",
+      "id": "10",
+      "name": "block-122",
+      "bbox": [
+        64,
+        449,
+        490,
+        48
+      ],
+      "geometry": "rect",
+      "text": "Random Forest",
+      "textPreview": "Random Forest",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Random Forest"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Random Forest",
+          "resolvedTextStyle": {
+            "fontSize": 32,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Random Forest",
+              "fontSize": 32,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/mpk7a14b",
+      "id": "11",
+      "name": "block-123",
+      "bbox": [
+        64,
+        504,
+        500,
+        80
+      ],
+      "geometry": "rect",
+      "text": "Nichtlineare Muster und\nWechselwirkungen im Vergleich.",
+      "textPreview": "Nichtlineare Muster und | Wechselwirkungen im Vergleich.",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 27,
+        "typeface": "IBM Plex Sans",
+        "color": "#4E5A68",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Nichtlineare Muster und"
+          },
+          {
+            "index": 2,
+            "text": "Wechselwirkungen im Vergleich."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Nichtlineare Muster und",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Nichtlineare Muster und",
+              "fontSize": 27,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Wechselwirkungen im Vergleich.",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "IBM Plex Sans",
+            "color": "#4E5A68"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Wechselwirkungen im Vergleich.",
+              "fontSize": 27,
+              "typeface": "IBM Plex Sans",
+              "color": "#4E5A68"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/upwfuxwb",
+      "id": "12",
+      "bbox": [
+        620,
+        270,
+        596,
+        242
+      ],
+      "text": "Parameter | Suchraum\nBaumtiefe | 8 / unbegrenzt\nMin. Fälle je Blatt | 5 / 20\nMerkmalsanteil | 0,7 / 1,0",
+      "textPreview": "Parameter | Suchraum | Baumtiefe | 8 / unbegrenzt | Min. Fälle je Blatt | 5 / 20 | Merkmalsanteil | 0,7 / 1,0",
+      "rows": 4,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            620,
+            270,
+            305,
+            60.5
+          ],
+          "text": "Parameter",
+          "textPreview": "Parameter",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Parameter",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Parameter",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            925,
+            270,
+            291,
+            60.5
+          ],
+          "text": "Suchraum",
+          "textPreview": "Suchraum",
+          "fillColor": "#063659",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Suchraum",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Suchraum",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            620,
+            330.5,
+            305,
+            60.5
+          ],
+          "text": "Baumtiefe",
+          "textPreview": "Baumtiefe",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Baumtiefe",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Baumtiefe",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            925,
+            330.5,
+            291,
+            60.5
+          ],
+          "text": "8 / unbegrenzt",
+          "textPreview": "8 / unbegrenzt",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "8 / unbegrenzt",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "8 / unbegrenzt",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            620,
+            391,
+            305,
+            60.5
+          ],
+          "text": "Min. Fälle je Blatt",
+          "textPreview": "Min. Fälle je Blatt",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Min. Fälle je Blatt",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Min. Fälle je Blatt",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            925,
+            391,
+            291,
+            60.5
+          ],
+          "text": "5 / 20",
+          "textPreview": "5 / 20",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "5 / 20",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "5 / 20",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            620,
+            451.5,
+            305,
+            60.5
+          ],
+          "text": "Merkmalsanteil",
+          "textPreview": "Merkmalsanteil",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Merkmalsanteil",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Merkmalsanteil",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            925,
+            451.5,
+            291,
+            60.5
+          ],
+          "text": "0,7 / 1,0",
+          "textPreview": "0,7 / 1,0",
+          "fillColor": "#F1F4F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "0,7 / 1,0",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "IBM Plex Sans",
+                "color": "#141A21"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "0,7 / 1,0",
+                  "fontSize": 25,
+                  "typeface": "IBM Plex Sans",
+                  "color": "#141A21"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8r2pcbmh",
+      "id": "13",
+      "name": "block-124",
+      "bbox": [
+        620,
+        536,
+        596,
+        67
+      ],
+      "geometry": "rect",
+      "text": "Gewählt: Tiefe 8, Blattgröße 5, Anteil 0,7",
+      "textPreview": "Gewählt: Tiefe 8, Blattgröße 5, Anteil 0,7",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 26,
+        "typeface": "IBM Plex Sans",
+        "color": "#0080A0",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Gewählt: Tiefe 8, Blattgröße 5, Anteil 0,7"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Gewählt: Tiefe 8, Blattgröße 5, Anteil 0,7",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "IBM Plex Sans",
+            "color": "#0080A0",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Gewählt: Tiefe 8, Blattgröße 5, Anteil 0,7",
+              "fontSize": 26,
+              "typeface": "IBM Plex Sans",
+              "color": "#0080A0",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

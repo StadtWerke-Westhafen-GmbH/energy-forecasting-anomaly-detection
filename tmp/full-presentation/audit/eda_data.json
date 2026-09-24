@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "raw": {
+      "path": "data/raw/verbrauch.csv",
+      "sha256": "f792288d258c631325c257483135a2ddbbdf7821e69670cf02c16e923a9c2fc5"
+    },
+    "clean": {
+      "path": "data/raw/260916_verbrauch_bereinigt.csv",
+      "sha256": "bf2f657600407d52e51d935e292e781d2cda7e09dd456b88a1c1d7bc374fb7fa"
+    },
+    "older_clean": {
+      "path": "data/raw/verbrauch_bereinigt.csv",
+      "sha256": "45250d32aadc21791f3f314682ca34606f0e762f6dc02a4abc2ae7cb312905ab"
+    },
+    "model": {
+      "path": "data/processed/modellierung_basis_bis_3_monate.csv",
+      "sha256": "8ccdbf98049d72d08ca2eeebae7ab05a0325254b887cecca3ff28d4baf335c46"
+    }
+  },
+  "profile": {
+    "raw_rows": 16830,
+    "clean_rows": 16800,
+    "raw_columns": 16,
+    "meters": 700,
+    "customers": 700,
+    "months": 24,
+    "first_month": "2024-01",
+    "last_month": "2025-12",
+    "rows_per_month": 700,
+    "rows_per_meter": 24,
+    "duplicate_keys_after_cleaning": 0,
+    "target_missing_after_cleaning": 0,
+    "customer_type_raw_variants": 13,
+    "customer_type_clean_variants": 3,
+    "model_target_max_difference_kwh": 8.731149137020111e-11
+  },
+  "quality_findings": [
+    {
+      "key": "duplicates",
+      "finding": "Vollständige Dubletten",
+      "count": 30,
+      "denominator": 16830,
+      "measure": "Zeilen",
+      "action": "30 identische Zeilen entfernt. Danach eine Zeile je Zähler und Monat.",
+      "source": "data/raw/verbrauch.csv: DataFrame.duplicated(); 260916_Datenbereinigung_PC.ipynb Zellen 11–16",
+      "share_pct": 0.17825311942959002
+    },
+    {
+      "key": "unit_mix",
+      "finding": "MWh-Texte in Verbrauchsspalte",
+      "count": 672,
+      "denominator": 16800,
+      "measure": "Zeilen nach Deduplizierung",
+      "action": "MWh mit Faktor 1.000 in kWh umgerechnet, Zielgröße numerisch gespeichert.",
+      "source": "data/raw/verbrauch.csv: case-insensitive Textsuche MWh; 260916_Datenbereinigung_PC.ipynb Zellen 49–56",
+      "share_pct": 4.0
+    },
+    {
+      "key": "customer_labels",
+      "finding": "Abweichende Kundentyp-Schreibweisen",
+      "count": 504,
+      "denominator": 16800,
+      "measure": "Zeilen nach Deduplizierung",
+      "action": "13 Roh-Ausprägungen auf Gewerbe, Industrie und Kommunal vereinheitlicht.",
+      "source": "data/raw/verbrauch.csv; 260916_Datenbereinigung_PC.ipynb Zellen 5–6",
+      "share_pct": 3.0
+    },
+    {
+      "key": "month_formats",
+      "finding": "Nicht-ISO-Monatsangaben",
+      "count": 11298,
+      "denominator": 16800,
+      "measure": "Zeilen nach Deduplizierung",
+      "action": "Drei Monatsformate in ISO-Datum auf dem Monatsersten überführt. Monatsnummer geprüft.",
+      "source": "data/raw/verbrauch.csv; 260916_Datenbereinigung_PC.ipynb Zellen 8–9",
+      "share_pct": 67.25
+    },
+    {
+      "key": "sentinels",
+      "finding": "Zielwerte 0, −50 und −1.000",
+      "count": 3,
+      "denominator": 16800,
+      "measure": "Zeilen",
+      "action": "Rückblickend aus dem dokumentierten Vormonatswert der Folgezeile rekonstruiert. Im ML-Hauptlauf aus Training und Benchmark ausgeschlossen.",
+      "source": "260916_Datenbereinigung_PC.ipynb Zellen 57–77; scripts/build_modeling_ihk_lernstory_notebook.py Train-/Benchmark-Filter ~ziel_rekonstruiert",
+      "share_pct": 0.017857142857142856
+    },
+    {
+      "key": "missing_temperature",
+      "finding": "Fehlende Temperaturwerte",
+      "count": 504,
+      "denominator": 16800,
+      "measure": "Zeilen",
+      "action": "Im Cleaning nicht pauschal ergänzt. Aktueller ML-Layer verwendet vollständige Heizgradtage.",
+      "source": "data/raw/260916_verbrauch_bereinigt.csv; Modellierungsbasis Spalte heizgradtage",
+      "share_pct": 3.0
+    },
+    {
+      "key": "missing_production",
+      "finding": "Fehlender Produktionsplan",
+      "count": 672,
+      "denominator": 16800,
+      "measure": "Zeilen",
+      "action": "Lücken erhalten. Falls Imputation erforderlich, nur innerhalb der trainierten Modellpipeline.",
+      "source": "data/raw/260916_verbrauch_bereinigt.csv; 260916_Datenbereinigung_PC.ipynb Zellen 83–98",
+      "share_pct": 4.0
+    },
+    {
+      "key": "capacity_flags",
+      "finding": "Verbrauch über Vertragsleistung × Monatsstunden",
+      "count": 20,
+      "denominator": 16800,
+      "measure": "Zähler-Monate",
+      "action": "Gesondert markiert und fachlich zu prüfen. Vertragsleistung ist ohne Domänenbestätigung keine harte physikalische Obergrenze.",
+      "source": "eigene Neuberechnung auf 260916-Verbrauch; scripts/build_modeling_notebook.py Dokumentation zu dq_vertragsleistung",
+      "share_pct": 0.11904761904761905
+    }
+  ],
+  "sentinel_reconstruction": [
+    {
+      "meter_id": "ZL-00218",
+      "month": "2025-07",
+      "raw_value_kwh": 0.0,
+      "reconstructed_value_kwh": 3620.0,
+      "basis": "vormonat_verbrauch_kwh der Folgezeile desselben Zählers"
+    },
+    {
+      "meter_id": "ZL-00278",
+      "month": "2024-12",
+      "raw_value_kwh": -50.0,
+      "reconstructed_value_kwh": 10043.0,
+      "basis": "vormonat_verbrauch_kwh der Folgezeile desselben Zählers"
+    },
+    {
+      "meter_id": "ZL-00287",
+      "month": "2025-07",
+      "raw_value_kwh": -1000.0,
+      "reconstructed_value_kwh": 106659.0,
+      "basis": "vormonat_verbrauch_kwh der Folgezeile desselben Zählers"
+    }
+  ],
+  "quality_counting_caveat": "Befundklassen können dieselbe Zeile betreffen und dürfen nicht zu einer Gesamtzahl fehlerhafter Zeilen summiert werden. Die beiden Werte 672 bezeichnen einmal MWh-Texte und einmal fehlende Produktionsplanwerte.",
+  "current_model_population": {
+    "stored_split_counts": {
+      "test": 8400,
+      "train": 8390,
+      "ausschluss": 10
+    },
+    "main_training_rows_excluding_reconstructed": 8389,
+    "main_benchmark_rows_excluding_reconstructed": 8398,
+    "capacity_flagged_train_year": 10,
+    "capacity_flagged_test_year": 10,
+    "rule": "Schnittstelle schließt die zehn Vertragsleistungsflags 2024 über split=ausschluss aus dem Training aus. Die zehn Fälle 2025 bleiben im Test. Das Flag heißt unmoeglich, die fachliche Bewertung ist dennoch offen. Hauptlauf schließt außerdem die drei aus einer Folgezeile rekonstruierten Zielwerte aus."
+  },
+  "raw_month_format_counts_after_deduplication": {
+    "MM.YYYY": 5662,
+    "MM/YYYY": 5636,
+    "YYYY-MM": 5502
+  },
+  "missing_values_after_cleaning": {
+    "mittlere_temperatur_c": 504,
+    "produktionsplan_index": 672,
+    "vormonat_verbrauch_kwh": 700,
+    "letzte_3_monate_durchschnitt_kwh": 1,
+    "vorjahr_monat_verbrauch_kwh": 8400
+  },
+  "structural_missing_history": {
+    "previous_month_january_2024": 700,
+    "previous_year_all_2024": 8400,
+    "raw_three_month_mean_filled_january_2024": 699,
+    "model_three_month_mean_missing": 700,
+    "model_rule": "Je Zähler Mittel aus bis zu drei vorherigen gültigen Monaten; Januar 2024 bleibt leer. Keine zukünftigen Werte."
+  },
+  "charts": {
+    "monthly": {
+      "source": "data/raw/260916_verbrauch_bereinigt.csv",
+      "population": "Alle 16.800 bereinigten Zähler-Monate, inklusive drei rekonstruierten Zielen und 20 Vertragsleistungsflags.",
+      "definition": "SUM(verbrauch_kwh) / 1000 je Kalenderjahr und Kalendermonat. 700 Zähler in jedem Monat. MWh sind Energiemenge, keine Leistung.",
+      "unit": "MWh",
+      "categories": [
+        "Jan",
+        "Feb",
+        "Mär",
+        "Apr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Dez"
+      ],
+      "series": [
+        {
+          "name": "2024",
+          "values": [
+            20297.50398311186,
+            19411.232249531906,
+            19323.683920968542,
+            20055.264908013727,
+            20293.716327523467,
+            15978.576873439675,
+            16695.890068139055,
+            15088.767715993667,
+            14454.974718536785,
+            16454.399757857205,
+            15577.52900992083,
+            17936.640595287656
+          ]
+        },
+        {
+          "name": "2025",
+          "values": [
+            19972.764154559656,
+            18222.895006429928,
+            19425.475874102314,
+            20012.68071140909,
+            18939.456106723606,
+            16378.726712172123,
+            16894.22592960153,
+            14304.106831024474,
+            14771.076966916626,
+            15791.231879015713,
+            14988.584489446272,
+            18989.76480947563
+          ]
+        }
+      ],
+      "annual_total_mwh": {
+        "2024": 211568.18012832437,
+        "2025": 208690.98947087696
+      },
+      "annual_change_pct": -1.359935438165738,
+      "pearson_monthly_profiles": 0.9461680386407715,
+      "takeaway": "Ein ähnlicher Jahresgang erscheint in beiden Jahren. Der Monatsverbrauch liegt im Sommer und frühen Herbst niedriger.",
+      "caveat": "Deskriptive Gesamtverbräuche, keine Modellleistung und kein kausaler Nachweis eines Wetter- oder Produktionseffekts."
+    },
+    "portfolio": {
+      "source": "data/raw/260916_verbrauch_bereinigt.csv",
+      "population": "700 unterschiedliche Zähler; Verbrauch aller 16.800 bereinigten Monatswerte 01/2024–12/2025.",
+      "definition": "Zähleranteil = Anzahl eindeutiger Zähler des Kundentyps / 700. Verbrauchsanteil = Summe kWh des Kundentyps / Gesamtsumme kWh über beide Jahre.",
+      "unit": "%",
+      "categories": [
+        "Gewerbe",
+        "Industrie",
+        "Kommunal"
+      ],
+      "series": [
+        {
+          "name": "Anteil Zähler",
+          "values": [
+            53.714285714285715,
+            32.285714285714285,
+            14.000000000000002
+          ]
+        },
+        {
+          "name": "Anteil Verbrauch",
+          "values": [
+            22.489611681340712,
+            68.47510437263907,
+            9.03528394602023
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "customer_type": "Gewerbe",
+          "meter_count": 376,
+          "meter_share_pct": 53.714285714285715,
+          "consumption_share_pct": 22.489611681340712,
+          "consumption_mwh": 94514.65529808747,
+          "observation_count": 9024,
+          "median_capacity_kw": 54.0,
+          "median_monthly_consumption_kwh": 8531.5,
+          "mean_monthly_consumption_kwh": 10473.698503777423,
+          "median_monthly_vls_h": 159.67980582524274
+        },
+        {
+          "customer_type": "Industrie",
+          "meter_count": 226,
+          "meter_share_pct": 32.285714285714285,
+          "consumption_share_pct": 68.47510437263907,
+          "consumption_mwh": 287772.90501863934,
+          "observation_count": 5424,
+          "median_capacity_kw": 272.0,
+          "median_monthly_consumption_kwh": 44527.5,
+          "mean_monthly_consumption_kwh": 53055.47658898218,
+          "median_monthly_vls_h": 173.17497624326893
+        },
+        {
+          "customer_type": "Kommunal",
+          "meter_count": 98,
+          "meter_share_pct": 14.000000000000002,
+          "consumption_share_pct": 9.03528394602023,
+          "consumption_mwh": 37971.60928247457,
+          "observation_count": 2352,
+          "median_capacity_kw": 83.0,
+          "median_monthly_consumption_kwh": 14281.0,
+          "mean_monthly_consumption_kwh": 16144.391701732386,
+          "median_monthly_vls_h": 169.91273291925467
+        }
+      ],
+      "takeaway": "Industrie stellt 32.3 % der Zähler und 68.5 % des Verbrauchs.",
+      "caveat": "Die Anteile beschreiben unterschiedliche Bezugsgrößen. Keine Aussage über Wirtschaftlichkeit, Kundenertrag oder Fehlerquote."
+    },
+    "normalization": {
+      "source": "data/raw/260916_verbrauch_bereinigt.csv",
+      "population": "Alle 16.800 bereinigten Zähler-Monate 01/2024–12/2025, dieselben Zeilen für beide Kennzahlen.",
+      "definition": "Median der monatlichen Verbrauchswerte je Kundentyp. Normiert: je Zeile verbrauch_kwh / vertragsleistung_kw, anschließend Median je Kundentyp. Vertragsleistung ist je Zähler konstant.",
+      "categories": [
+        "Gewerbe",
+        "Industrie",
+        "Kommunal"
+      ],
+      "raw_unit": "kWh",
+      "normalized_unit": "VLS-h",
+      "raw_values": [
+        8531.5,
+        44527.5,
+        14281.0
+      ],
+      "normalized_values": [
+        159.67980582524274,
+        173.17497624326893,
+        169.91273291925467
+      ],
+      "industry_vs_commercial_raw_ratio": 5.219187716110883,
+      "industry_vs_commercial_normalized_ratio": 1.08451394556927,
+      "takeaway": "Nach Division durch die Vertragsleistung liegen die Mediane der drei Kundentypen deutlich näher zusammen.",
+      "caveat": "Getrennte Achsen und Einheiten nötig. Die Normierung erklärt Größenunterschiede und beweist allein keinen Modellvorteil."
+    }
+  },
+  "capacity_flags": {
+    "count": 20,
+    "by_year": {
+      "2024": 10,
+      "2025": 10
+    },
+    "max_ratio": 1.4507842153756254,
+    "definition": "verbrauch_kwh > vertragsleistung_kw × tatsächliche Kalendermonatsstunden",
+    "is_confirmed_fault": false
+  },
+  "source_disagreements": [
+    "ipynb/eda.ipynb und eda_ci.ipynb starten aus verbrauch_bereinigt.csv, rekonstruieren 3 Sentinels und filtern 20 Vertragsleistungsfälle. Ihre späteren EDA-Statistiken beruhen deshalb auf 16.780 Zeilen. Die hier neu berechneten Charts nutzen 16.800 Zeilen aus 260916_verbrauch_bereinigt.csv.",
+    "Die ältere EDA bezeichnet Vertragsleistungsflags als physikalisch unmöglich. Neuere Modellierungsdokumentation hält die fachliche Grenze für unbestätigt. Daher hier Prüfhinweise statt bestätigter Fehler.",
+    "Die README_modellierung_basis.md nennt 19 Spalten und eine ältere Lag-Regel; die aktuelle Datei hat 20 Spalten, die Ableitung bis_3_monate verwendet verfügbare Historie.",
+    "Gespeicherte Notebook-Ausgaben können von aktuellen CSVs abweichen. Alle Zahlen dieses Audits wurden direkt aus den bezeichneten CSVs neu berechnet."
+  ]
+}
