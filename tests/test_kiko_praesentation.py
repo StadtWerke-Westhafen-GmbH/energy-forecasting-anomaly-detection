@@ -292,3 +292,12 @@ def test_abdeckung_der_vorgaben(slides):
                    "Mein Fazit",                                       # persönliches Fazit
                    "Patrick: Ergebnisse"]:                             # Übergabe statt „Vielen Dank“
         assert needle in html, needle
+
+
+def test_mittelwert_label_ueberdeckt_keinen_balkenwert(facts, slides):
+    """Regression: das Mittelwert-Label lag im Diagramm auf dem Dezember-Wert „10“ (B6)."""
+    svg = BUILD["chart_monthly"](facts)
+    labels = re.findall(r'<text x="([\d.]+)" y="([\d.]+)"[^>]*>([^<]*)</text>', svg)
+    assert not [t for _, _, t in labels if t.startswith("Ø")], "Mittelwert-Label gehört in die Kopfzeile der Karte"
+    b6 = next(s for s in slides if s.label == "Backup Prüfaufwand")
+    assert re.search(r'<span class="ch-avg">.*?Ø 9,5 je Monat</span>', b6.html)

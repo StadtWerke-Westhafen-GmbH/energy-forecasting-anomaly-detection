@@ -21,6 +21,8 @@ from pptx import Presentation
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import team_kit as kit  # noqa: E402
+import team_patterns as tp  # noqa: E402
+import team_slides as ts  # noqa: E402
 
 K, BUILD, ROOT = kit.K, kit.BUILD, kit.ROOT
 OUT = kit.TEAM_DIR / "Gruppe6_Praesentation_SWW.pptx"
@@ -64,15 +66,35 @@ def kiko_entries(specs, facts, charts) -> tuple[list[Entry], list[Entry]]:
 
 
 def deck_entries(specs, facts, charts) -> list[Entry]:
+    """Reihenfolge laut Agenda: Iana → Kiko → Patrick, danach Backup und Folienmuster."""
     kiko_main, kiko_backup = kiko_entries(specs, facts, charts)
-    return kiko_main + kiko_backup
+    main = [Entry("main", ts.titel, "Titel"), Entry("main", ts.agenda, "Agenda"),
+            Entry("main", ts.iana_ausgangssituation, "Iana Ausgangssituation"),
+            Entry("main", ts.iana_datenstruktur, "Iana Datenstruktur"),
+            Entry("main", ts.iana_datenqualitaet, "Iana Datenqualität"),
+            *kiko_main,
+            Entry("main", ts.patrick_ergebnisse, "Patrick Ergebnisse"),
+            Entry("main", ts.patrick_cockpit, "Patrick Cockpit"),
+            Entry("main", ts.patrick_empfehlungen, "Patrick Empfehlungen"),
+            Entry("main", ts.patrick_fazit, "Patrick Fazit"),
+            Entry("main", ts.schluss, "Schluss")]
+    backup = [Entry("divider", ts.backup_trenner, "Backup"), *kiko_backup,
+              Entry("backup", ts.backup_datenqualitaet, "Backup Datenqualität"),
+              Entry("backup", ts.backup_ethik, "Backup Ethik")]
+    patterns = [Entry("divider", tp.trenner, "Folienmuster"),
+                *(Entry("pattern", make, name) for make, name in zip(tp.BUILDERS, tp.PATTERNS))]
+    return main + backup + patterns
 
 
 def numbers(entries: list[Entry]) -> list[str]:
+    """Hauptfolien „n / N“, Backups „B1…“, Muster „M1…“, Trennfolien ohne Nummer."""
     total = sum(e.kind == "main" for e in entries)
     count = {"main": 0, "backup": 0, "pattern": 0}
     out = []
     for e in entries:
+        if e.kind == "divider":
+            out.append("")
+            continue
         count[e.kind] += 1
         n = count[e.kind]
         out.append(f"{n} / {total}" if e.kind == "main" else ("B" if e.kind == "backup" else "M") + str(n))

@@ -72,6 +72,13 @@ def _google_mode(k: dict) -> None:
     def g_text(s, x, y, w, h, paras, size=16, color=INK, bold=False, font=SANS, align="l", anchor="t",
                lh=None, gap=0.0, name=None, tracking=0.0, wrap=True, upper=False, indent=18):
         paras = _caps(paras, upper)
+        tracking = max(tracking, 0.0)  # Google Slides kennt keine Laufweite; Titel müssen ohne sie passen
+        line_h = lh or 1.3 * size
+        if name == "Titel" and wrap and isinstance(paras, str) and h < 1.5 * line_h:
+            width = k["measure"](paras, size, bold, font)
+            if width > 0.96 * w:  # einzeiliger Titel: Schrift verkleinern statt umbrechen
+                factor = 0.96 * w / width
+                size, lh = size * factor, line_h * factor
         if not wrap:  # Reserve je nach Ausrichtung nach rechts, links oder beidseitig
             extra = max(4.0, 0.1 * w)
             x -= {"l": 0.0, "c": extra / 2, "r": extra}[align]
@@ -216,3 +223,208 @@ def theme_fonts(prs) -> None:
         else:
             xml = part.blob.decode("utf-8")
             part._blob = re.sub(r'<a:latin typeface="[^"]*"', '<a:latin typeface="IBM Plex Sans"', xml).encode()
+
+
+# --------------------------------------------------------------------------- Rahmen für Team-Folien
+
+import html as _html  # noqa: E402
+
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN  # noqa: E402
+
+box, card, dcard, oval, poly, picture = K["box"], K["card"], K["dcard"], K["oval"], K["poly"], K["picture"]
+measure, label, pt, ring_arc, chevron = K["measure"], K["label"], K["pt"], K["ring_arc"], K["chevron"]
+zw = K["zw"]
+CANVAS, ML_FIELDS = BUILD["CANVAS"], BUILD["ML_FIELDS"]
+FOOTER_TITLE = _html.unescape(BUILD["FOOTER_TITLE"])
+LOGO = K["LOGO"]
+GLASS, GLASS_LINE = K["GLASS"], K["GLASS_LINE"]
+TINT = "#E3F3F7"      # helles Teal (Merksatz, hervorgehobene Karten)
+AMBER, RED, GREEN = "#A86505", "#B3261E", "#2F7A33"
+
+
+def blank(prs, bg: str = WHITE):
+    s = prs.slides.add_slide(prs.slide_layouts[6])
+    s.background.fill.solid()
+    s.background.fill.fore_color.rgb = rgb(bg)
+    return s
+
+
+def icon(s, name: str, color: str, x: float, y: float, size: float):
+    pic = s.shapes.add_picture(K["icon_png"](name, color), E(x), E(y), E(size), E(size))
+    pic.name = f"Icon {name}"
+    return pic
+
+
+def header(s, question: str, qicon: str, title: str, tone: str = "teal", dark: bool = False,
+           chapter: str | None = None) -> None:
+    """Leitfrage mit Icon-Scheibe, Titel als Antwort, Kapitelleiste (wie Kikos Kopfzeile)."""
+    qtone = {"teal": "light", "amber": "lamber", "navy": "light"}[tone] if dark else tone
+    disc(s, 72, 38, qicon, qtone, 32, name="Leitfrage-Scheibe")
+    text(s, 116, 40.5, 560, 27, question, 20, TEAL3 if dark else TEAL6, lh=27, wrap=False, name="Leitfrage")
+    text(s, 72, 80, 1136, 41, title, 36, WHITE if dark else INK, True, lh=41, tracking=-0.02, name="Titel")
+    if chapter:
+        chapter_bar(s, chapter, dark)
+
+
+def footer(s, refs=(), speaker: str = "", num: str = "", dark: bool = False) -> None:
+    """Fußzeile wie bei Kiko: Logo, Projekttitel, Canvas-Bezüge als Mini-Scheiben, Person, Seitenzahl."""
+    border = GLASS_LINE if dark else LINE2
+    line(s, 0, FOOT_Y, W, FOOT_Y, border, 1, name="Fußlinie")
+    if dark:
+        box(s, 72, 672, 64, 26, fill=WHITE, radius=4, name="Logo-Grund")
+        picture(s, LOGO, 78, 676, h=18, name="Logo")
+        x = 152
+    else:
+        picture(s, LOGO, 72, 672, h=26, name="Logo")
+        x = 163.2
+    text(s, x, 675, measure(FOOTER_TITLE, 16) + 12, 20, FOOTER_TITLE, 16, "#7FB4D8" if dark else "#6B7887", lh=20,
+         wrap=False)
+    x += measure(FOOTER_TITLE, 16) + 16
+    if refs:
+        x += 14
+        line(s, x, 674, x, 696, border, 1)
+        x += 17
+        for r in refs:
+            ml = r in ML_FIELDS
+            disc(s, x, 674, CANVAS[r][1], ("light" if dark else "teal") if ml else ("glass" if dark else "ring"), 22)
+            x += 28
+            text(s, x, 676, 30, 18, r, 14, TEAL3 if dark else TEAL6, True, MONO, lh=18, wrap=False)
+            x += measure(r, 14, True, MONO) + 6
+            text(s, x, 676, measure(CANVAS[r][0], 14) + 10, 18, CANVAS[r][0], 14, PALE if dark else MUTED, lh=18,
+                 wrap=False)
+            x += measure(CANVAS[r][0], 14) + 12
+    num_w = max(64, measure(num, 16, font=MONO))
+    if speaker:
+        text(s, 1208 - num_w - 16 - 120, 675, 120, 20, speaker, 16, PALE if dark else MUTED, True, align="r", lh=20,
+             wrap=False, name="Sprecher")
+    if num:
+        text(s, 1208 - num_w, 674.5, num_w, 21, num, 16, "#7FB4D8" if dark else "#6B7887", font=MONO, align="r",
+             lh=21, wrap=False, name="Seitenzahl")
+
+
+def set_notes(slide, sections) -> None:
+    """Notizen in Abschnitten: [(KOPF, [Zeile | (fetter Anfang, Rest)])]."""
+    tf = slide.notes_slide.notes_text_frame
+    tf.text = ""
+    first = True
+    for n, (head, items) in enumerate(sections):
+        rows = [[(head, True)]]
+        rows += [[(it, False)] if isinstance(it, str) else [(it[0] + " ", True), (it[1], False)] for it in items]
+        if n < len(sections) - 1:
+            rows.append([("", False)])
+        for runs in rows:
+            p = tf.paragraphs[0] if first else tf.add_paragraph()
+            first = False
+            for chunk, bold in runs:
+                r = p.add_run()
+                r.text = chunk
+                r.font.bold = bold
+
+
+def draft_notes(slide, source: str, speech, keywords=(), questions=(), todo=()) -> None:
+    """Entwurfsnotizen für Iana und Patrick: Herkunft, Stichworte, Sprechtext-Vorschlag, offene Punkte."""
+    sections = [("ENTWURF", [f"Entwurf aus Bericht ({source}) – bitte prüfen und in eigenen Worten sprechen."]
+                 + [f"• {t}" for t in todo])]
+    if keywords:
+        sections.append(("STICHWORTE", [f"• {k}" for k in keywords]))
+    sections.append(("SPRECHTEXT", list(speech)))
+    if questions:
+        sections.append(("FALLS GEFRAGT WIRD", list(questions)))
+    set_notes(slide, sections)
+
+
+def icard(s, x, y, w, h, icon_name: str, tone: str, head: str, body, psize: float = 15, fill: str = WHITE,
+          border: str = LINE, dark: bool = False, d: float = 34) -> None:
+    """Karte mit Icon-Scheibe, fettem Kopf und Text (Kikos icard)."""
+    if dark:
+        dcard(s, x, y, w, h)
+    else:
+        card(s, x, y, w, h, fill=fill, border=border)
+    disc(s, x + 17, y + 15, icon_name, tone, d)
+    tx = x + 17 + d + 14
+    tw = x + w - 17 - tx
+    text(s, tx, y + 16, tw, 22, head, 16, WHITE if dark else NAVY7, True, lh=21)
+    text(s, tx, y + 40, tw, h - 46, body, psize, PALE if dark else MUTED, lh=psize * 1.4)
+
+
+def merk(s, x, y, w, h, msg: str, dark: bool = False) -> None:
+    """Merksatz-Band mit Glühbirnen-Scheibe."""
+    if dark:
+        dcard(s, x, y, w, h)
+    else:
+        box(s, x, y, w, h, fill=TINT, radius=10)
+    disc(s, x + 12, y + (h - 30) / 2, "lightbulb", "lamber" if dark else "amber", 30)
+    text(s, x + 56, y, w - 76, h, msg, 18, WHITE if dark else TEAL7, anchor="m", lh=24.3, name="Merksatz")
+
+
+def marker(s, cx: float, cy: float, n, fill: str = NAVY7, d: float = 30) -> None:
+    """Nummerierter Kreis für Screenshot-Hinweise und Schrittfolgen."""
+    grp = s.shapes.add_group_shape()
+    grp.name = f"Hinweis {n}"
+    oval(grp, cx - d / 2, cy - d / 2, d, fill=fill, line=WHITE, lw=2)
+    text(grp, cx - d / 2 - 4, cy - d / 2, d + 8, d, str(n), 15, WHITE, True, MONO, "c", "m", lh=d, wrap=False)
+
+
+def table(s, x, y, widths, rows, heights, *, size: float = 15, head_size: float = 14.5, name: str = "Tabelle",
+          right_cols=(), tint_rows=()) -> None:
+    """Native Tabelle im Stil von Kikos B2: Kopf Navy, feine Linien.
+
+    Zelle: Text, [(Text, Optionen)] als ein Absatz oder [[…], […]] als mehrere Absätze.
+    """
+    shape = s.shapes.add_table(len(rows), len(widths), E(x), E(y), E(sum(widths)), E(sum(heights)))
+    shape.name = name
+    tbl = shape.table
+    tbl.first_row = False
+    tbl.horz_banding = False
+    for j, wv in enumerate(widths):
+        tbl.columns[j].width = E(wv)
+    for i, (row, hv) in enumerate(zip(rows, heights)):
+        tbl.rows[i].height = E(hv)
+        for j, value in enumerate(row):
+            cell = tbl.cell(i, j)
+            cell.text = ""
+            multi = isinstance(value, list) and value and isinstance(value[0], list)
+            paras = value if multi else [value]
+            fs = head_size if i == 0 else size
+            for k, para in enumerate(paras):
+                p = cell.text_frame.paragraphs[0] if k == 0 else cell.text_frame.add_paragraph()
+                p.alignment = PP_ALIGN.RIGHT if (j in right_cols and i) else PP_ALIGN.LEFT
+                p.line_spacing = pt(fs * 1.3)
+                runs = [(para, {})] if isinstance(para, str) else [(t, {}) if isinstance(t, str) else t for t in para]
+                for chunk, opts in runs:
+                    r = p.add_run()
+                    r.text = chunk
+                    r.font.name = opts.get("font", SANS)
+                    r.font.size = pt(opts.get("size", fs))
+                    r.font.bold = opts.get("bold", i == 0)
+                    r.font.italic = False
+                    r.font.color.rgb = rgb(WHITE if i == 0 else opts.get("color", INK))
+            K["_cell_borders"](cell, None if i == 0 else LINE2)
+            cell.fill.solid()
+            cell.fill.fore_color.rgb = rgb(NAVY9 if i == 0 else (TINT if i in tint_rows else WHITE))
+            cell.margin_left = cell.margin_right = E(12)
+            cell.margin_top = cell.margin_bottom = E(4)
+            cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+            edges = [t for t, on in (("a:lnL", j == 0), ("a:lnR", j == len(widths) - 1), ("a:lnT", i == 0),
+                                     ("a:lnB", i == len(rows) - 1)) if on]
+            for tag in edges:  # Außenrand als Zellrand: wächst mit, wenn Zeilen eingefügt werden
+                _cell_edge(cell, tag, LINE)
+
+
+def _cell_edge(cell, tag: str, color: str) -> None:
+    from pptx.oxml.xmlchemy import OxmlElement
+
+    ln = cell._tc.get_or_add_tcPr().find(qn(tag))
+    for child in list(ln):
+        ln.remove(child)
+    ln.set("w", str(int(0.75 * 12700)))
+    fill = OxmlElement("a:solidFill")
+    clr = OxmlElement("a:srgbClr")
+    clr.set("val", color.lstrip("#"))
+    fill.append(clr)
+    ln.append(fill)
+
+
+def code(t: str) -> tuple[str, dict]:
+    """Spaltenname in Geist Mono, wie im Bericht abgesetzt."""
+    return (t, {"font": MONO, "color": TEAL7, "size": 14})

@@ -599,7 +599,7 @@ def chart_monthly(facts, w=578, h=330) -> str:
         body.append(txt(left + i * bw + bw / 2, bottom + 22, MONTHS[i], TICK, C["grey500"], "middle"))
     body.append(f'<line x1="{left}" x2="{right}" y1="{y(mean):.1f}" y2="{y(mean):.1f}" stroke="{C["schwelle"]}" '
                 f'stroke-width="2" stroke-dasharray="6 4"/>')
-    body.append(txt(right, y(mean) - 8, f"Ø {de(mean, 1)} je Monat", LABEL, C["amber700"], "end", 600))
+    # Beschriftung der Ø-Linie steht in der Kopfzeile der Karte (span.ch-avg); im Diagramm lag sie auf der Dez-Säule
     return svg(w, h, "".join(body), "Prüfhinweise je Monat 2025")
 
 
@@ -1490,7 +1490,7 @@ def build_slides(facts: dict) -> list[Slide]:
 <section class="slide light" data-screen-label="Kiko B6 Prüfaufwand">
 {header("Was kostet der Betrieb, solange Euro fehlen?", "clipboard-list", "Prüfaufwand statt ROI: belegte Mengen, keine erfundenen Euro")}
 <div class="body grid-3-2">
-  <div class="card chart-card"><p class="ch-t">Prüfhinweise je Monat 2025 <span>(q99)</span></p>{chart_monthly(facts)}</div>
+  <div class="card chart-card has-avg"><span class="ch-avg"><i></i>Ø {de(facts["n_alerts"] / 12, 1)} je Monat</span><p class="ch-t">Prüfhinweise je Monat 2025 <span>(q99)</span></p>{chart_monthly(facts)}</div>
   <div class="stack tight">
     {icard("scale", "amber", "Worst Case beim Aufwand", f"q95 statt q99: {de(q95['je_monat'], 1)} statt {de(q99['je_monat'], 1)} Fälle im Monat, also {de(q95_ratio, 1)}-facher Prüfaufwand.")}
     {icard("undo-2", "navy", "Rückfall", "Ist das Modell im Pilot nicht besser: lineare Regression oder das Mittel der letzten drei Monate.")}
@@ -1615,6 +1615,7 @@ code{font-size:.92em;background:#EDF3F9;border-radius:4px;padding:1px 5px;color:
 .row-3 .icard{padding:11px 14px}.row-3 .icard p{font-size:14.5px}
 .card{background:#fff;border:1px solid #D2DAE2;border-radius:10px;box-shadow:0 1px 2px rgba(4,38,63,.05),0 2px 6px rgba(4,38,63,.05)}
 .chart-card{padding:16px 20px}
+.chart-card.has-avg{position:relative}.ch-avg{position:absolute;right:20px;top:16px;font-size:16px;line-height:20px;font-weight:600;color:#7F4C03}.ch-avg i{display:inline-block;width:26px;border-top:2px dashed #A86505;vertical-align:middle;margin:-3px 8px 0 0}
 .chart-card.wide{padding:16px 20px 8px}
 .ch-t{font-size:16px;font-weight:600;margin:0 0 8px;color:#141A21}.ch-t span{font-weight:400;color:#657383}
 .ch-note{font-size:14px;line-height:1.35;color:#4E5A68;margin:4px 0 2px}

@@ -1897,9 +1897,8 @@ def slide_b6_aufwand(prs, spec, num, facts):
     avg_ser = line_plot.series[0]
     _series_line(avg_ser, C["schwelle"], 2, MSO_LINE_DASH_STYLE.DASH)
     _no_marker(avg_ser)
-    # Ø-Beschriftung aus dem SVG, aber in die Titelzeile gesetzt: im HTML überdeckt sie die Dez-Säule
-    avg_label = next(t for t in svg.iter("text") if (t.get("fill") or "").upper() == C["amber700"])
-    t = (avg_label.text or "").strip()
+    # Ø-Beschriftung steht wie im HTML in der Titelzeile der Karte (span.ch-avg)
+    t = plain(q(el, "span.ch-avg"))
     tw = measure(t, 16, True)
     line(s, 669.9 - tw - 34, 170, 669.9 - tw - 8, 170, C["schwelle"], 2, MSO_LINE_DASH_STYLE.DASH)
     text(s, 669.9 - tw - 4, 160, tw + 4, 20, t, 16, C["amber700"], True, align="r", lh=20, wrap=False,

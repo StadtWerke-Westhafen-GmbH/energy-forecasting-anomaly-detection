@@ -77,7 +77,7 @@ def test_paket_ist_google_slides_tauglich(deck):
 def test_kikos_folien_vollstaendig_und_in_reihenfolge(deck, team):
     _, prs = deck
     titles = [texts(s) for s in prs.slides]
-    order = ["ML Canvas: vom Nutzen", "Fehler kosten Spotmarkt", "Methodik und Modell",
+    order = ["ML Canvas: vom Nutzen", "Fehler kosten Spotmarkt", "ZL-00147 · August 2025",
              "Vergangenheit erklärt Zukunft", "Das Modell lernt Vollaststunden", "Random Forest knapp vorn",
              "Aus dem Prognosefehler wird", "Die Schwelle wird vor 2025", "114 von 8.398",
              "ZL-00147: Im August", "Prüfen, bewerten und aus dem Feedback"]
@@ -247,9 +247,161 @@ def test_backup_mit_ethik_und_datenqualitaet(deck):
     ethik = next(x for x in t if "Ethik" in x and "Datenschutz" in x)
     for needle in ["im Pilot festlegen", "Das Modell ersetzt keine Abrechnungsentscheidung", "Kundentyp"]:
         assert needle in ethik, needle
-    dq = next(x for x in t if "Datenqualität im Detail" in x)
+    dq = next(x for x in t if "elf Befunde" in x)
     for needle in ["672", "MWh → kWh", "504", "Post-hoc imputiert", "11.316", "67,3 %"]:
         assert needle in dq, needle
+
+
+def test_folienmuster_am_ende(deck):
+    """Zehn Muster M1–M10 hinter einer Trennfolie, jedes mit Gebrauchsanweisung in den Notizen."""
+    _, prs = deck
+    slides = list(prs.slides)
+    nums = [next((sh.text_frame.text for sh in s.shapes if sh.name == "Seitenzahl"), "") for s in slides]
+    first = nums.index("M1")
+    assert nums[first:] == [f"M{i}" for i in range(1, 11)]
+    assert "Folienmuster" in texts(slides[first - 1])
+    for s in slides[first:]:
+        assert "SO NUTZT DU DIESES MUSTER" in notes_of(s)
+    for s in slides[first + 1:first + 9]:  # M2–M9: Platzhalter in eckigen Klammern
+        t = texts(s)
+        assert "[" in t and "]" in t
+
+
+def test_baukasten_enthaelt_alle_scheibentoene(deck, team):
+    _, prs = deck
+    baukasten = next(s for s in prs.slides if "Baukasten" in texts(s) and "Scheiben" in texts(s))
+    names = {sh.name for sh in baukasten.shapes}
+    for tone in team["kit"].K["TONES"]:
+        assert f"Scheibe {tone}" in names, tone
+    assert "Merksatz" in {sh.name for sh in all_shapes(baukasten.shapes)}
+
+
+def test_text_passt_in_seine_box_auf_team_folien(deck, team):
+    """Umbrechende Textfelder der neuen Folien passen mit Reserve für Googles Schriftsatz.
+
+    Mehrzeilige Felder: Zeilen × Zeilenhöhe + 5 % passen in die Höhe. Einzeilige Felder: der Text
+    ist höchstens 97 % so breit wie das Feld, damit er nicht in eine zweite Zeile rutscht.
+    """
+    _, prs = deck
+    wrap_lines, measure = team["K"]["wrap_lines"], team["K"]["measure"]
+    kiko = set(KIKO) | set(range(22, 28))  # Kikos Haupt- und Backupfolien sind in test_kiko_pptx geprüft
+    for n, slide in enumerate(prs.slides):
+        if n in kiko:
+            continue
+        for sh in all_shapes(slide.shapes):
+            if not sh.has_text_frame or sh.text_frame.word_wrap is False or not sh.text_frame.text.strip():
+                continue
+            need, count, widest = 0.0, 0, 0.0
+            for i, p in enumerate(sh.text_frame.paragraphs):
+                runs = [r for r in p.runs if r.text]
+                if not runs:
+                    continue
+                r0 = runs[0]
+                indent = int(p._p.pPr.get("marL", 0)) / 9525 if p._p.pPr is not None else 0
+                size, bold, font = r0.font.size.pt / 0.75, bool(r0.font.bold), r0.font.name
+                lines = wrap_lines("".join(r.text for r in runs), px(sh.width) - indent, size, bold, font)
+                need += len(lines) * px(p.line_spacing) + (px(p.space_before) if i and p.space_before else 0)
+                count += len(lines)
+                widest = max(widest, measure("".join(r.text for r in runs), size, bold, font) + indent)
+            where = (n + 1, sh.text_frame.text[:60], need, px(sh.height))
+            if count == 1:
+                assert widest <= 0.97 * px(sh.width) and need <= px(sh.height) + 1, where
+            else:
+                assert need * 1.05 <= px(sh.height) + 1, where
+
+
+# --------------------------------------------------------------------------- Befunde aus dem Gesamt-Review
+
+
+def test_titel_einzeilig_ohne_laufweite(deck, team):
+    """Google Slides übernimmt keine Laufweite: einzeilige Titel müssen auch ohne sie mit 3 % Luft passen."""
+    import zipfile
+
+    path, prs = deck
+    with zipfile.ZipFile(path) as z:
+        for n in z.namelist():
+            if n.startswith("ppt/slides/slide"):
+                assert ' spc="-' not in z.read(n).decode("utf-8"), n
+    measure = team["K"]["measure"]
+    for i, s in enumerate(prs.slides, 1):
+        for sh in s.shapes:
+            if sh.name != "Titel" or not sh.text_frame.text:
+                continue
+            p = sh.text_frame.paragraphs[0]
+            if px(sh.height) >= 1.5 * px(p.line_spacing):
+                continue  # mehrzeilig gedacht (Titelfolie, Split)
+            r = p.runs[0]
+            width = measure(sh.text_frame.text, r.font.size.pt / 0.75, bool(r.font.bold), r.font.name)
+            assert width <= 0.97 * px(sh.width), (i, sh.text_frame.text, width)
+
+
+def test_schluss_beantwortet_projektfrage_fachlich_richtig(deck):
+    _, prs = deck
+    t = texts(prs.slides[20])
+    for needle in ["Heizgradtag", "Kundentyp", "von der Prognose ab", "q99-Schwelle"]:
+        assert needle in t, needle
+    assert "Liegt der Istwert jenseits" not in t
+
+
+def test_zitate_und_ausblick_halten_sich_an_den_bericht(deck):
+    _, prs = deck
+    assert "keine rein technische Routine" in texts(prs.slides[19])
+    emp = texts(prs.slides[18])
+    assert "könnte" in emp and "So wird Prüfzeit gezielter eingesetzt" not in emp
+    assert "Prototyp" in emp  # Empfehlung 2 grenzt sich von Kikos Bewertungsmaske ab
+
+
+def test_ergebnis_der_20_ausreisser_auf_ianas_folie(deck):
+    _, prs = deck
+    t = texts(prs.slides[4])
+    assert "10 aus 2024" in t and "10 aus 2025" in t
+
+
+def test_cockpit_marker_verdecken_nicht_was_sie_erklaeren(deck, team):
+    _, prs = deck
+    slide = prs.slides[17]
+    ts = team["ts"]
+    x0, y0, w = ts.COCKPIT_BOX[0], ts.COCKPIT_BOX[1], ts.COCKPIT_BOX[2]
+    spots = [(x0 + sx * w / 1440, y0 + sy * w / 1440) for sx, sy in ts.COCKPIT_SPOTS]
+    markers = [sh for sh in slide.shapes if sh.name.startswith("Hinweis ") and px(sh.left) < x0 + w]
+    assert len(markers) == 4
+    for m in markers:
+        cx, cy = px(m.left + m.width / 2), px(m.top + m.height / 2)
+        assert all(((cx - sx) ** 2 + (cy - sy) ** 2) ** 0.5 >= 20 for sx, sy in spots), m.name
+
+
+def test_tabellen_ohne_extra_rahmenform(deck):
+    """Rahmen als Zellränder: wächst beim Einfügen von Zeilen mit und fängt keine Klicks ab."""
+    from pptx.oxml.ns import qn
+
+    _, prs = deck
+    kiko = set(KIKO) | set(range(22, 28))
+    for n, s in enumerate(prs.slides):
+        if n in kiko:
+            continue
+        assert not [sh for sh in s.shapes if sh.name == "Tabellenrahmen"], n + 1
+        for sh in s.shapes:
+            if getattr(sh, "has_table", False) and sh.has_table:
+                last = sh.table.cell(len(sh.table.rows) - 1, 0)._tc.tcPr
+                assert last.find(qn("a:lnL")).find(qn("a:solidFill")) is not None, n + 1
+
+
+def test_chips_bleiben_in_ihrer_karte(deck):
+    _, prs = deck
+    s = prs.slides[4]
+    chips = [sh for sh in s.shapes if sh.name == "Chip"]
+    assert chips and max(px(c.left + c.width) for c in chips) <= 72 + 560 - 12
+
+
+def test_backup_uebersicht_benennt_b3_richtig(deck):
+    _, prs = deck
+    t = texts(prs.slides[21])
+    assert "Treiber: Permutation Importance" in t and "Detail-Metriken" not in t
+
+
+def test_readme_warnt_vor_seitenzahlen():
+    readme = (TEAM_DIR / "README.md").read_text(encoding="utf-8")
+    assert "Seitenzahlen" in readme
 
 
 def test_diagramm_pngs_passen_zu_ihren_rechtecken():
