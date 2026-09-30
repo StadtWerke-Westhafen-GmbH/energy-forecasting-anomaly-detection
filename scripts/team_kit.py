@@ -243,7 +243,9 @@ AMBER, RED, GREEN = "#A86505", "#B3261E", "#2F7A33"
 
 
 def blank(prs, bg: str = WHITE):
-    s = prs.slides.add_slide(prs.slide_layouts[6])
+    """Leere Folie; das Layout wird über den Namen gewählt (Google-Exporte sortieren Layouts anders)."""
+    layout = next((lay for lay in prs.slide_layouts if lay.name.lower() == "blank"), prs.slide_layouts[6])
+    s = prs.slides.add_slide(layout)
     s.background.fill.solid()
     s.background.fill.fore_color.rgb = rgb(bg)
     return s
