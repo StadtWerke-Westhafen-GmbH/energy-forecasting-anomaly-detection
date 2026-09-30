@@ -357,12 +357,12 @@ def merk(s, x, y, w, h, msg: str, dark: bool = False) -> None:
     text(s, x + 56, y, w - 76, h, msg, 18, WHITE if dark else TEAL7, anchor="m", lh=24.3, name="Merksatz")
 
 
-def marker(s, cx: float, cy: float, n, fill: str = NAVY7, d: float = 30) -> None:
+def marker(s, cx: float, cy: float, n, fill: str = NAVY7, d: float = 30, size: float = 15) -> None:
     """Nummerierter Kreis für Screenshot-Hinweise und Schrittfolgen."""
     grp = s.shapes.add_group_shape()
     grp.name = f"Hinweis {n}"
     oval(grp, cx - d / 2, cy - d / 2, d, fill=fill, line=WHITE, lw=2)
-    text(grp, cx - d / 2 - 4, cy - d / 2, d + 8, d, str(n), 15, WHITE, True, MONO, "c", "m", lh=d, wrap=False)
+    text(grp, cx - d / 2 - 4, cy - d / 2, d + 8, d, str(n), size, WHITE, True, MONO, "c", "m", lh=d, wrap=False)
 
 
 def table(s, x, y, widths, rows, heights, *, size: float = 15, head_size: float = 14.5, name: str = "Tabelle",

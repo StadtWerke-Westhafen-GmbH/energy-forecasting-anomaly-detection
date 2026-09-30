@@ -1,5 +1,27 @@
 # Kikos Präsentationsteil: ML Canvas, Methodik und Modell, Prüffall
 
+## Aktuelle Fassung für den Drive: `Kiko_ML_Folien_SWW.pptx`
+
+Nach der Abstimmung im Team ist der Teil reduziert und steht in den Folienlayouts des Designsystems
+(`brand/design-system/templates/projekt-praesentation/index.html`): Label über dem Titel, schlichte
+Karten ohne Icon-Scheiben. Neun Hauptfolien (etwa 8:30 Minuten) und vier Backups:
+
+1 Kapitel · 2 ML Canvas (sechs ML-Felder, Iana und Patrick nur verwiesen) · 3 Zeitliche Validierung ·
+4 Zielgröße VLS · 5 Warum RMSE (Beispiel aus Notebook 13) · 6 Modellwahl 2024 · 7 Schwelle als
+Abwägung · 8 Prüffall ZL-00147 mit Bewertung · 9 Ausblick Klassifikationsmodell, Übergabe an Patrick.
+Backups: Hyperparameter, Lag-Merkmale, Kalibrierung Nov–Dez 2024, Canvas-Wortlaut.
+
+Ergebnisse des Testjahrs 2025 (RMSE 9.188 kWh, −15,9 %, MAE, R², Treiber, Hinweiszahlen) zeigt Patrick;
+sie stehen bewusst nicht auf diesen Folien. Die Notizen jeder Folie enthalten Stichworte, einen Sprechtext zum Ablesen, „So verstehst du es“ (Hintergrund in einfachen Worten) und Antworten auf Rückfragen; der Text liegt in `scripts/kiko_ml_notizen.py`.
+Vorschau: `Kiko_ML_Folien_SWW_Vorschau.pdf`.
+
+```bash
+.venv/Scripts/python.exe scripts/build_kiko_ml_folien.py      # Layouts in scripts/sww_layouts.py
+.venv/Scripts/python.exe -m pytest tests/test_kiko_ml_folien.py
+```
+
+## Frühere Fassung (v3)
+
 Elf Hauptfolien (9:30 Minuten plus 30 Sekunden Puffer für die Übergaben) und sechs Backup-Folien im
 SWW-Präsentationsdesign (`brand/reference/export/templates/projekt-praesentation`). Kennzahlen und
 Diagrammdaten stammen aus den gespeicherten Ausgaben von Notebook 13
